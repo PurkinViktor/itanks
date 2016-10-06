@@ -1,47 +1,100 @@
 var iTanksClient = {
+    listGamesMenu: null,
     init: function () {
         transportClient.init();
-    }
-};
-var transportClient = {
-    host: 'http://localhost:8008',
-    init: function () {
-        var socket = io.connect(this.host);
-        // var name = 'Пётр_' + (Math.round(Math.random() * 10000));
+        $(window).on("keydown", this.getHandler(this.keydownHundle));
+        //$(window).on("keyup", this.getHandler(this.keyupHundle));
+    },
+    newGame: function (nameGame) {
+        transportClient.newGame(nameGame);
+    },
+    joinGame: function (menu, item) {
+        transportClient.joinGame(item.value);
+    },
+    createListGamesMenu: function (list) {
+        var set = {items: [], location: ".allContent"};
+        for (var i in list) {
+            var nameGame = list[i];
+            set.items.push({title: "Игра: " + nameGame, itemCode: i, value: nameGame});
+        }
+        if (this.listGamesMenu) {
+            this.listGamesMenu.destroy();
+        }
+
+        this.listGamesMenu = new CMenu(set);
+        this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
+        this.listGamesMenu.show();
+    },
+    setActiveKey: function (keyCode, value) {
+        for (var i = 0; i < this.tanks.length; i++) {
+            var tank = this.tanks[i];
+            if (tank) {
+                var action = tank.keyHundler[keyCode];
+                if (action) {
+                    //console.log(action);
+                    tank.setActiveKey(action, value);
+                }
+            }
+        }
+    },
+    keydownHundle: function (event) {
+
+        //this.setActiveKey(event.keyCode, true);
+        if (event.ctrlKey) {
+            event.preventDefault();
+
+            //var charCode = "I".charCodeAt(0);
+            switch (event.keyCode) {
 
 
-        socket.on('connecting', function () {
-            console.log('Соединение...');
-        });
+                case "I".charCodeAt(0):
+                    //statistics.toggleShow();
+                    break;
+                case "M".charCodeAt(0):
+                    //gameMenu.show();
+                    break;
+                case "C".charCodeAt(0):
+                    //var cmdArg = prompt("Команда пользователя", "stopGame");
+                    var cmdArg = prompt("Команда admina", "setBootsCount");
+                    if (cmdArg) {
+                        var arrCmdArg = cmdArg.split(' ');
+                        var cmd = arrCmdArg[0];
+                        var arg = arrCmdArg.splice(1);
+                        if (cmd) {
+                            if (this[cmd]) {
+                                this[cmd].apply(this, arg);
+                            }
+                        }
+                    }
+                    break;
+                default:
 
-        socket.on('connect', function () {
-            console.log('Соединение установленно!');
+                    break;
+            }
+        }
+        if (event.altKey) {
+            event.preventDefault();
 
-            //socket.emit("getListGames");
+            switch (event.keyCode) {
+                case "N".charCodeAt(0):
+                    var newGame = prompt("Новая игра ", "NewGame");
+                    if (newGame) {
+                        this.newGame(newGame);
+                    }
 
-            // socket.emit("addGame", "111111");
-            // socket.emit("addGame", "222222");
-            // socket.emit("joinToGame", "111111");
+                    break;
 
+                default:
 
-            socket.emit("getListGames");
+                    break;
+            }
+        }
+    },
+    getHandler: function (func) {
+        var self = this;
+        return function () {
 
-        });
-        socket.on('setListGames', function (data) {
-            console.log("setListGames", data);
-        });
-        // socket.on('message', function (data) {
-        //     console.log("message", data);
-        // });
-        socket.on('errorJoinToGame', function (data) {
-            console.log("errorJoinToGame", data);
-        });
-        socket.on('successJoinToGame', function (data) {
-            console.log("successJoinToGame", data);
-        });
-
-        // function safe(str) {
-        //     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        // }
+            func.apply(self, arguments);
+        };
     }
 };

@@ -6,8 +6,17 @@ var serverGame = {
         transportGame.init(io, {});
     },
     addGame: function (client, nameGame) {
-        client.join(nameGame);
-        transportGame.updateListGames(this.getListGames());
+
+        var list = this.getListGames();
+        if (list.indexOf(nameGame) < 0) {
+            client.join(nameGame);
+            transportGame.updateListGames(this.getListGames());
+            transportGame.successJoinToGame(client, nameGame);
+        } else {
+            transportGame.errorAddNewGame(client, nameGame, "Game already exist");
+        }
+
+
     },
     getListGames: function () {
         //var rooms = this.io.sockets.manager.roomClients;
@@ -30,21 +39,27 @@ var serverGame = {
         var list = this.getListGames();
         if (list.indexOf(nameGame) >= 0) {
             client.join(nameGame);
-
-            client.emit('successJoinToGame', "success Join To Game");
-
-
+            transportGame.successJoinToGame(client, nameGame);
         } else {
-            client.emit('errorJoinToGame', "Game not found");
+            transportGame.errorJoinToGame(client, nameGame, "Game not found");
         }
-
-
     }
 };
 
 exports.serverGame = serverGame;
 var transportGame = {
     io: null,
+
+    successJoinToGame: function (client, nameGame, text) {//  успех присоединения к игре
+        text = text || "Success Join To Game";
+        client.emit('successJoinToGame', {text: text, nameGame: nameGame});
+    },
+    errorJoinToGame: function (client, nameGame, text) {// сообщение об ошибки присоединение к игре
+        client.emit('errorJoinToGame', {text: text, nameGame: nameGame});
+    },
+    errorAddNewGame: function (client, nameGame, text) {// сообщение об ошибки присоединение к игре
+        client.emit('errorAddNewGame', {text: text, nameGame: nameGame});
+    },
     updateListGames: function (list) {// обновить список игр у всех
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         this.io.sockets.emit('setListGames', list);
@@ -54,8 +69,8 @@ var transportGame = {
         io.sockets.on('connection', function (client) {
             // client.on('message', function (message) {
             //     try {
-            //         client.emit('message', message);
-            //         client.broadcast.emit('message', message);
+            //         client.emit('message', message); // отправка себе
+            //         client.broadcast.emit('message', message); // отправка всем кроме себя
             //     } catch (e) {
             //         console.log(e);
             //         client.disconnect();
@@ -76,8 +91,8 @@ var transportGame = {
 
             client.on('addGame', function (nameGame) {
                 try {
-                    var r = serverGame.addGame(client, nameGame);
-                    console.log("addGame", r);
+                    serverGame.addGame(client, nameGame);
+                    console.log("addGame", nameGame);
                     //client.emit('addGame', r);
 
                 } catch (e) {

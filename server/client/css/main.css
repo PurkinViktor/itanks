@@ -1,34 +1,171 @@
-.demo {
-    width: 600px;
-    margin: 20px auto;
-    padding: 10px;
-    color: #4F6B72;
-    font-family: "PT Sans", Verdana, Arial, sans-serif;
-    font-size: 13px;
+body{
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	margin: 0;
+	padding: 0;
 }
 
-.chat .messages{
-    height: 300px;
-    border: 1px solid #d4d4d4;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: 5px;
+.battleArea{
+	background: #D3D3D8;
+	border: #000 2px solid;
+	position: relative;
+	//margin: auto;
+}
+.statViewPort{
+	position: absolute;
+	border: #000 1px solid;
+	background: #FFF555;	 
+	right: 10px;
+	top: 10px;
+	z-index: 2;
+}
+.statViewPort table{
+	border-collapse: collapse;
+	width: 100%;
+}
+table td, table th { 
+    padding: 2px; /* Поля вокруг содержимого ячеек */
+    border: 1px solid black; /* Граница вокруг ячеек */
+}
+table th { 
+    font-size: 12px;
+}
+.obj{
+	position: absolute;
+	background: #5f5;
 }
 
-.chat .messages .user{
-    color: #B22222;
+
+.plaerTank { 
+	background: url(../img/Player.png) no-repeat;
+	background-size: 60px 30px;
+}
+.plaerTank_ { 
+	background-position: -30px;
 }
 
-.chat .message{
-    width: 70%;
+
+.player1{
+	background: url(../img/player1.png) no-repeat;
+}
+.player1_{
+	background: url(../img/player1_.png) no-repeat;
+
+}
+.player1, .player1_{
+	background-size: cover;
 }
 
-.chat .panel{
-    margin-top: 8px;
+.boot{
+	background: url(../img/Enem.png) no-repeat;
+	background-size: 60px 30px;
+}
+.boot_{
+	background-position: -30px;
+
 }
 
-#message_text{
-    width: 60%;
-    display: inline-block;
-    margin-left: 8px;
+
+
+
+
+.bullet{
+	background: url(../img/bullet.png) no-repeat;;
+}
+.bullet_{
+	background: url(../img/bullet.png) no-repeat;;
+}
+
+.explosion{
+	background: url(../img/Explosion.png) no-repeat;
+	background-size: 80px 20px;
+
+}
+.explosion1{ 
+	background-position: -20px;
+}
+.explosion2{ 
+	background-position: -40px;
+}
+.explosion3{
+	background: url(../img/Explosion.png) no-repeat;
+	background-size: 80px 20px;
+	background-position: -60px;
+}
+
+
+
+
+.bullet.dirTop{
+	transform: rotate(0deg);
+}
+.bullet.dirRight{
+	transform: rotate(90deg);
+}
+.bullet.dirBottom{
+	transform: rotate(180deg);
+}
+.bullet.dirLeft{
+	transform: rotate(270deg);
+}
+
+
+.dirLeft{
+	transform: rotate(0deg);
+}
+.dirRight{
+	transform: rotate(180deg);
+}
+.dirTop{
+	transform: rotate(90deg);
+}
+.dirBottom{
+	transform: rotate(270deg);
+}
+
+.barrier{
+	/*background: url(../img/Tecstura.png) repeat;*/
+	/*background-position: 26px 0;*/
+	background-size: 10px 10px;
+	width: 25px;
+	height: 25px;
+}
+
+.barrier.default{
+	background-image: url(../img/barrier-default.png) ;
+}
+.barrier.armor{
+	background-image: url(../img/barrier-armor.png) ;
+}
+.barrier.forest{
+	background-image: url(../img/barrier-forest.png) ;
+	z-index: 1;
+	opacity: 0.9;
+}
+.barrier.water{
+	background-image: url(../img/barrier-water.png) ;
+}
+
+.igl{
+	background-image: url(../img/igl.png) ;
+	background-size: 100% 100%;
+}
+
+.gameMenu{ 
+	background-color: #23B235;
+	text-align: center;
+	width: 200px;
+	list-style-type: none;
+	padding: 0;
+	margin: 45% auto;
+	z-index: 2;
+	position: relative;
+}
+.gameMenu li{
+	cursor: pointer;
+}
+
+.gameMenu li:hover, .active{
+	background-color: #CB2F2F;
 }
