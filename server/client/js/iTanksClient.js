@@ -3,13 +3,35 @@ var iTanksClient = {
     init: function () {
         transportClient.init();
         $(window).on("keydown", this.getHandler(this.keydownHundle));
-        //$(window).on("keyup", this.getHandler(this.keyupHundle));
+        $(window).on("keyup", this.getHandler(this.keyupHundle));
     },
     newGame: function (nameGame) {
         transportClient.newGame(nameGame);
     },
+    nameGame: null,
     joinGame: function (menu, item) {
         transportClient.joinGame(item.value);
+    },
+    battleArea: {},
+    tanks: [],
+    initGame: function (data) {
+        this.battleArea = data.battleArea;
+        this.tanks = data.tanks || [];
+        renderingSystem.run(this);
+    },
+    getTank: function (newData) {
+        for (var i in this.tanks) {
+            var t = this.tanks[i];
+            if (t.id == newData.id){
+                return $.extend(t, newData);
+            }
+        }
+    },
+    onUpdateDataTank: function (tank) {
+        var t = this.getTank(tank);
+        renderingSystem.renderItem(t);
+        //console.log("", tank);
+        // renderingSystem.run(this);
     },
     createListGamesMenu: function (list) {
         var set = {items: [], location: ".allContent"};
@@ -25,21 +47,26 @@ var iTanksClient = {
         this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
         this.listGamesMenu.show();
     },
+    successJoinToGame: function (data) {
+        this.nameGame = data.nameGame;
+        //this.startGame(this.nameGame);
+    },
+    startGame: function (nameGame) {
+        transportClient.startGame(nameGame);
+    },
+    keyHundler: {87: "top", 83: "bottom", 65: "left", 68: "right", 32: "fire"},
     setActiveKey: function (keyCode, value) {
-        for (var i = 0; i < this.tanks.length; i++) {
-            var tank = this.tanks[i];
-            if (tank) {
-                var action = tank.keyHundler[keyCode];
-                if (action) {
-                    //console.log(action);
-                    tank.setActiveKey(action, value);
-                }
-            }
+
+        var action = this.keyHundler[keyCode];
+        if (action) {
+            //console.log(action);
+            transportClient.setActiveKey(action, value);
         }
+
     },
     keydownHundle: function (event) {
 
-        //this.setActiveKey(event.keyCode, true);
+        this.setActiveKey(event.keyCode, true);
         if (event.ctrlKey) {
             event.preventDefault();
 
@@ -83,12 +110,19 @@ var iTanksClient = {
                     }
 
                     break;
+                case "M".charCodeAt(0):
+                    this.startGame(this.nameGame);
+
+                    break;
 
                 default:
 
                     break;
             }
         }
+    },
+    keyupHundle: function (event) {
+        this.setActiveKey(event.keyCode, false);
     },
     getHandler: function (func) {
         var self = this;

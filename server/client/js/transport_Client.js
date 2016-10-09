@@ -7,6 +7,16 @@ var transportClient = {
     joinGame: function (nameGame) {
         this.socket.emit("joinToGame", nameGame);
     },
+    startGame: function (nameGame) {
+        this.socket.emit("startGame", nameGame);
+    },
+
+    setActiveKey: function (action, value) {
+        this.socket.emit("setActiveKey", {
+            nameGame: iTanksClient.nameGame,
+            data: {action: action, value: value}
+        });
+    },
     init: function () {
 
         this.socket = io.connect(this.host);
@@ -14,6 +24,9 @@ var transportClient = {
         // var name = 'Пётр_' + (Math.round(Math.random() * 10000));
 
 
+        this.socket.on('debugError', function (err) {
+            console.error('debugError', err);
+        });
         this.socket.on('connecting', function () {
             console.log('Соединение...');
         });
@@ -42,12 +55,23 @@ var transportClient = {
             console.log("errorJoinToGame", data);
         });
         this.socket.on('successJoinToGame', function (data) {
+            iTanksClient.successJoinToGame(data);
+
             console.log("successJoinToGame", data);
         });
         this.socket.on('errorAddNewGame', function (data) {
             console.log("errorAddNewGame", data);
         });
+        this.socket.on('setDataOfGame', function (data) {
 
+            console.log("setDataOfGame", data);
+            iTanksClient.initGame(data);
+        });
+        this.socket.on('updateDataTank', function (dataTank) {
+
+            console.log("onUpdateDataTank", dataTank);
+            iTanksClient.onUpdateDataTank(dataTank);
+        });
 
         // function safe(str) {
         //     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

@@ -13,6 +13,7 @@ server.listen(PORT);
 
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/client', express.static(__dirname + '/client'));
+app.use('/GeneralClass', express.static(__dirname + '/GeneralClass'));
 
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/index.html');
@@ -20,6 +21,6 @@ app.get('/', function (req, res) {
 
 
 
-var serverGame = require('./serverGame.js').serverGame;
+var serverGame = require('./gameModule/serverGame.js');
 
 serverGame.start(io);
