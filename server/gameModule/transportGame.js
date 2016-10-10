@@ -1,5 +1,6 @@
 var transportGame = {
     io: null,
+
     setDataOfGame: function (gemaName, gamedataOfGame) {// обновить список игр у всех
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         this.io.sockets.in(gemaName).emit('setDataOfGame', gamedataOfGame);
@@ -52,7 +53,8 @@ var transportGame = {
                         console.log(e);
                         console.error(e.stack);
                         client.emit('debugError', e.stack);
-                        client.disconnect();
+                       // client.disconnect();
+                        // client.leave(data.room);
                     }
 
                 };
@@ -100,7 +102,17 @@ var transportGame = {
                 //io.sockets.emit('updateusers', usernames);
                 // echo globally that this client has left
                 //socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-                client.leave(client.room);
+                var arrRoom = client.manager.roomClients[client.id];
+                for (var i in arrRoom) {
+                    if (arrRoom[i]) {
+                        client.leave(i);
+                        //console.log("disconnect room ", i);
+                    }
+                }
+
+                //var list = serverGame.getListGames();
+                //console.log("-----------list", list);
+
             });
 
         });

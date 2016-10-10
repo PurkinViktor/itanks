@@ -71,7 +71,9 @@ var serverGame = {
         var activeKeyEventData = data.data;
         var game = this.games[nameGame];
         //console.log("setActiveKey game",game);
-        game.setActiveKeyInToTank(client, activeKeyEventData);
+        if (game) {
+            game.setActiveKeyInToTank(client, activeKeyEventData);
+        }
         //client.manager.roomClients[client.id]
         //this.games[client.id].setActiveKey(data.action, data.value);
     }

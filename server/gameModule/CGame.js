@@ -7,6 +7,7 @@ var transportGame = require('./transportGame.js');
 
 
 module.exports = function (set) {
+    this.isStart = false;
     this.nameGame = set.nameGame;
     this.teems = [{title: "Команда IGL", id: "teem1"}];
     this.tanks = [];
@@ -26,9 +27,13 @@ module.exports = function (set) {
         };
         return this.players[id];
     };
+    this.getIsStart = function () {
+        return this.isStart;
+    };
     this.setActiveKeyInToTank = function (client, data) {
-
-        this.players[client.id].tank.setActiveKey(data.action, data.value);
+        if (this.getIsStart()) {
+            this.players[client.id].tank.setActiveKey(data.action, data.value);
+        }
 
     };
     this.createTank = function (set) {
@@ -99,6 +104,8 @@ module.exports = function (set) {
             var tank = this.tanks[i];
             tank.setActivat(tank);
         }
+
+        this.isStart = true;
     };
 
     // this.init();
