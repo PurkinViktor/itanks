@@ -9,6 +9,7 @@ var CBullet = require('./CBullet.js');
 var CTank = function (settings) {
     var callee = arguments.callee;
 
+    var renderingSystem = settings.renderingSystem;
 
     settings = settings || {};
     this.name = settings.name;
@@ -36,7 +37,7 @@ var CTank = function (settings) {
     this.actionIntervalId = null;
     this.destroy = function () {
         this.setActivat(false);
-        this.renderingSystem.destroyItem(this);
+        renderingSystem.destroyItem(this);
     };
     //this.testAray = new Array(1200000000);
     this.init = function () {
@@ -89,7 +90,7 @@ var CTank = function (settings) {
     this.OnFire = function () {
         //console.log("огонь");
         if (this.bullets.length < this.countBullet) {
-            var setBullet = {};
+            var setBullet = {renderingSystem: renderingSystem};
             var bullet = new CBullet(setBullet, this);
             bullet.onHit.bind(this.OnBulletHit, this);// = this.getHandler(this.OnBulletHit);
 
@@ -108,7 +109,7 @@ var CTank = function (settings) {
             direction: bullet.direction,
             typeObject: ["explosion", "explosion1", "explosion2", "explosion3"]
         };
-        this.renderingSystem.renderExplosion(set);
+        renderingSystem.renderExplosion(set);
 
         if (target) {
             target.hit(bullet);
@@ -223,18 +224,18 @@ var CTank = function (settings) {
     ////// вызов
     this.init();
 };
-var renderingSystem = { // заглушка
-    renderItem: function () {
-
-    },
-    destroyItem: function () {
-
-    },
-    renderExplosion: function () {
-
-    },
-
-};
+// var renderingSystem = { // заглушка
+//     renderItem: function () {
+//
+//     },
+//     destroyItem: function () {
+//
+//     },
+//     renderExplosion: function () {
+//
+//     },
+//
+// };
 CTank.height = 30;
 CTank.width = 30;
 

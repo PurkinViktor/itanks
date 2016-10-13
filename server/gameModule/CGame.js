@@ -81,6 +81,7 @@ module.exports = function (set) {
 
     this.addTank = function (settings) {
         //settings.onRender = renderingSystem.getHandler(renderingSystem.renderItem);
+        settings.renderingSystem = this.renderingSystem;
         var tank = new CTank(settings);
         tank.id = generator.getID();
         //tank.renderingSystem = this.renderingSystem;

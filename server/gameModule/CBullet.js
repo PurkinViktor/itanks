@@ -11,7 +11,7 @@ var CBullet = function (settings, tank) {
     //settings.position.x += Math.floor((tank.width - 15) / 2);
     settings.direction = tank.direction;
 
-    this.renderingSystem = tank.renderingSystem;// отправляет данные о обьекте между клиентами игры
+    var renderingSystem = settings.renderingSystem;// отправляет данные о обьекте между клиентами игры
 
     settings = settings || {};
     this.width = 8;
@@ -129,12 +129,12 @@ var CBullet = function (settings, tank) {
         this.render();
     };
     this.render = function () {
-        this.renderingSystem.renderItem(this);
+        renderingSystem.renderItem(this);
     };
     this.destroy = function () {
         //var self = this;
         clearInterval(this.intervalId);
-        this.renderingSystem.destroyItem(this);
+        renderingSystem.destroyItem(this);
 //		if (this.onDestroy) {
 //			this.onDestroy();
 //		}
