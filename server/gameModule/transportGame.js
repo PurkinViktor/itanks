@@ -24,9 +24,9 @@ var transportGame = {
         var clients = this.io.rooms["/" + nameGame];
         return clients;// this.io.sockets.in(nameGame);
     },
-    sendUpdateDataTank: function (gemaName, tank) {// получение списка игроков
+    sendUpdateDataItem: function (gemaName, item) {//
 
-        this.io.sockets.in(gemaName).emit('updateDataTank', tank);
+        this.io.sockets.in(gemaName).emit('updateDataTank', item);
     },
     init: function (serverGame, io, options) {
         this.io = io;
@@ -70,8 +70,9 @@ var transportGame = {
 
             client.on('setActiveKey', hundlerEvents(function (data) {
                 // {action: action, value: value}
-                serverGame.setActiveKey(client, data);
                 console.log("setActiveKey", data);
+                serverGame.setActiveKey(client, data);
+
                 // client.emit('setListGames', list);
 
 
