@@ -18,19 +18,39 @@ module.exports = {
             }
         }
     },
-    macroCollision: function (obj1, obj2, newPosObj2) {
+    collision: function (obj1, obj2) {
         var XColl = false;
         var YColl = false;
 
-        if ((obj1.position.x + obj1.width > newPosObj2.x) && (obj1.position.x < newPosObj2.x + obj2.width))
+        if ((obj1.position.x + obj1.width > obj2.position.x) && (obj1.position.x < obj2.position.x + obj2.width))
             XColl = true;
-        if ((obj1.position.y + obj1.height > newPosObj2.y) && (obj1.position.y < newPosObj2.y + obj2.height))
+        if ((obj1.position.y + obj1.height > obj2.position.y) && (obj1.position.y < obj2.position.y + obj2.height))
             YColl = true;
 
         if (XColl & YColl) {
             return true;
         }
         return false;
+    },
+
+    macroCollision: function (obj1, obj2, newPosObj2) {
+        return this.collision(obj1, {
+            width: obj2.width,
+            height: obj2.height,
+            position: {x: newPosObj2.x, y: newPosObj2.y}
+        });
+        // var XColl = false;
+        // var YColl = false;
+        //
+        // if ((obj1.position.x + obj1.width > newPosObj2.x) && (obj1.position.x < newPosObj2.x + obj2.width))
+        //     XColl = true;
+        // if ((obj1.position.y + obj1.height > newPosObj2.y) && (obj1.position.y < newPosObj2.y + obj2.height))
+        //     YColl = true;
+        //
+        // if (XColl & YColl) {
+        //     return true;
+        // }
+        // return false;
     },
     cutInObj: function (obj, field) {
         var res = {};

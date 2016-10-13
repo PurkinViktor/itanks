@@ -22,10 +22,22 @@ var iTanksClient = {
     getTank: function (newData) {
         for (var i in this.tanks) {
             var t = this.tanks[i];
-            if (t.id == newData.id){
+            if (t.id == newData.id) {
                 return $.extend(t, newData);
             }
         }
+    },
+    items: [],
+    getItem: function (item) {
+
+        var t  = this.items[item.id];
+
+        //var t = this.getTank(item);
+        if (!t) {
+            this.items[item.id] = item;
+            t = this.items[item.id];
+        }
+        return t;
     },
     onUpdateDataTank: function (tank) {
         var t = this.getTank(tank);
@@ -33,6 +45,14 @@ var iTanksClient = {
         //console.log("", tank);
         // renderingSystem.run(this);
     },
+    onUpdateDataItem: function (item) {
+        var t = this.getItem(item);
+        t = $.extend(t, item);
+        renderingSystem.renderItem(t);
+        //console.log("", tank);
+        // renderingSystem.run(this);
+    },
+
     createListGamesMenu: function (list) {
         var set = {items: [], location: ".allContent"};
         for (var i in list) {

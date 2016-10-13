@@ -21,7 +21,7 @@ var CBarrier = function (set) {
         this.position.y = this.cellY * this.height;
 
     };
-    this.onHit = new CEvent();// походу пока не использую
+    this.onHit = new CEvent();// используется когда в него попадает булет
     //this.onKill = null;
     this.onDestroy = new CEvent();
     this.destroy = function () {

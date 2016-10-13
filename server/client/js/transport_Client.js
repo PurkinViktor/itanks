@@ -12,6 +12,7 @@ var transportClient = {
     },
 
     setActiveKey: function (action, value) {
+        console.log("setActiveKey", value);
         this.socket.emit("setActiveKey", {
             nameGame: iTanksClient.nameGame,
             data: {action: action, value: value}

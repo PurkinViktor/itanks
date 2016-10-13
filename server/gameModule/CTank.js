@@ -36,7 +36,7 @@ var CTank = function (settings) {
     this.actionIntervalId = null;
     this.destroy = function () {
         this.setActivat(false);
-        renderingSystem.destroyItem(this);
+        this.renderingSystem.destroyItem(this);
     };
     //this.testAray = new Array(1200000000);
     this.init = function () {
@@ -64,9 +64,11 @@ var CTank = function (settings) {
         }
     };
     this.activeKey = {top: 'OnTop', bottom: 'OnBottom', left: 'OnLeft', right: 'OnRight', fire: 'OnFire'};
-    this.onRender = settings.onRender;
+    this.onRender = settings.onRender || new CEvent();
     this.render = function () {
-        this.callEvent(this.onRender, [this]);
+        this.onRender(this);
+        //this.renderingSystem.renderItem(this);
+
 
     };
     this.removeBullet = function (bullet) {
@@ -74,7 +76,6 @@ var CTank = function (settings) {
         var index = this.bullets.indexOf(bullet);
         if (index >= 0) {
             bullet.destroy();
-            renderingSystem.destroyItem(bullet);
             this.bullets.splice(index, 1);
         }
     };
@@ -94,7 +95,7 @@ var CTank = function (settings) {
 
 
             this.bullets.push(bullet);
-            this.callEvent(this.onFire, [this]);
+            this.onFire();
         }
     };
     this.OnBulletHit = function (bullet, target) {
@@ -107,7 +108,7 @@ var CTank = function (settings) {
             direction: bullet.direction,
             typeObject: ["explosion", "explosion1", "explosion2", "explosion3"]
         };
-        renderingSystem.renderExplosion(set);
+        this.renderingSystem.renderExplosion(set);
 
         if (target) {
             target.hit(bullet);
@@ -127,11 +128,11 @@ var CTank = function (settings) {
             this.callEvent(this.onKill, [this, bullet]);
         }
     };
-    this.onMove = new CEvent();
+    //this.onMove = new CEvent();
     this.rulesMovement = function (newPos) {
         if (!rules.rulesMovement(this, newPos)) {
             // колизий в правилах не было
-            this.onMove(this);
+            //this.onMove(this);
         }
     };
     this.OnTop = function () {

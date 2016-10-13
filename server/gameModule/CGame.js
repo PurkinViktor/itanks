@@ -4,7 +4,7 @@ var CTank = require('./CTank.js');
 var rules = require('./rules.js');
 var helper = require('./helper.js');
 var transportGame = require('./transportGame.js');
-
+var CRenderingSystem = require('./CRenderingSystem.js');
 
 module.exports = function (set) {
     this.isStart = false;
@@ -12,6 +12,7 @@ module.exports = function (set) {
     this.teems = [{title: "Команда IGL", id: "teem1"}];
     this.tanks = [];
     this.battleArea = new CBattleArea();
+    this.renderingSystem = new CRenderingSystem(this);
     //this.onInit();
     this.init = function (arrIdClients) {
         this.battleArea.init();
@@ -70,18 +71,21 @@ module.exports = function (set) {
         }
     };
     this.sendUpdateDataTank = function (tank) {
-        console.log("Передвижение ", tank);
+        //console.log("Передвижение ", tank);
         //var socketId = tank.ownerId;
 
         var data = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed"]);
-        transportGame.sendUpdateDataTank(this.nameGame, data);
+        transportGame.sendUpdateDataItem(this.nameGame, data);
+        console.log("Передвижение " + this.nameGame, data);
     };
+
     this.addTank = function (settings) {
         //settings.onRender = renderingSystem.getHandler(renderingSystem.renderItem);
         var tank = new CTank(settings);
         tank.id = generator.getID();
+        //tank.renderingSystem = this.renderingSystem;
+        tank.onRender.bind(this.sendUpdateDataTank, this);
 
-        tank.onMove.bind(this.sendUpdateDataTank, this);
         // tank.onKill.bind(this.killTank, this);// = this.getHandler(this.killTank);
         //tank.onKill.bind(function (tank, bullet) {
         //    statistics.collectStat(EnumStat.killed, bullet.ownerId);
