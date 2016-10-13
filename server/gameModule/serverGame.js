@@ -1,6 +1,6 @@
 var transportGame = require('./transportGame.js');
 var CGame = require('./CGame.js');
-//var battleArea = require('./battleArea.js');
+//var CBattleArea = require('./CBattleArea.js');
 
 var serverGame = {
     games: [],
@@ -8,6 +8,8 @@ var serverGame = {
     start: function (io) {
         this.io = io;
         transportGame.init(this, io, {});
+        //var battleArea = new CBattleArea();
+        //battleArea.testNewArea();
     },
     addGame: function (client, nameGame) {
 

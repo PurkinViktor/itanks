@@ -3,12 +3,59 @@ var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var CEvent = require('./CEvent.js');
 var helper = require('./helper.js');
 
+
 module.exports = function () {
     var battleArea = {
         x: 40, y: 10, w: 600, h: 600,
         barriers: [],
         map: null, // здесь только расчет сами обьекты в  barriers
         onIglKilled: new CEvent(),
+        testNewArea: function () {
+            var ttt = new CBattleArea();
+            ttt.init();
+            var arr = [];
+            arr[0] = {
+                width: 28,
+                height: 20,
+                position: {x: 21, y: 21},
+
+            };
+            ttt.insert(arr[0]);
+            // ttt.insert({
+            //     width: 8,
+            //     height: 10,
+            //     position: {x: 35, y: 35},
+            // });
+            var res = ttt.select({
+                width: 8,
+                height: 10,
+                position: {x: 30, y: 30},
+            });
+            var aa = res[0];
+            ttt.deleteItem(aa);
+
+
+            res = ttt.select({
+                width: 8,
+                height: 10,
+                position: {x: 30, y: 30},
+            });
+            console.log("itog", res);
+
+            // aa.width = 100;
+            // console.log("itog bpvtyt", res);
+            // console.log("aa", aa);
+            // res = ttt.select({
+            //     width: 8,
+            //     height: 10,
+            //     position: {x: 30, y: 30},
+            // });
+            // console.log("itog", res);
+
+
+
+
+        },
         init: function () {
 //		this.createTestMap();
 
@@ -146,4 +193,97 @@ module.exports = function () {
     };
     //battleArea.init();
     return battleArea;
+};
+
+var CBattleArea = function () {
+    this.arrData = [];// в итоге двух мерный массив
+    // var countX = this.w / CBarrier.width;
+    // var countY = this.h / CBarrier.height;
+    this.cellWidthPX = CBarrier.width; // размер ячейки в пикселях
+    this.cellHeightPX = CBarrier.height;
+    var countX = 30;
+    var countY = 30;
+    this.init = function () {
+        for (var i = 0; i < countX; i++) {
+            this.arrData.push(new Array());
+
+            for (var j = 0; j < countY; j++) {
+
+                this.arrData[i].push(this.createCell({}));
+            }
+
+        }
+    };
+
+    this.createCell = function (set) {
+        return {
+            items: [],
+        };
+    };
+    this.getItems = function (item, func) {
+        this.getCellOfMiniArea(this.getIndexsMiniArea(item), function (cell, x, y) {
+
+            for (var i = 0; i < cell.items.length; i++) {
+                var itemInArea = cell.items[i];
+                func(itemInArea, cell, x, y);
+            }
+
+        });
+    };
+    this.select = function (sector) {
+        var res = [];
+        this.getItems(sector, function (itemInArea, cell, x, y) {
+            if (helper.collision(itemInArea, sector)) {
+                res.push(itemInArea);
+                console.log("select ", cell, x, y);
+
+            }
+        });
+
+        return res;
+    };
+    this.insert = function (item) {
+        this.getCellOfMiniArea(this.getIndexsMiniArea(item), function (cell, x, y) {
+            if (cell.items.indexOf(item) < 0) {
+                cell.items.push(item);
+                console.log("insert", cell, x, y, cell.items);
+
+            }
+        });
+    };
+    this.deleteItem = function (item) {
+        this.getCellOfMiniArea(this.getIndexsMiniArea(item), function (cell, x, y) {
+            var i = cell.items.indexOf(item);
+            if (i >= 0) {
+                console.log("deleteItem", cell, x, y, cell.items[i], i);
+
+                cell.items.splice(i, 1);
+            }
+        });
+    };
+    this.getCellOfMiniArea = function (indexs, func) {
+        //{x1: x1, y1: y1, x2: x2, y2: y2}
+        for (var i = indexs.x1; i < indexs.x2; i++) {
+            for (var j = indexs.y1; j < indexs.y2; j++) {
+                func(this.arrData[i][j], i, j);
+            }
+        }
+    };
+    this.getIndexsMiniArea = function (item) {
+
+        var topLeft = item.position;
+        var bottomRight = {x: item.position.x + item.width, y: item.position.y + item.height};
+        var x1 = Math.floor(topLeft.x / this.cellWidthPX);
+        var y1 = Math.floor(topLeft.y / this.cellHeightPX);
+        var x2 = Math.ceil(bottomRight.x / this.cellWidthPX);
+        var y2 = Math.ceil(bottomRight.y / this.cellHeightPX);
+
+        return {x1: x1, y1: y1, x2: x2, y2: y2};
+        // item.width;
+        // item.height;
+        // item.position = {x: 30, y: 30};
+
+
+    };
+
 };
