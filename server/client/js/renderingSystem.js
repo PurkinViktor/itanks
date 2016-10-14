@@ -35,12 +35,12 @@ var renderingSystem = {
         return viewPort;
     },
     allRender: function () {
-        this.render(this.game.tanks);
+        this.render(this.game.items);
         this.render(this.game.battleArea.barriers);
     },
-    render: function (items) {
-        for (var i = 0; i < items.length; i++) {
-            var item = items[i];
+    render: function (arrItems) {
+        for (var i = 0; i < arrItems.length; i++) {
+            var item = arrItems[i];
             this.renderItem(item);
 
         }
@@ -93,7 +93,7 @@ var renderingSystem = {
 
 
 
-        item.renderObj.stop("", false, false);
+        item.renderObj.stop(true, true);
         if (item.typeObject[1]) {
             if (item.renderObj.hasClass(item.typeObject[1])) {
                 item.renderObj.removeClass(item.typeObject[1]);

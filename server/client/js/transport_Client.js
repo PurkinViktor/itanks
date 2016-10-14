@@ -68,10 +68,19 @@ var transportClient = {
             console.log("setDataOfGame", data);
             iTanksClient.initGame(data);
         });
-        this.socket.on('updateDataTank', function (dataTank) {
+        // this.socket.on('updateDataItem', function (dataTank) {
+        //
+        //     console.log("onUpdateDataTank", dataTank);
+        //     iTanksClient.onUpdateDataTank(dataTank);
+        // });
 
-            console.log("onUpdateDataTank", dataTank);
-            iTanksClient.onUpdateDataTank(dataTank);
+        this.socket.on('updateDataItem', function (item) {
+
+            //console.log("updateDataItem", item.position);
+
+            iTanksClient.onUpdateDataItem(item);
+
+
         });
 
         // function safe(str) {

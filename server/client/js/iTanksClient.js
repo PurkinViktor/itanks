@@ -13,41 +13,52 @@ var iTanksClient = {
         transportClient.joinGame(item.value);
     },
     battleArea: {},
-    tanks: [],
+    //tanks: [],
+    items: [],
     initGame: function (data) {
         this.battleArea = data.battleArea;
-        this.tanks = data.tanks || [];
+        this.items = data.tanks || [];
         renderingSystem.run(this);
     },
-    getTank: function (newData) {
-        for (var i in this.tanks) {
-            var t = this.tanks[i];
+    getItem: function (newData) {
+        for (var i in this.items) {
+            var t = this.items[i];
             if (t.id == newData.id) {
                 return $.extend(t, newData);
             }
         }
-    },
-    items: [],
-    getItem: function (item) {
+        this.items.push(newData);
+        return newData;
 
-        var t  = this.items[item.id];
+    },
+    //items: {},
+    // getItem: function (item) {
+    //
+    //     var t = this.items[item.id];
+    //
+    //     //var t = this.getTank(item);
+    //     if (!t) {
+    //         this.items[item.id] = item;
+    //         t = this.items[item.id];
+    //     }
+    //     $.extend(t, item);
+    //     return t;
+    // },
+    // onUpdateDataTank: function (tank) {
+    //     var t = this.getTank(tank);
+    //     renderingSystem.renderItem(t);
+    //     //console.log("", tank);
+    //     // renderingSystem.run(this);
+    // },
+    onUpdateDataItem: function (newDataItem) {
 
-        //var t = this.getTank(item);
-        if (!t) {
-            this.items[item.id] = item;
-            t = this.items[item.id];
-        }
-        return t;
-    },
-    onUpdateDataTank: function (tank) {
-        var t = this.getTank(tank);
-        renderingSystem.renderItem(t);
-        //console.log("", tank);
-        // renderingSystem.run(this);
-    },
-    onUpdateDataItem: function (item) {
-        var t = this.getItem(item);
-        t = $.extend(t, item);
+        var t = this.getItem(newDataItem);
+
+        console.time("concatenation");
+        console.timeEnd("concatenation");
+
+        console.log("", t, new Date());
+
         renderingSystem.renderItem(t);
         //console.log("", tank);
         // renderingSystem.run(this);

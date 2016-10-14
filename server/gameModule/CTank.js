@@ -4,10 +4,11 @@ var helper = require('./helper.js');
 var extend = require('extend');
 var rules = require('./rules.js');
 var CBullet = require('./CBullet.js');
-
+var generator = require('./idGenerator.js');
 
 var CTank = function (settings) {
     var callee = arguments.callee;
+    this.id = generator.getID();
 
     var renderingSystem = settings.renderingSystem;
 
@@ -65,10 +66,10 @@ var CTank = function (settings) {
         }
     };
     this.activeKey = {top: 'OnTop', bottom: 'OnBottom', left: 'OnLeft', right: 'OnRight', fire: 'OnFire'};
-    this.onRender = settings.onRender || new CEvent();
+    //this.onRender = settings.onRender || new CEvent();
     this.render = function () {
-        this.onRender(this);
-        //this.renderingSystem.renderItem(this);
+        //this.onRender(this);
+        renderingSystem.renderItem(this);
 
 
     };

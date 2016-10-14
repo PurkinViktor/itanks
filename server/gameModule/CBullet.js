@@ -4,8 +4,10 @@ var CTank = require('./CTank.js');
 var EnumDirection = require('./../GeneralClass/const.js').EnumDirection;
 var rules = require('./rules.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
+var generator = require('./idGenerator.js');
 
 var CBullet = function (settings, tank) {
+    this.id = generator.getID();
     settings.ownerId = tank.id;
     settings.position = extend({}, tank.position);
     //settings.position.x += Math.floor((tank.width - 15) / 2);

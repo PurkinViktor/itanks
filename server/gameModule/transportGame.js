@@ -26,7 +26,15 @@ var transportGame = {
     },
     sendUpdateDataItem: function (gemaName, item) {//
 
-        this.io.sockets.in(gemaName).emit('updateDataTank', item);
+        // setTimeout(function () {
+        //     self.io.sockets.in(gemaName).emit('updateDataItem', item);
+        // });
+       // console.time("updateDataItem ");
+        this.io.sockets.in(gemaName).emit('updateDataItem', item);
+        //console.timeEnd("updateDataItem ");
+
+
+
     },
     init: function (serverGame, io, options) {
         this.io = io;
@@ -53,7 +61,7 @@ var transportGame = {
                         console.log(e);
                         console.error(e.stack);
                         client.emit('debugError', e.stack);
-                       // client.disconnect();
+                        // client.disconnect();
                         // client.leave(data.room);
                     }
 
