@@ -1,5 +1,6 @@
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var extend = require('extend');
+var generator = require('./idGenerator.js');
 
 module.exports = {
     randInt: function (min, max) {
@@ -62,7 +63,8 @@ module.exports = {
     },
     createCellOfMap: function (x, y, type) {
         type = type || EnumBarrier.default;
-        return {cellX: x, cellY: y, type: type};
+        var id = generator.getID();
+        return {id:id, cellX: x, cellY: y, type: type};
     },
     createActiveKey: function (set) {
         var t = {active: false, timePress: 0, timeLastCall: 0};

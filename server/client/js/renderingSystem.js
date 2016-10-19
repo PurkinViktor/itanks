@@ -36,7 +36,7 @@ var renderingSystem = {
     },
     allRender: function () {
         this.render(this.game.items);
-        this.render(this.game.battleArea.barriers);
+        //this.render(this.game.battleArea.barriers);
     },
     render: function (arrItems) {
         for (var i = 0; i < arrItems.length; i++) {
@@ -89,7 +89,7 @@ var renderingSystem = {
                 break;
         }
         item.renderObj.addClass(item.cssClassTemp);
-
+        item.renderObj.attr("id", item.id);
 
 
 

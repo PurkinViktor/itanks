@@ -24,6 +24,15 @@ var transportGame = {
         var clients = this.io.rooms["/" + nameGame];
         return clients;// this.io.sockets.in(nameGame);
     },
+    destroyItem: function (gemaName, item) {//
+        this.io.sockets.in(gemaName).emit('destroyItem', item);
+
+    },
+    renderExplosion: function (gemaName, item) {//
+        this.io.sockets.in(gemaName).emit('renderExplosion', item);
+
+    },
+
     sendUpdateDataItem: function (gemaName, item) {//
 
         // setTimeout(function () {

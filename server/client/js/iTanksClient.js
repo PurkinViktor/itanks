@@ -17,7 +17,7 @@ var iTanksClient = {
     items: [],
     initGame: function (data) {
         this.battleArea = data.battleArea;
-        this.items = data.tanks || [];
+        this.items = data.tanks.concat(data.battleArea.barriers) || [];
         renderingSystem.run(this);
     },
     getItem: function (newData) {
@@ -50,15 +50,27 @@ var iTanksClient = {
     //     //console.log("", tank);
     //     // renderingSystem.run(this);
     // },
+
+    onDestroyItem: function (dataItem) {
+
+        for (var i in this.items) {
+            var t = this.items[i];
+            if (t.id == dataItem.id) {
+                renderingSystem.destroyItem(t);
+                this.items.slice(i, 1);
+            }
+        }
+        //console.log("", tank);
+        // renderingSystem.run(this);
+    },
+    onRenderExplosion: function (dataItem) {
+
+        renderingSystem.renderExplosion(dataItem);
+
+    },
     onUpdateDataItem: function (newDataItem) {
 
         var t = this.getItem(newDataItem);
-
-        console.time("concatenation");
-        console.timeEnd("concatenation");
-
-        console.log("", t, new Date());
-
         renderingSystem.renderItem(t);
         //console.log("", tank);
         // renderingSystem.run(this);

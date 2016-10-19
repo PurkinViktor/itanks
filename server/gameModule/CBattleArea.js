@@ -4,7 +4,8 @@ var CEvent = require('./CEvent.js');
 var helper = require('./helper.js');
 
 
-module.exports = function () {
+module.exports = function (game) {
+    var renderingSystem = game.renderingSystem;
     var battleArea = {
         x: 40, y: 10, w: 600, h: 600,
         barriers: [],
@@ -84,6 +85,7 @@ module.exports = function () {
         createCellOfMap: function (x, y, type, sixeCell) {
             for (var i = 0; i < sixeCell; i++) {
                 for (var j = 0; j < sixeCell; j++) {
+
                     this.addCellInMap(x, y, CBarrier.create(x * sixeCell + i, y * sixeCell + j, type));
                 }
             }
@@ -183,14 +185,14 @@ module.exports = function () {
             };
         }
     };
-    var renderingSystem = { // заглушка
-        renderItem: function () {
-
-        },
-        destroyItem: function () {
-
-        }
-    };
+    // var renderingSystem = { // заглушка
+    //     renderItem: function () {
+    //
+    //     },
+    //     destroyItem: function () {
+    //
+    //     }
+    // };
     //battleArea.init();
     return battleArea;
 };

@@ -82,6 +82,14 @@ var transportClient = {
 
 
         });
+        this.socket.on('destroyItem', function (item) {
+            //console.log("updateDataItem", item.position);
+            iTanksClient.onDestroyItem(item);
+        });
+        this.socket.on('renderExplosion', function (item) {
+            iTanksClient.onRenderExplosion(item);
+        });
+
 
         // function safe(str) {
         //     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

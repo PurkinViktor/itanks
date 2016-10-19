@@ -239,5 +239,7 @@ var CTank = function (settings) {
 // };
 CTank.height = 30;
 CTank.width = 30;
+module.exports.height = 30;
+module.exports.width = 30;
 
 module.exports = CTank;

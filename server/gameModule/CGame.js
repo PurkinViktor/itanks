@@ -11,8 +11,9 @@ module.exports = function (set) {
     this.nameGame = set.nameGame;
     this.teems = [{title: "Команда IGL", id: "teem1"}];
     this.tanks = [];
-    this.battleArea = new CBattleArea();
     this.renderingSystem = new CRenderingSystem(this);
+    this.battleArea = new CBattleArea(this);
+
     //this.onInit();
     this.init = function (arrIdClients) {
         this.battleArea.init();

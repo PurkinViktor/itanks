@@ -8,17 +8,38 @@ module.exports = function (game) {
 
         //var socketId = tank.ownerId;
 
-        var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+        //var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
         // var d = new Date();
         // console.log("renderItem  ", data.position, d, " ", d.getMilliseconds());
 
-
-        transportGame.sendUpdateDataItem(this.game.nameGame, data);
+        this.sendRequest(transportGame.sendUpdateDataItem, item);
+        // transportGame.sendUpdateDataItem(this.game.nameGame, data);
+        // transportGame.sendData(data);
     };
-    this.destroyItem = function () {
+    this.sendRequest = function (f, item) {
+        if (this.game.isStart) {
+            var argv = [];
+            var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
 
+            argv.push(this.game.nameGame);
+            argv.push(data);
+            f.apply(transportGame, argv);
+        }
     };
-    this.renderExplosion = function () {
+    this.destroyItem = function (item) {
+        this.sendRequest(transportGame.destroyItem, item);
+        // var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+        // transportGame.destroyItem(this.game.nameGame, data);
+    };
+    this.renderExplosion = function (item) {
+        this.sendRequest(transportGame.renderExplosion, item);
 
+
+        // var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+        //
+        //
+        // transportGame.renderExplosion(this.game.nameGame, data);
     };
+
+
 };
