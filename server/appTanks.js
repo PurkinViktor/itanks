@@ -1,4 +1,4 @@
-var PORT = 80;
+var PORT = 8080;
 
 var options = {
 //    'log level': 0
@@ -9,7 +9,7 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
-server.listen(PORT);
+server.listen(PORT, "127.0.0.1");
 
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/client', express.static(__dirname + '/client'));
