@@ -1,6 +1,5 @@
-var PORT = 18320;
-//var port = process.env.PORT || 3000;
-
+var PORT = process.env.PORT || 5000;
+ 
 var options = {
 //    'log level': 0
 };
