@@ -1,4 +1,4 @@
-var PORT = 8008;
+var PORT = 80;
 
 var options = {
 //    'log level': 0
