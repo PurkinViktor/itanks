@@ -1,0 +1,17 @@
+{
+  "name" : "iTanks",
+  "private" : true,
+  "version" : "0.0.0",
+  "description" : "a express application",
+  "keywords" : [ ],
+  "dependencies" : {
+  },
+  "scripts" : {
+    "start" : "node appTanks.js",
+    "debug" : "node debug appTanks.js"
+  },
+  "main" : "./app.js",
+  "bugs" : {
+    "url" : "null"
+  }
+}
