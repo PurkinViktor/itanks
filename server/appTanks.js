@@ -1,5 +1,5 @@
 var PORT = process.env.PORT || 5000;
- 
+var HOST = process.env.HOST || '0.0.0.0';
 var options = {
 //    'log level': 0
 };
@@ -9,7 +9,7 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
-server.listen(PORT, "127.0.0.1");
+server.listen(PORT, HOST);
 
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/client', express.static(__dirname + '/client'));
