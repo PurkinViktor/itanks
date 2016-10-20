@@ -7,10 +7,10 @@
   "dependencies" : {
   },
   "scripts" : {
-    "start" : "node appTanks.js",
-    "debug" : "node debug appTanks.js"
+    "start" : "node server/appTanks.js",
+    "debug" : "node debug server/appTanks.js"
   },
-  "main" : "./appTanks.js",
+  "main" : "./server/appTanks.js",
   "bugs" : {
     "url" : "null"
   }
