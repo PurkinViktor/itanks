@@ -1,5 +1,5 @@
 var transportClient = {
-    host: 'http://localhost:8008',
+    host: '/',
     socket: null,
     newGame: function (nameGame) {
         this.socket.emit("addGame", nameGame);
