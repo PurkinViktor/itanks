@@ -1,4 +1,5 @@
-var PORT = 8080;
+var PORT = 18320;
+//var port = process.env.PORT || 3000;
 
 var options = {
 //    'log level': 0
@@ -18,7 +19,6 @@ app.use('/GeneralClass', express.static(__dirname + '/GeneralClass'));
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/index.html');
 });
-
 
 
 var serverGame = require('./gameModule/serverGame.js');
