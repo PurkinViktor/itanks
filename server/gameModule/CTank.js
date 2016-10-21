@@ -184,18 +184,21 @@ var CTank = function (settings) {
 
         var actionMove = false;
         for (var action in this.activeKey) {
-            if (this.activeKey[action].active || this.activeKey[action].timePress > this.activeKey[action].timeLastCall) {
-                if (action === "fire") {
-                    var data = +new Date();
-                    if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
-                        this.runActivKey(action);
-                    }
+            if (this.activeKey[action].active && action === "fire") {
 
-                } else {
-                    if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
-                        actionMove = action;
-                    }
+                var data = +new Date();
+                if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
+                    this.runActivKey(action);
                 }
+
+
+            } else if (this.activeKey[action].active ) {
+                //&& this.activeKey[action].timePress > this.activeKey[action].timeLastCall
+
+                if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
+                    actionMove = action;
+                }
+
             }
         }
 
