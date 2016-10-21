@@ -4,6 +4,8 @@ var iTanksClient = {
         transportClient.init();
         $(window).on("keydown", this.getHandler(this.keydownHundle));
         $(window).on("keyup", this.getHandler(this.keyupHundle));
+
+
     },
     newGame: function (nameGame) {
         transportClient.newGame(nameGame);
@@ -97,16 +99,27 @@ var iTanksClient = {
     startGame: function (nameGame) {
         transportClient.startGame(nameGame);
     },
-    keyHundler: {87: "top", 83: "bottom", 65: "left", 68: "right", 32: "fire"},
+    keyHundler: {
+        87: {action: "top", stateKey: false},
+        83: {action: "bottom", stateKey: false},
+        65: {action: "left", stateKey: false},
+        68: {action: "right", stateKey: false},
+        32: {action: "fire", stateKey: false},
+    },
+
     setActiveKey: function (keyCode, value) {
 
-        var action = this.keyHundler[keyCode];
-        if (action) {
+        var actionKey = this.keyHundler[keyCode];
+
+        if (actionKey && actionKey.stateKey != value) {
+            actionKey.stateKey = value;
+            // var action = actionKey.action;
             //console.log(action);
-            transportClient.setActiveKey(action, value);
+            transportClient.setActiveKey(actionKey.action, actionKey.stateKey);
         }
 
     },
+
     keydownHundle: function (event) {
 
         this.setActiveKey(event.keyCode, true);
