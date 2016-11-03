@@ -88,7 +88,7 @@ var iTanksClient = {
             this.listGamesMenu.destroy();
         }
 
-        this.listGamesMenu = new CMenu(set);
+        this.listGamesMenu = new CListUI(set);
         this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
         this.listGamesMenu.show();
     },

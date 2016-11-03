@@ -1,4 +1,4 @@
-var CMenu = function (set) {
+var CListUI = function (set) {
 
     set = set || {};
     var gameMenu = {
