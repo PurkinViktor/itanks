@@ -15,26 +15,29 @@ module.exports = function (set) {
     this.battleArea = new CBattleArea(this);
 
     //this.onInit();
-    this.init = function (arrIdClients) {
+    this.init = function (arrClients) {
         this.battleArea.init();
         rules.init(helper.cutInObj(this, ["battleArea", "tanks"]));
-        this.initClients(arrIdClients);
+        this.initClients(arrClients);
 
     };
     this.players = {};
-    this.createPlayer = function (id) {
-        this.players[id] = {
-            id: id,
+    this.createPlayer = function (socket) {
+
+        this.players[socket.login] = {
+            id: "id_player_" + socket.login,// присвоим это чтоб не генерировать
+            socketId: socket.id,
+            login: socket.login,
             tank: null
         };
-        return this.players[id];
+        return this.players[socket.login];
     };
     this.getIsStart = function () {
         return this.isStart;
     };
     this.setActiveKeyInToTank = function (client, data) {
         if (this.getIsStart()) {
-            this.players[client.id].tank.setActiveKey(data.action, data.value);
+            this.players[client.login].tank.setActiveKey(data.action, data.value);
         }
 
     };

@@ -21,7 +21,12 @@ var transportGame = {
     },
     getClientsOfGame: function (nameGame) {// получение списка игроков
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
-        var clients = this.io.rooms["/" + nameGame];
+        var clientsId = this.io.rooms["/" + nameGame];
+        var clients = [];
+        for(var i in clientsId){
+            var idClient = clientsId[i];
+            clients.push(this.io.sockets.sockets[idClient]);
+        }
         return clients;// this.io.sockets.in(nameGame);
     },
     destroyItem: function (gemaName, item) {//
@@ -38,10 +43,9 @@ var transportGame = {
         // setTimeout(function () {
         //     self.io.sockets.in(gemaName).emit('updateDataItem', item);
         // });
-       // console.time("updateDataItem ");
+        // console.time("updateDataItem ");
         this.io.sockets.in(gemaName).emit('updateDataItem', item);
         //console.timeEnd("updateDataItem ");
-
 
 
     },
@@ -49,6 +53,13 @@ var transportGame = {
         this.io = io;
 
         io.sockets.on('connection', function (client) {
+
+
+            client.sessionID = client.handshake.sessionID;
+            client.login = client.handshake.sessionID;
+
+
+            client.emit('debugInfo', {login: client.login, id: client.id});
             // client.on('message', function (message) {
             //     try {
             //         client.emit('message', message); // отправка себе
@@ -59,6 +70,7 @@ var transportGame = {
             //     }
             // });
             //disconnectClientIfError
+
             var hundlerEvents = function (func) {
 
                 return function () {
@@ -75,7 +87,16 @@ var transportGame = {
                     }
 
                 };
+
             };
+            //var c = client.request.headers.cookie;
+
+            hundlerEvents(function () {
+                serverGame.onConnect(client);
+                //console.log("onConnect", client);
+            })();
+
+
             client.on('getListGames', hundlerEvents(function () {
 
                 var list = serverGame.getListGames();

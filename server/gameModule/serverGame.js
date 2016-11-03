@@ -1,6 +1,7 @@
 var transportGame = require('./transportGame.js');
 var CGame = require('./CGame.js');
 //var CBattleArea = require('./CBattleArea.js');
+var helper = require('./helper.js');
 
 var serverGame = {
     games: [],
@@ -43,6 +44,40 @@ var serverGame = {
         return res;
         // return ["game1", " game2", "game n"];
     },
+    onConnect: function (client) {
+        for (var nameGame in this.games) {
+            var game = this.games[nameGame];
+            for (var idPlayer in game.players) {
+                var player = game.players[idPlayer];
+                if (player.login == client.login) {
+                    client.emit('debugInfo', "типа вошел в игру " + nameGame + " игрок " + player.login);
+                    var game = this.games[nameGame];
+                    var tanks = this.getItemsToJSON(game.tanks);
+                    var dataOfGame = {
+                        battleArea: game.battleArea,
+                        tanks: tanks
+                    };
+                    client.emit('setDataOfGame', dataOfGame);
+                    // transportGame.setDataOfGame(game.nameGame, dataOfGame);
+
+                    this.joinToGame(client, nameGame);
+                }
+            }
+
+        }
+    },
+
+    getItemsToJSON: function (arr) {
+        var items = [];
+        for (var i in arr) {
+            var tank = arr[i];
+            var t = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed","typeObject"]);
+            items.push(t);
+        }
+        return items;
+
+
+    },
     joinToGame: function (client, nameGame) {
         var list = this.getListGames();
         if (list.indexOf(nameGame) >= 0) {
@@ -55,10 +90,11 @@ var serverGame = {
     startGame: function (client, nameGame) {
         var game = this.games[nameGame];
         if (game) {
-            var arrIdClients = transportGame.getClientsOfGame(nameGame);
-            console.log("##### arrClients client of game", arrIdClients);
+            var arrClients = transportGame.getClientsOfGame(nameGame);
 
-            game.init(arrIdClients);//передаем идентификаторы сокетов в комнате
+            //client.emit('debugInfo', {arrIdClients_: arrClients});
+
+            game.init(arrClients);//
             var dataOfGame = {
                 battleArea: game.battleArea,
                 tanks: game.tanks

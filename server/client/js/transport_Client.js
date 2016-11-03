@@ -28,6 +28,10 @@ var transportClient = {
         this.socket.on('debugError', function (err) {
             console.error('debugError', err);
         });
+        this.socket.on('debugInfo', function (info) {
+            console.info('debugInfo', info);
+        });
+
         this.socket.on('connecting', function () {
             console.log('Соединение...');
         });
