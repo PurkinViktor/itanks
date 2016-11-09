@@ -61,10 +61,17 @@ module.exports = {
         }
         return res;
     },
+    cutInObjFromArr: function (arr, field) {
+        var res = [];
+        for (var i in arr) {
+            res.push(this.cutInObj(arr[i], field));
+        }
+        return res;
+    },
     createCellOfMap: function (x, y, type) {
         type = type || EnumBarrier.default;
         var id = generator.getID();
-        return {id:id, cellX: x, cellY: y, type: type};
+        return {id: id, cellX: x, cellY: y, type: type};
     },
     createActiveKey: function (set) {
         var t = {active: false, timePress: 0, timeLastCall: 0};

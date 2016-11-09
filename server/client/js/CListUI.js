@@ -11,7 +11,7 @@ var CListUI = function (set) {
         items: set.items || [],
         location: set.location || ".battleArea",
         menu: null,
-        cbkeydownHundle : null,
+        cbkeydownHundle: null,
         init: function () {
             this.createMenu(this.location);
             this.cbkeydownHundle = this.getHandler(this.keydownHundle);
@@ -20,7 +20,7 @@ var CListUI = function (set) {
         },
         destroy: function () {
             if (this.menu != null) {
-                $(window).off("keydown",this.cbkeydownHundle);
+                $(window).off("keydown", this.cbkeydownHundle);
                 this.menu.remove();
             }
         },
@@ -59,22 +59,34 @@ var CListUI = function (set) {
         },
         createMenu: function (selector) {
 
-            var menu = $("<ul>");
-            menu.addClass("gameMenu");
+            this.menu = $("<ul>");
+            this.menu.addClass("gameMenu");
+
+            this.updateList(this.items);
+            // this.hide();
+            this.renderItem();
+            $(selector).append(this.menu);
+
+        },
+        updateList: function (items) {
+            this.items = items;
+            var menu = this.menu;
+            menu.empty();
             for (var i in this.items) {
                 var item = this.items[i];
 
                 var li = $("<li>");
                 li.get(0).dataItem = item;
                 li.on("click", this.getHandler(this.itemClickHundler));
-                li.text(item.title);
+                li.text(this.getValueItem(item));
                 menu.append(li);
             }
-            this.menu = menu;
-            this.hide();
-            this.renderItem();
-            $(selector).append(this.menu);
+            // this.menu = menu;
 
+
+        },
+        getValueItem: function (item) {
+            return item.title;
         },
         itemClickHundler: function (event) {
             event.currentTarget.dataItem;

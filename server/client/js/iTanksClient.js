@@ -1,7 +1,9 @@
 var iTanksClient = {
-    listGamesMenu: null,
+    // listGamesMenu: null,
     init: function () {
+        gameMenu.init(this);
         transportClient.init();
+
         $(window).on("keydown", this.getHandler(this.keydownHundle));
         $(window).on("keyup", this.getHandler(this.keyupHundle));
 
@@ -13,6 +15,7 @@ var iTanksClient = {
     nameGame: null,
     joinGame: function (menu, item) {
         transportClient.joinGame(item.value);
+
     },
     battleArea: {},
     //tanks: [],
@@ -78,22 +81,30 @@ var iTanksClient = {
         // renderingSystem.run(this);
     },
 
-    createListGamesMenu: function (list) {
-        var set = {items: [], location: ".allContent"};
-        for (var i in list) {
-            var nameGame = list[i];
-            set.items.push({title: "Игра: " + nameGame, itemCode: i, value: nameGame});
-        }
-        if (this.listGamesMenu) {
-            this.listGamesMenu.destroy();
-        }
+    updateListGamesMenu: function (list) {
+        gameMenu.updateListGame(list);
+        //gameMenu.layOut.
+        // var set = {items: [], location: ".allContent"};
+        // for (var i in list) {
+        //     var nameGame = list[i];
+        //     set.items.push({title: "Игра: " + nameGame, itemCode: i, value: nameGame});
+        // }
+        // if (this.listGamesMenu) {
+        //     this.listGamesMenu.destroy();
+        // }
+        //
+        // this.listGamesMenu = new CListUI(set);
+        // this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
+        // this.listGamesMenu.show();
+    },
+    updateTeams: function (data) {
 
-        this.listGamesMenu = new CListUI(set);
-        this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
-        this.listGamesMenu.show();
+        gameMenu.updateTeams(data);
+       // console.log();
     },
     successJoinToGame: function (data) {
         this.nameGame = data.nameGame;
+        gameMenu.showTeams();
         //this.startGame(this.nameGame);
     },
     startGame: function (nameGame) {

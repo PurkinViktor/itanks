@@ -20,7 +20,8 @@ var serverGame = {
             var game = new CGame({nameGame: nameGame});
             this.games[nameGame] = game;
             transportGame.updateListGames(this.getListGames());
-            transportGame.successJoinToGame(client, nameGame);
+            this.joinToGame(client, nameGame);
+           // transportGame.successJoinToGame(client, nameGame);
         } else {
             transportGame.errorAddNewGame(client, nameGame, "Game already exist");
         }
@@ -71,7 +72,7 @@ var serverGame = {
         var items = [];
         for (var i in arr) {
             var tank = arr[i];
-            var t = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed","typeObject"]);
+            var t = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
             items.push(t);
         }
         return items;
@@ -81,11 +82,26 @@ var serverGame = {
     joinToGame: function (client, nameGame) {
         var list = this.getListGames();
         if (list.indexOf(nameGame) >= 0) {
-            client.join(nameGame);
-            transportGame.successJoinToGame(client, nameGame);
-        } else {
-            transportGame.errorJoinToGame(client, nameGame, "Game not found");
+
+
+            var arrClients = transportGame.getClientsOfGame(nameGame);
+            //var teams = this.games[nameGame].getTeams();
+            var isJoin = this.games[nameGame].joinToTeam(client, arrClients);
+            if (isJoin) {
+                client.join(nameGame);
+                transportGame.successJoinToGame(client, nameGame);
+                // transportGame.getClientsOfGame(nameGame);
+                var data = {};
+                data.teams = this.games[nameGame].getTeams();
+                data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame),["id", "login", "teamId"]);
+                transportGame.updateTeams(nameGame, data);
+
+                return;
+            }
+
         }
+        transportGame.errorJoinToGame(client, nameGame, "Game not found, or allready start");
+
     },
     startGame: function (client, nameGame) {
         var game = this.games[nameGame];

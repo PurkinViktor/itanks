@@ -9,7 +9,47 @@ var CRenderingSystem = require('./CRenderingSystem.js');
 module.exports = function (set) {
     this.isStart = false;
     this.nameGame = set.nameGame;
-    this.teems = [{title: "Команда IGL", id: "teem1"}];
+    this.teamsOfGame = [
+        {title: "Команда IGL", id: "team1", maxCountPlayers: 5},
+        {title: "Команда Black IGL", id: "team2", maxCountPlayers: 5},
+    ];
+    this.getTeams = function () {
+        return this.teamsOfGame;
+    };
+    this.joinToTeam = function (clientForJoin, arrClients) {
+        for (var t in this.teamsOfGame) { //обнуляем счетчики
+            var team = this.teamsOfGame[t];
+            team.countPlayers = 0;
+        }
+
+
+        for (var i in arrClients) { // считаем игроков в каждой команде
+            var client = arrClients[i];
+            if (client.id != clientForJoin.id && client.login == clientForJoin.login) {
+                // проверка на уникальность клиента в одной игре 2 одинаковых логина не могут быть
+                return false;
+            }
+            for (var t in this.teamsOfGame) {
+                var team = this.teamsOfGame[t];
+                if (team.id == client.teamId) {
+                    team.countPlayers++;
+                    break;
+                }
+            }
+        }
+
+
+        for (var t in this.teamsOfGame) { //даем клиенту id команды если есть место
+            var team = this.teamsOfGame[t];
+            if (team.countPlayers < team.maxCountPlayers) {
+                clientForJoin.teamId = team.id;
+                team.countPlayers++;
+                return true;
+            }
+        }
+        return false;
+        //maxCountPlayers
+    };
     this.tanks = [];
     this.renderingSystem = new CRenderingSystem(this);
     this.battleArea = new CBattleArea(this);
@@ -50,6 +90,7 @@ module.exports = function (set) {
             hp: 10,
             countBullet: 3,// количество выстрелов одновреммено
             typeObject: ["player1", "player1_"],
+            teamId: "",
 //			width: 26,
 //			height: 26
         });

@@ -1,171 +1,221 @@
-body{
-	height: 100%;
-	width: 100%;
-	position: absolute;
-	margin: 0;
-	padding: 0;
+ul{
+    margin: 0;
+    padding: 0;
 }
 
-.battleArea{
-	background: #D3D3D8;
-	border: #000 2px solid;
-	position: relative;
-	//margin: auto;
+body {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    margin: 0;
+    padding: 0;
 }
-.statViewPort{
-	position: absolute;
-	border: #000 1px solid;
-	background: #FFF555;	 
-	right: 10px;
-	top: 10px;
-	z-index: 2;
+
+.battleArea {
+    background: #D3D3D8;
+    border: #000 2px solid;
+    position: relative;
+/ / margin: auto;
 }
-.statViewPort table{
-	border-collapse: collapse;
-	width: 100%;
+
+.statViewPort {
+    position: absolute;
+    border: #000 1px solid;
+    background: #FFF555;
+    right: 10px;
+    top: 10px;
+    z-index: 2;
 }
-table td, table th { 
+
+.statViewPort table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, table th {
     padding: 2px; /* Поля вокруг содержимого ячеек */
     border: 1px solid black; /* Граница вокруг ячеек */
 }
-table th { 
+
+table th {
     font-size: 12px;
 }
-.obj{
-	position: absolute;
-	background: #5f5;
+
+.obj {
+    position: absolute;
+    background: #5f5;
 }
 
-
-.plaerTank { 
-	background: url(../img/Player.png) no-repeat;
-	background-size: 60px 30px;
-}
-.plaerTank_ { 
-	background-position: -30px;
+.plaerTank {
+    background: url(../img/Player.png) no-repeat;
+    background-size: 60px 30px;
 }
 
-
-.player1{
-	background: url(../img/player1.png) no-repeat;
-}
-.player1_{
-	background: url(../img/player1_.png) no-repeat;
-
-}
-.player1, .player1_{
-	background-size: cover;
+.plaerTank_ {
+    background-position: -30px;
 }
 
-.boot{
-	background: url(../img/Enem.png) no-repeat;
-	background-size: 60px 30px;
+.player1 {
+    background: url(../img/player1.png) no-repeat;
 }
-.boot_{
-	background-position: -30px;
+
+.player1_ {
+    background: url(../img/player1_.png) no-repeat;
 
 }
 
-
-
-
-
-.bullet{
-	background: url(../img/Bullet.png) no-repeat;;
-}
-.bullet_{
-	background: url(../img/Bullet.png) no-repeat;;
+.player1, .player1_ {
+    background-size: cover;
 }
 
-.explosion{
-	background: url(../img/Explosion.png) no-repeat;
-	background-size: 80px 20px;
-
-}
-.explosion1{ 
-	background-position: -20px;
-}
-.explosion2{ 
-	background-position: -40px;
-}
-.explosion3{
-	background: url(../img/Explosion.png) no-repeat;
-	background-size: 80px 20px;
-	background-position: -60px;
+.boot {
+    background: url(../img/Enem.png) no-repeat;
+    background-size: 60px 30px;
 }
 
+.boot_ {
+    background-position: -30px;
 
-
-
-.bullet.dirTop{
-	transform: rotate(0deg);
-}
-.bullet.dirRight{
-	transform: rotate(90deg);
-}
-.bullet.dirBottom{
-	transform: rotate(180deg);
-}
-.bullet.dirLeft{
-	transform: rotate(270deg);
 }
 
-
-.dirLeft{
-	transform: rotate(0deg);
-}
-.dirRight{
-	transform: rotate(180deg);
-}
-.dirTop{
-	transform: rotate(90deg);
-}
-.dirBottom{
-	transform: rotate(270deg);
+.bullet {
+    background: url(../img/Bullet.png) no-repeat;;
 }
 
-.barrier{
-	/*background: url(../img/Tecstura.png) repeat;*/
-	/*background-position: 26px 0;*/
-	background-size: 10px 10px;
-	width: 25px;
-	height: 25px;
+.bullet_ {
+    background: url(../img/Bullet.png) no-repeat;;
 }
 
-.barrier.default{
-	background-image: url(../img/barrier-default.png) ;
-}
-.barrier.armor{
-	background-image: url(../img/barrier-armor.png) ;
-}
-.barrier.forest{
-	background-image: url(../img/barrier-forest.png) ;
-	z-index: 1;
-	opacity: 0.9;
-}
-.barrier.water{
-	background-image: url(../img/barrier-water.png) ;
+.explosion {
+    background: url(../img/Explosion.png) no-repeat;
+    background-size: 80px 20px;
+
 }
 
-.igl{
-	background-image: url(../img/igl.png) ;
-	background-size: 100% 100%;
+.explosion1 {
+    background-position: -20px;
 }
 
-.gameMenu{ 
-	background-color: #23B235;
-	text-align: center;
-	width: 200px;
-	list-style-type: none;
-	padding: 0;
-	margin: 45% auto;
-	z-index: 2;
-	position: relative;
-}
-.gameMenu li{
-	cursor: pointer;
+.explosion2 {
+    background-position: -40px;
 }
 
-.gameMenu li:hover, .active{
-	background-color: #CB2F2F;
+.explosion3 {
+    background: url(../img/Explosion.png) no-repeat;
+    background-size: 80px 20px;
+    background-position: -60px;
+}
+
+.bullet.dirTop {
+    transform: rotate(0deg);
+}
+
+.bullet.dirRight {
+    transform: rotate(90deg);
+}
+
+.bullet.dirBottom {
+    transform: rotate(180deg);
+}
+
+.bullet.dirLeft {
+    transform: rotate(270deg);
+}
+
+.dirLeft {
+    transform: rotate(0deg);
+}
+
+.dirRight {
+    transform: rotate(180deg);
+}
+
+.dirTop {
+    transform: rotate(90deg);
+}
+
+.dirBottom {
+    transform: rotate(270deg);
+}
+
+.barrier {
+    /*background: url(../img/Tecstura.png) repeat;*/
+    /*background-position: 26px 0;*/
+    background-size: 10px 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.barrier.default {
+    background-image: url(../img/barrier-default.png);
+}
+
+.barrier.armor {
+    background-image: url(../img/barrier-armor.png);
+}
+
+.barrier.forest {
+    background-image: url(../img/barrier-forest.png);
+    z-index: 1;
+    opacity: 0.9;
+}
+
+.barrier.water {
+    background-image: url(../img/barrier-water.png);
+}
+
+.igl {
+    background-image: url(../img/igl.png);
+    background-size: 100% 100%;
+}
+
+.gameMenu {
+    background-color: #3b920c;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 179px;
+    overflow: auto;
+}
+
+.gameMenu li {
+    cursor: pointer;
+}
+
+.gameMenu li:hover, .active {
+    background-color: #CB2F2F;
+}
+
+.ListGameLayOut, .ListTeamsLayOut {
+    width: 220px;
+    height: 200px;
+    z-index: 2;
+    background: #8c8c8c;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.ListTeamsLayOut{
+    height: auto;
+}
+
+.inputNameGame, .btnAddGame {
+    display: inline-block;
+}
+
+.btnAddGame {
+
+    margin-left: 5px;
+    float: right;
+    text-align: center;
+}
+.getListTeamLayOut {
+    margin-top: 20px;
+}
+.inputNameGame {
+
 }

@@ -1,9 +1,9 @@
 var transportGame = {
     io: null,
 
-    setDataOfGame: function (gemaName, gamedataOfGame) {// обновить список игр у всех
+    setDataOfGame: function (gameName, gamedataOfGame) {// обновить список игр у всех
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
-        this.io.sockets.in(gemaName).emit('setDataOfGame', gamedataOfGame);
+        this.io.sockets.in(gameName).emit('setDataOfGame', gamedataOfGame);
     },
     successJoinToGame: function (client, nameGame, text) {//  успех присоединения к игре
         text = text || "Success Join To Game";
@@ -19,6 +19,9 @@ var transportGame = {
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         this.io.sockets.emit('setListGames', list);
     },
+    updateTeams: function (gameName, data) {//
+        this.io.sockets.in(gameName).emit('updateTeams', data);
+    },
     getClientsOfGame: function (nameGame) {// получение списка игроков
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         var clientsId = this.io.rooms["/" + nameGame];
@@ -29,26 +32,27 @@ var transportGame = {
         }
         return clients;// this.io.sockets.in(nameGame);
     },
-    destroyItem: function (gemaName, item) {//
-        this.io.sockets.in(gemaName).emit('destroyItem', item);
+    destroyItem: function (gameName, item) {//
+        this.io.sockets.in(gameName).emit('destroyItem', item);
 
     },
-    renderExplosion: function (gemaName, item) {//
-        this.io.sockets.in(gemaName).emit('renderExplosion', item);
+    renderExplosion: function (gameName, item) {//
+        this.io.sockets.in(gameName).emit('renderExplosion', item);
 
     },
 
-    sendUpdateDataItem: function (gemaName, item) {//
+    sendUpdateDataItem: function (gameName, item) {//
 
         // setTimeout(function () {
         //     self.io.sockets.in(gemaName).emit('updateDataItem', item);
         // });
         // console.time("updateDataItem ");
-        this.io.sockets.in(gemaName).emit('updateDataItem', item);
+        this.io.sockets.in(gameName).emit('updateDataItem', item);
         //console.timeEnd("updateDataItem ");
 
 
     },
+
     init: function (serverGame, io, options) {
         this.io = io;
 

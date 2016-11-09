@@ -51,8 +51,14 @@ var transportClient = {
         });
         this.socket.on('setListGames', function (data) {
             console.log("setListGames", data);
-            iTanksClient.createListGamesMenu(data);
+            iTanksClient.updateListGamesMenu(data);
         });
+
+        this.socket.on('updateTeams', function (data) {
+            console.log("updateTeams", data);
+            iTanksClient.updateTeams(data);
+        });
+
         // socket.on('message', function (data) {
         //     console.log("message", data);
         // });
