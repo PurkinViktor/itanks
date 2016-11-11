@@ -77,6 +77,7 @@ var CListUI = function (set) {
 
                 var li = $("<li>");
                 li.get(0).dataItem = item;
+                li.get(0).indexItem = i;
                 li.on("click", this.getHandler(this.itemClickHundler));
                 li.text(this.getValueItem(item));
                 menu.append(li);
@@ -90,7 +91,7 @@ var CListUI = function (set) {
         },
         itemClickHundler: function (event) {
             event.currentTarget.dataItem;
-            this.setCurentItem(event.currentTarget.dataItem.itemCode);
+            this.setCurentItem(event.currentTarget.indexItem);
             this.onItemSelected(this, this.getCurentItem());
             //console.log(event.currentTarget.dataItem);
         },
