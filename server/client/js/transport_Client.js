@@ -10,7 +10,12 @@ var transportClient = {
     startGame: function (nameGame) {
         this.socket.emit("startGame", nameGame);
     },
-
+    switchToTeam: function (teamId) {
+        this.socket.emit("switchToTeam", {
+            nameGame: iTanksClient.nameGame,
+            teamId: teamId
+        });
+    },
     setActiveKey: function (action, value) {
         console.log("setActiveKey", value);
         this.socket.emit("setActiveKey", {

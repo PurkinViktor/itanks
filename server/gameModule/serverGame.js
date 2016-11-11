@@ -21,7 +21,7 @@ var serverGame = {
             this.games[nameGame] = game;
             transportGame.updateListGames(this.getListGames());
             this.joinToGame(client, nameGame);
-           // transportGame.successJoinToGame(client, nameGame);
+            // transportGame.successJoinToGame(client, nameGame);
         } else {
             transportGame.errorAddNewGame(client, nameGame, "Game already exist");
         }
@@ -48,8 +48,8 @@ var serverGame = {
     onConnect: function (client) {
         for (var nameGame in this.games) {
             var game = this.games[nameGame];
-            for (var idPlayer in game.players) {
-                var player = game.players[idPlayer];
+            for (var i in game.players) {
+                var player = game.players[i];
                 if (player.login == client.login) {
                     client.emit('debugInfo', "типа вошел в игру " + nameGame + " игрок " + player.login);
                     var game = this.games[nameGame];
@@ -69,13 +69,14 @@ var serverGame = {
     },
 
     getItemsToJSON: function (arr) {
-        var items = [];
-        for (var i in arr) {
-            var tank = arr[i];
-            var t = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
-            items.push(t);
-        }
-        return items;
+        return helper.cutInObjFromArr(arr, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+        // var items = [];
+        // for (var i in arr) {
+        //     var tank = arr[i];
+        //     var t = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+        //     items.push(t);
+        // }
+        // return items;
 
 
     },
@@ -91,16 +92,31 @@ var serverGame = {
                 client.join(nameGame);
                 transportGame.successJoinToGame(client, nameGame);
                 // transportGame.getClientsOfGame(nameGame);
-                var data = {};
-                data.teams = this.games[nameGame].getTeams();
-                data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame),["id", "login", "teamId"]);
-                transportGame.updateTeams(nameGame, data);
-
+                // var data = {};
+                // data.teams = this.games[nameGame].getTeams();
+                // data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame), ["id", "login", "teamId"]);
+                // transportGame.updateTeams(nameGame, data);
+                this.doUpdateTeamsOnClients(nameGame);
                 return;
             }
 
         }
         transportGame.errorJoinToGame(client, nameGame, "Game not found, or allready start");
+
+    },
+    doUpdateTeamsOnClients: function (nameGame) {
+        var arrClients = transportGame.getClientsOfGame(nameGame);
+        this.games[nameGame].doCountPlayersInTeams(arrClients);
+        var data = {};
+        data.teams = this.games[nameGame].getTeams();
+        data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame), ["id", "login", "teamId"]);
+        transportGame.updateTeams(nameGame, data);
+    },
+    onSwitchToTeam: function (client, data) {
+        var isSwitch = this.games[data.nameGame].switchToTeam(client, data.teamId);
+        if (isSwitch) {
+            this.doUpdateTeamsOnClients(data.nameGame);
+        }
 
     },
     startGame: function (client, nameGame) {

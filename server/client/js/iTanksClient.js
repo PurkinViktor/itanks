@@ -17,10 +17,17 @@ var iTanksClient = {
         transportClient.joinGame(item.value);
 
     },
+    switchToTeam: function (teamId) {
+        transportClient.switchToTeam(teamId);
+    },
     battleArea: {},
     //tanks: [],
     items: [],
     initGame: function (data) {
+        setTimeout(function () {
+            gameMenu.hideAll();
+        }, 100);
+        //gameMenu.hideAll();
         this.battleArea = data.battleArea;
         this.items = data.tanks.concat(data.battleArea.barriers) || [];
         renderingSystem.run(this);
@@ -100,15 +107,15 @@ var iTanksClient = {
     updateTeams: function (data) {
 
         gameMenu.updateTeams(data);
-       // console.log();
+        // console.log();
     },
     successJoinToGame: function (data) {
         this.nameGame = data.nameGame;
         gameMenu.showTeams();
         //this.startGame(this.nameGame);
     },
-    startGame: function (nameGame) {
-        transportClient.startGame(nameGame);
+    startGame: function () {
+        transportClient.startGame(this.nameGame);
     },
     keyHundler: {
         87: {action: "top", stateKey: false},
@@ -178,7 +185,7 @@ var iTanksClient = {
 
                     break;
                 case "M".charCodeAt(0):
-                    this.startGame(this.nameGame);
+                    this.startGame();
 
                     break;
 

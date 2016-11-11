@@ -22,14 +22,29 @@ var gameMenu = {
             if (!teams[client.teamId]) {
                 teams[client.teamId] = [];
             }
+
+            //client.itemCode = i;
             teams[client.teamId].push(client);
         }
 
 
-        var i = 0;
-        for (var idTeam in teams) {
-            this.teams[i].updateList(teams[idTeam]);
-            i++;
+        for (var idTeam in data.teams) {// дополняем массив игроков до максимального пустыми значениями
+            var team = data.teams[idTeam];
+            var arrPlayers = teams[team.id];
+            if (!arrPlayers) {
+                arrPlayers = [];
+            }
+            for (; arrPlayers.length < team.maxCountPlayers;) {
+                arrPlayers.push({login: " --- ", teamId : team.id});
+            }
+            team.arrPlayers = arrPlayers;
+
+        }
+
+
+        for (var i in data.teams) {
+            var clientArr = data.teams[i].arrPlayers;
+            this.teams[i].updateList(clientArr);
         }
 
     },
@@ -46,18 +61,33 @@ var gameMenu = {
 
         var set = {items: [], location: t.find(".list")};
         var listTeamUI = new CListUI(set);
+        listTeamUI.onItemSelected.bind(this.changeTeam, this);
         listTeamUI.getValueItem = function (item) {
             return item.login;
         }
         this.teams.push(listTeamUI);
         return t;
     },
+    changeTeam: function (menu, item) {
+        //this.iTankClient.joinGame
+        //console.log("menu", menu, item);//itemCode
+
+        this.iTankClient.switchToTeam(item.teamId);
+    },
+    getBtnStartGame: function () {
+        var btn = $("<input type='button' class='btnStartGame' value='Start Game'>");
+        var self = this;
+        btn.on("click", function (e) {
+            self.iTankClient.startGame();
+        });
+        return btn;
+    },
     getListTeamsLayOut: function () {
 
         var listTeamsLayOut = $("<div class='ListTeamsLayOut'><div");
         listTeamsLayOut.append(this.getListTeamLayOut());
         listTeamsLayOut.append(this.getListTeamLayOut());
-        listTeamsLayOut.append("<input type='button' class='btnStartGame' value='Start Game'>");
+        listTeamsLayOut.append(this.getBtnStartGame());
 
         return listTeamsLayOut;
     },

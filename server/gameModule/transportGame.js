@@ -133,6 +133,13 @@ var transportGame = {
                 //client.emit('joinToGame', r);
             }));
 
+            client.on('switchToTeam', hundlerEvents(function (data) {
+                //client.room
+                serverGame.onSwitchToTeam(client, data);
+                //console.log("joinToGame", r);
+                //client.emit('joinToGame', r);
+            }));
+
             client.on('startGame', hundlerEvents(function (nameGame) {
                 serverGame.startGame(client, nameGame);
                 console.log("startGame", nameGame);
