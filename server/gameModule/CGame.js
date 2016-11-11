@@ -16,7 +16,7 @@ module.exports = function (set) {
     this.getTeams = function () {
         return this.teamsOfGame;
     };
-    this.joinToTeam = function (clientForJoin, arrClients) {
+    this.doCountPlayersInTeams = function (arrClients) {
         for (var t in this.teamsOfGame) { //обнуляем счетчики
             var team = this.teamsOfGame[t];
             team.countPlayers = 0;
@@ -25,10 +25,7 @@ module.exports = function (set) {
 
         for (var i in arrClients) { // считаем игроков в каждой команде
             var client = arrClients[i];
-            if (client.id != clientForJoin.id && client.login == clientForJoin.login) {
-                // проверка на уникальность клиента в одной игре 2 одинаковых логина не могут быть
-                return false;
-            }
+
             for (var t in this.teamsOfGame) {
                 var team = this.teamsOfGame[t];
                 if (team.id == client.teamId) {
@@ -36,6 +33,18 @@ module.exports = function (set) {
                     break;
                 }
             }
+        }
+    };
+    this.joinToTeam = function (clientForJoin, arrClients) {
+        this.doCountPlayersInTeams(arrClients);
+
+        for (var i in arrClients) {
+            var client = arrClients[i];
+            if (client.id != clientForJoin.id && client.login == clientForJoin.login) {
+                // проверка на уникальность клиента в одной игре 2 одинаковых логина не могут быть
+                return false;
+            }
+
         }
 
 
@@ -50,6 +59,29 @@ module.exports = function (set) {
         return false;
         //maxCountPlayers
     };
+    this.switchToTeam = function (client, teamId) {
+        var res = false;
+        var oldTeam = client.teamId;
+        for (var t in this.teamsOfGame) { //даем клиенту id команды если есть место
+            var team = this.teamsOfGame[t];
+            if (team.id == teamId && team.countPlayers < team.maxCountPlayers) {
+                client.teamId = team.id;
+                team.countPlayers++;
+                res = true;
+
+            }
+        }
+        if (res) {
+            for (var i in this.teamsOfGame) {
+                var team = this.teamsOfGame[i];
+                if (team.id == oldTeam) {
+                    team.countPlayers--;
+                }
+            }
+        }
+        return res;
+    };
+
     this.tanks = [];
     this.renderingSystem = new CRenderingSystem(this);
     this.battleArea = new CBattleArea(this);
@@ -132,7 +164,7 @@ module.exports = function (set) {
         //tank.renderingSystem = this.renderingSystem;
         //tank.onRender.bind(this.sendUpdateDataTank, this);
 
-        // tank.onKill.bind(this.killTank, this);// = this.getHandler(this.killTank);
+        tank.onKill.bind(this.handlerOnKillTank, this);// = this.getHandler(this.killTank);
         //tank.onKill.bind(function (tank, bullet) {
         //    statistics.collectStat(EnumStat.killed, bullet.ownerId);
         //    statistics.collectStat(EnumStat.died, tank.id);
@@ -149,6 +181,16 @@ module.exports = function (set) {
 
         return tank;
     };
+    this.handlerOnKillTank = function (tank, bullet) {
+        tank.destroy();
+        var index = this.tanks.indexOf(tank);
+        if (index >= 0) {
+            delete this.tanks[index];
+            this.tanks.splice(index, 1);
+            var temp = 0;
+        }
+    };
+
     this.start = function (ownerId) {
         for (var i in this.tanks) {
             var tank = this.tanks[i];

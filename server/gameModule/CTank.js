@@ -127,7 +127,8 @@ var CTank = function (settings) {
 
         if (this.hp === 0) {
             this.isKill = true;
-            this.callEvent(this.onKill, [this, bullet]);
+            //this.callEvent(this.onKill, [this, bullet]);
+            this.onKill(this, bullet);
         }
     };
     //this.onMove = new CEvent();
