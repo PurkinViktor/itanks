@@ -100,6 +100,7 @@ module.exports = function (set) {
             id: "id_player_" + socket.login,// присвоим это чтоб не генерировать
             socketId: socket.id,
             login: socket.login,
+            teamId: socket.teamId,
             tank: null
         };
         return this.players[socket.login];
@@ -122,7 +123,7 @@ module.exports = function (set) {
             hp: 10,
             countBullet: 3,// количество выстрелов одновреммено
             typeObject: ["player1", "player1_"],
-            teamId: "",
+            teamId: set.teamId,
 //			width: 26,
 //			height: 26
         });
@@ -143,7 +144,7 @@ module.exports = function (set) {
     this.initClients = function (arrIdClients) {
         for (var i in arrIdClients) {
             var client = this.createPlayer(arrIdClients[i]);
-            client.tank = this.createTank({ownerId: client.id})
+            client.tank = this.createTank({ownerId: client.id, teamId: client.teamId})
             //this.tanks.push(tank);
         }
     };

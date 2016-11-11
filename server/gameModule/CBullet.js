@@ -9,6 +9,7 @@ var generator = require('./idGenerator.js');
 var CBullet = function (settings, tank) {
     this.id = generator.getID();
     settings.ownerId = tank.id;
+    settings.teamId = tank.teamId;
     settings.position = extend({}, tank.position);
     //settings.position.x += Math.floor((tank.width - 15) / 2);
     settings.direction = tank.direction;
@@ -26,12 +27,15 @@ var CBullet = function (settings, tank) {
 
 
     this.ownerId = settings.ownerId;
+    this.teamId = settings.teamId;
+
+
     this.typeObject = ["bullet"];//
 
     //this.removeBullet
     //this.onDestroy = null;
     this.onHit = new CEvent();
-
+    var self = this;
     this.rules = function (newPos) {
         //var self = this;
         if (rules.battleAreaRule(this, this.position)) {
@@ -47,7 +51,10 @@ var CBullet = function (settings, tank) {
                 return;
             }
 
-            var hitInTank = rules.rulesMovementTank(this, this.position, this.ownerId);
+            var exeptionsTank = function (tank) {
+                return tank.teamId == self.teamId;
+            };
+            var hitInTank = rules.rulesMovementTank(this, this.position, this.ownerId, exeptionsTank);
             if (hitInTank) {
                 if (this.onHit) {
                     this.onHit(this, hitInTank);
@@ -56,15 +63,15 @@ var CBullet = function (settings, tank) {
             }
 
 
-            function exceptions(bar) {
+            function exceptionsBarriers(bar) {
                 return bar.type === EnumBarrier.water || bar.type === EnumBarrier.forest;
             }
 
-            var arrBarriers = rules.rulesBarriers(this, this.position, exceptions);
+            var arrBarriers = rules.rulesBarriers(this, this.position, exceptionsBarriers);
 
             if (arrBarriers.length > 0) {
                 var areaBlast = this.areaBlast();
-                arrBarriers = rules.rulesBarriers(areaBlast, areaBlast.position, exceptions);
+                arrBarriers = rules.rulesBarriers(areaBlast, areaBlast.position, exceptionsBarriers);
                 for (var i in arrBarriers) {
 
                     arrBarriers[i].hit();

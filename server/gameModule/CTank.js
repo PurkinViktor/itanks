@@ -15,6 +15,8 @@ var CTank = function (settings) {
     settings = settings || {};
     this.name = settings.name;
     this.ownerId = settings.ownerId;
+    this.teamId = settings.teamId;
+
     this.width = settings.width || callee.width;
     this.height = settings.height || callee.height;
     this.position = settings.position || {x: 30, y: 30};

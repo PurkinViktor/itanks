@@ -56,7 +56,7 @@ module.exports = {
 		}
 		return arrRes;
 	},
-	rulesMovementTank: function(aTank, newPos, idThis) {
+	rulesMovementTank: function(aObject, newPos, idThis, exceptions) {//aObject - это танк/снаряд
 		var conflict = false;
 
 		for (var i = 0; i < this.tanks.length; i++) {
@@ -67,7 +67,12 @@ module.exports = {
 				if (idThis === tank.id) {
 					continue;
 				}
-				if (helper.macroCollision(tank, aTank, newPos)) {
+
+				if (exceptions && exceptions(tank)) {
+					continue;
+				}
+
+				if (helper.macroCollision(tank, aObject, newPos)) {
 					conflict = true;
 					return tank;
 					break;
