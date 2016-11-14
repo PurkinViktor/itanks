@@ -77,6 +77,21 @@ module.exports = {
         var t = {active: false, timePress: 0, timeLastCall: 0};
         extend(t, set);
         return t
+    },
+    getObjFromArr: function (arr, where) {
+
+        var func = function (item) {
+            return item.id == where;
+        };
+
+        if (typeof where == "function") {
+            func = where;
+        }
+        for (var i in arr) {
+            if (func(arr[i])) {
+                return arr[i];
+            }
+        }
     }
 
 

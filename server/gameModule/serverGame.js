@@ -18,8 +18,9 @@ var serverGame = {
         if (list.indexOf(nameGame) < 0) {
             client.join(nameGame);
             var game = new CGame({nameGame: nameGame});
+            game.destroy.bind(this.handlerDestroyGame, this);
             this.games[nameGame] = game;
-            transportGame.updateListGames(this.getListGames());
+            transportGame.updateListGames(this.getListGamesIsNotStart());
             this.joinToGame(client, nameGame);
             // transportGame.successJoinToGame(client, nameGame);
         } else {
@@ -27,6 +28,22 @@ var serverGame = {
         }
 
 
+    },
+    handlerDestroyGame: function (game) {
+        this.io.sockets.clients(game.nameGame).forEach(function (s) {
+            s.leave(game.nameGame);
+        });
+        delete this.games[game.nameGame];
+    },
+    getListGamesIsNotStart: function () {
+        var arr = [];
+        var listGame = this.getListGames();
+        for (var nameGame in listGame) {
+            if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
+                arr.push(nameGame);
+            }
+        }
+        return arr;
     },
     getListGames: function () {
         //var rooms = this.io.sockets.manager.roomClients;
@@ -121,7 +138,7 @@ var serverGame = {
     },
     startGame: function (client, nameGame) {
         var game = this.games[nameGame];
-        if (game) {
+        if (game && !game.getIsStart()) {
             var arrClients = transportGame.getClientsOfGame(nameGame);
 
             //client.emit('debugInfo', {arrIdClients_: arrClients});
@@ -133,6 +150,8 @@ var serverGame = {
             };
             transportGame.setDataOfGame(game.nameGame, dataOfGame);
             game.start();
+        } else {
+            transportGame.errorMessage(client, {nameGame: game.nameGame, text: "Game not found, or allready start"});
         }
     },
     setActiveKey: function (client, data) {

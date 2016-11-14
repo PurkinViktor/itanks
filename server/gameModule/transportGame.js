@@ -12,12 +12,20 @@ var transportGame = {
     errorJoinToGame: function (client, nameGame, text) {// сообщение об ошибки присоединение к игре
         client.emit('errorJoinToGame', {text: text, nameGame: nameGame});
     },
+    errorMessage: function (client, data) {// сообщение об ошибки присоединение к игре
+        client.emit('errorMessage', data);
+    },
+
     errorAddNewGame: function (client, nameGame, text) {// сообщение об ошибки присоединение к игре
         client.emit('errorAddNewGame', {text: text, nameGame: nameGame});
     },
     updateListGames: function (list) {// обновить список игр у всех
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         this.io.sockets.emit('setListGames', list);
+    },
+    gameOver: function (socketid, data) {// обновить список игр у всех
+        // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
+        this.io.sockets.socket(socketid).emit('gameOver', data);
     },
     updateTeams: function (gameName, data) {//
         this.io.sockets.in(gameName).emit('updateTeams', data);
@@ -26,7 +34,7 @@ var transportGame = {
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         var clientsId = this.io.rooms["/" + nameGame];
         var clients = [];
-        for(var i in clientsId){
+        for (var i in clientsId) {
             var idClient = clientsId[i];
             clients.push(this.io.sockets.sockets[idClient]);
         }
@@ -52,7 +60,9 @@ var transportGame = {
 
 
     },
-
+    sendDebagInfo: function (gameName, data) {
+        this.io.sockets.in(gameName).emit('debugInfo', data);
+    },
     init: function (serverGame, io, options) {
         this.io = io;
 

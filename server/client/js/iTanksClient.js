@@ -87,7 +87,9 @@ var iTanksClient = {
         //console.log("", tank);
         // renderingSystem.run(this);
     },
-
+    onErrorMessage: function (data) {
+        alert("Error: " + data.text);
+    },
     updateListGamesMenu: function (list) {
         gameMenu.updateListGame(list);
         //gameMenu.layOut.
@@ -116,6 +118,17 @@ var iTanksClient = {
     },
     startGame: function () {
         transportClient.startGame(this.nameGame);
+    },
+    onGameOver: function (data) {
+        console.log("onGameOver", data);
+        if (data.winner) {
+            alert("YOU WIN !!! )))");
+        } else {
+            alert("You lose (((.");
+        }
+
+        renderingSystem.destroy();
+        gameMenu.showListGames();
     },
     keyHundler: {
         87: {action: "top", stateKey: false},

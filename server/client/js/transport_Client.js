@@ -70,6 +70,11 @@ var transportClient = {
         this.socket.on('errorJoinToGame', function (data) {
             console.log("errorJoinToGame", data);
         });
+
+        this.socket.on('errorMessage', function (data) {
+            iTanksClient.onErrorMessage(data);
+            console.log("errorMessage", data);
+        });
         this.socket.on('successJoinToGame', function (data) {
             iTanksClient.successJoinToGame(data);
 
@@ -89,6 +94,14 @@ var transportClient = {
         //     iTanksClient.onUpdateDataTank(dataTank);
         // });
 
+        this.socket.on('gameOver', function (data) {
+
+
+
+            iTanksClient.onGameOver(data);
+
+
+        });
         this.socket.on('updateDataItem', function (item) {
 
             //console.log("updateDataItem", item.position);

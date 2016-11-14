@@ -9,54 +9,55 @@ module.exports = function (game) {
     var battleArea = {
         x: 40, y: 10, w: 600, h: 600,
         barriers: [],
+        igls: [],
         map: null, // здесь только расчет сами обьекты в  barriers
         onIglKilled: new CEvent(),
-        testNewArea: function () {
-            var ttt = new CBattleArea();
-            ttt.init();
-            var arr = [];
-            arr[0] = {
-                width: 28,
-                height: 20,
-                position: {x: 21, y: 21},
-
-            };
-            ttt.insert(arr[0]);
-            // ttt.insert({
-            //     width: 8,
-            //     height: 10,
-            //     position: {x: 35, y: 35},
-            // });
-            var res = ttt.select({
-                width: 8,
-                height: 10,
-                position: {x: 30, y: 30},
-            });
-            var aa = res[0];
-            ttt.deleteItem(aa);
-
-
-            res = ttt.select({
-                width: 8,
-                height: 10,
-                position: {x: 30, y: 30},
-            });
-            console.log("itog", res);
-
-            // aa.width = 100;
-            // console.log("itog bpvtyt", res);
-            // console.log("aa", aa);
-            // res = ttt.select({
-            //     width: 8,
-            //     height: 10,
-            //     position: {x: 30, y: 30},
-            // });
-            // console.log("itog", res);
-
-
-
-
-        },
+        // testNewArea: function () {
+        //     var ttt = new CBattleArea();
+        //     ttt.init();
+        //     var arr = [];
+        //     arr[0] = {
+        //         width: 28,
+        //         height: 20,
+        //         position: {x: 21, y: 21},
+        //
+        //     };
+        //     ttt.insert(arr[0]);
+        //     // ttt.insert({
+        //     //     width: 8,
+        //     //     height: 10,
+        //     //     position: {x: 35, y: 35},
+        //     // });
+        //     var res = ttt.select({
+        //         width: 8,
+        //         height: 10,
+        //         position: {x: 30, y: 30},
+        //     });
+        //     var aa = res[0];
+        //     ttt.deleteItem(aa);
+        //
+        //
+        //     res = ttt.select({
+        //         width: 8,
+        //         height: 10,
+        //         position: {x: 30, y: 30},
+        //     });
+        //     console.log("itog", res);
+        //
+        //     // aa.width = 100;
+        //     // console.log("itog bpvtyt", res);
+        //     // console.log("aa", aa);
+        //     // res = ttt.select({
+        //     //     width: 8,
+        //     //     height: 10,
+        //     //     position: {x: 30, y: 30},
+        //     // });
+        //     // console.log("itog", res);
+        //
+        //
+        //
+        //
+        // },
         init: function () {
 //		this.createTestMap();
 
@@ -83,6 +84,10 @@ module.exports = function (game) {
 
         },
         createCellOfMap: function (x, y, type, sixeCell) {
+
+            if (x < 0 || y < 0 || this.map.length <= x || this.map[0].length <= y) {
+                return;
+            }
             for (var i = 0; i < sixeCell; i++) {
                 for (var j = 0; j < sixeCell; j++) {
 
@@ -98,29 +103,54 @@ module.exports = function (game) {
         },
         createIGL: function (x, y) {
             var igl = CBarrier.create(x, y, EnumBarrier.igl);
-            igl.width = 40;
-            igl.height = 40;
+            igl.width = CBarrier.width * this.sizeCell;
+            igl.height = CBarrier.height * this.sizeCell;
+
             this.addCellInMap(x, y, igl);
 
             this.createCellOfMap(x - 1, y, EnumBarrier.default, this.sizeCell);
             this.createCellOfMap(x + 1, y, EnumBarrier.default, this.sizeCell);
-            this.createCellOfMap(x - 1, y - 1, EnumBarrier.default, this.sizeCell);
-            this.createCellOfMap(x, y - 1, EnumBarrier.default, this.sizeCell);
-            this.createCellOfMap(x + 1, y - 1, EnumBarrier.default, this.sizeCell);
 
+            this.createCellOfMap(x - 1, y - 1, EnumBarrier.default, this.sizeCell);// верх
+            this.createCellOfMap(x, y - 1, EnumBarrier.default, this.sizeCell);// верх
+            this.createCellOfMap(x + 1, y - 1, EnumBarrier.default, this.sizeCell);// верх
+
+            this.createCellOfMap(x - 1, y + 1, EnumBarrier.default, this.sizeCell);// низ
+            this.createCellOfMap(x, y + 1, EnumBarrier.default, this.sizeCell);// низ
+            this.createCellOfMap(x + 1, y + 1, EnumBarrier.default, this.sizeCell);// низ
+
+            return igl;
         },
         sizeCell: 2, //размеры каждой ячейки , каждая ячейка раздроблена еще на 4 штуки
+        // countX: null, countY: null,
+        size: {x: 0, y: 0},
         createRandMap: function (percenFilling) {
 
             var countX = this.w / CBarrier.width;
             var countY = this.h / CBarrier.height;
+
+            this.size.x = countX;
+            this.size.y = countY;
+
             var sizeCell = this.sizeCell;
             var countCellX = countX / sizeCell;
             var countCellY = countY / sizeCell;
             //var allCell = countCellX * countCellY;
 
             this.initMap(countCellX, countCellY);
-            this.createIGL(7, 14);
+            for (var i in  game.teamsOfGame) {
+                var team = game.teamsOfGame[i];
+                // team.IGLSettings.onKill.bind(
+                //     function () {
+                //
+                //     }
+                // );
+                var igl = this.createIGL(team.IGLSettings.x, team.IGLSettings.y);
+                igl.teamId = team.id;
+                //igl.onKill = team.IGLSettings.onKill;
+
+            }
+            //this.createIGL(7, 14);
 
 
             for (var x = 0; x < countCellX; x++) {
@@ -166,13 +196,13 @@ module.exports = function (game) {
             bar.onDestroy.bind(this.removeBarrier, this);// = this.getHandler(this.removeBarrier);
 
             if (bar.type === EnumBarrier.igl) {
-                bar.onDestroy.bind(this.OnIglKilled, this);
+                bar.onDestroy.bind(this.onIglKilled, this);
             }
             this.barriers.push(bar);
         },
-        OnIglKilled: function () {
-            this.onIglKilled();
-        },
+        // OnIglKilled: function () {
+        //     this.onIglKilled();
+        // },
         removeBarrier: function (barrier) {
             var i = this.barriers.indexOf(barrier);
             renderingSystem.destroyItem(this.barriers[i]);

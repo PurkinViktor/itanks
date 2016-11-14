@@ -5,13 +5,27 @@ var rules = require('./rules.js');
 var helper = require('./helper.js');
 var transportGame = require('./transportGame.js');
 var CRenderingSystem = require('./CRenderingSystem.js');
+var CEvent = require('./CEvent.js');
 
 module.exports = function (set) {
     this.isStart = false;
     this.nameGame = set.nameGame;
     this.teamsOfGame = [
-        {title: "Команда IGL", id: "team1", maxCountPlayers: 5},
-        {title: "Команда Black IGL", id: "team2", maxCountPlayers: 5},
+        {
+            title: "Команда IGL", id: "team1", maxCountPlayers: 5,
+            IGLSettings: {
+                x: 0, y: 0,
+                // onKill: new CEvent()
+            }
+        },
+        {
+            title: "Команда Black IGL", id: "team2", maxCountPlayers: 5,
+            IGLSettings: {
+                x: 14, y: 7,
+                //onKill: new CEvent()
+            }
+        },
+
     ];
     this.getTeams = function () {
         return this.teamsOfGame;
@@ -89,6 +103,7 @@ module.exports = function (set) {
     //this.onInit();
     this.init = function (arrClients) {
         this.battleArea.init();
+        this.battleArea.onIglKilled.bind(this.handlerIglKilled, this);
         rules.init(helper.cutInObj(this, ["battleArea", "tanks"]));
         this.initClients(arrClients);
 
@@ -104,6 +119,39 @@ module.exports = function (set) {
             tank: null
         };
         return this.players[socket.login];
+    };
+
+    this.handlerIglKilled = function (igl) {
+        //console.log(igl, bulet);
+        //    igl.teamId
+        //transportGame.sendDebagInfo(this.nameGame, igl);
+        var teams = this.getTeams();
+        // var losingTeam = helper.getObjFromArr(teams, igl.teamId);
+        //transportGame.sendDebagInfo(this.nameGame, losingTeam);
+
+        for (var i in this.players) {
+            var player = this.players[i];
+
+            var resultGame = {winner: true};
+            if (igl.teamId == player.teamId) {
+                resultGame.winner = false;
+            }
+            transportGame.gameOver(player.socketId, resultGame);
+        }
+        this.gameStop();
+    };
+    this.destroy = new CEvent();
+    this.gameStop = function () {
+        // for (var i in this.players) {
+        //     var player = this.players[i];
+        //     player.tank.destroy();
+        //
+        // }
+        for (var i in this.tanks) {
+            var tank = this.tanks[i];
+            this.deleteTank(tank);
+        }
+        this.destroy(this);
     };
     this.getIsStart = function () {
         return this.isStart;
@@ -148,14 +196,7 @@ module.exports = function (set) {
             //this.tanks.push(tank);
         }
     };
-    // this.sendUpdateDataTank = function (tank) {
-    //     //console.log("Передвижение ", tank);
-    //     //var socketId = tank.ownerId;
-    //
-    //     var data = helper.cutInObj(tank, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed"]);
-    //     transportGame.sendUpdateDataItem(this.nameGame, data);
-    //    // console.log("Передвижение " + this.nameGame, data);
-    // };
+
 
     this.addTank = function (settings) {
         //settings.onRender = renderingSystem.getHandler(renderingSystem.renderItem);
@@ -183,15 +224,22 @@ module.exports = function (set) {
         return tank;
     };
     this.handlerOnKillTank = function (tank, bullet) {
+        // tank.destroy();
+        // var index = this.tanks.indexOf(tank);
+        // if (index >= 0) {
+        //     delete this.tanks[index];
+        //     this.tanks.splice(index, 1);
+        // }
+        this.deleteTank(tank);
+    };
+    this.deleteTank = function (tank) {
         tank.destroy();
         var index = this.tanks.indexOf(tank);
         if (index >= 0) {
             delete this.tanks[index];
             this.tanks.splice(index, 1);
-            var temp = 0;
         }
     };
-
     this.start = function (ownerId) {
         for (var i in this.tanks) {
             var tank = this.tanks[i];
