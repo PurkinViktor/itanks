@@ -39,7 +39,7 @@ var serverGame = {
         // var list = this.getListGames();
         if (arrClients.length == 0 || arrClients.indexOf(client) >= 0 && arrClients.length == 1) {
             //значит все вышли из игры
-            if (!this.games[nameGame].getIsStart()) {
+            if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
                 this.games[nameGame].gameStop();
             }
         }
@@ -54,19 +54,27 @@ var serverGame = {
 
     },
     handlerDestroyGame: function (game) {
-        this.io.sockets.clients(game.nameGame).forEach(function (s) {
-            s.leave(game.nameGame);
-        });
+        // this.io.sockets.clients(game.nameGame).forEach(function (s) {
+        //     s.leave(game.nameGame);
+        // });
+        console.error("game delete", game.nameGame);
+        var arrClients = transportGame.getClientsOfGame(game.nameGame);
+        for (var i in arrClients) {
+            arrClients[i].leave(game.nameGame);
+            console.error("leave", arrClients[i].id);
+        }
         delete this.games[game.nameGame];
     },
     getListGamesIsNotStart: function () {
         var arr = [];
         var listGame = this.getListGames();
-        for (var nameGame in listGame) {
+        for (var i in listGame) {
+            var nameGame = listGame[i];
             if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
                 arr.push(nameGame);
             }
         }
+        console.log("----------------", arr);
         return arr;
     },
     getListGames: function () {
@@ -123,7 +131,7 @@ var serverGame = {
     },
     joinToGame: function (client, nameGame) {
         var list = this.getListGames();
-        if (list.indexOf(nameGame) >= 0) {
+        if (list.indexOf(nameGame) >= 0 && this.games[nameGame]) {
 
 
             var arrClients = transportGame.getClientsOfGame(nameGame);
