@@ -18,7 +18,7 @@ var serverGame = {
         if (list.indexOf(nameGame) < 0) {
             client.join(nameGame);
             var game = new CGame({nameGame: nameGame});
-            game.destroy.bind(this.handlerDestroyGame, this);
+            game.onDestroy.bind(this.handlerDestroyGame, this);
             this.games[nameGame] = game;
             transportGame.updateListGames(this.getListGamesIsNotStart());
             this.joinToGame(client, nameGame);
@@ -27,6 +27,30 @@ var serverGame = {
             transportGame.errorAddNewGame(client, nameGame, "Game already exist");
         }
 
+
+    },
+    onDisconnet: function (client, nameGame) {
+        if (nameGame == "") {
+            return;
+        }
+
+        nameGame = nameGame.substring(1);
+        var arrClients = transportGame.getClientsOfGame(nameGame);
+        // var list = this.getListGames();
+        if (arrClients.length == 0 || arrClients.indexOf(client) >= 0 && arrClients.length == 1) {
+            //значит все вышли из игры
+            if (!this.games[nameGame].getIsStart()) {
+                this.games[nameGame].gameStop();
+            }
+        }
+
+        // var n = 0;
+        // for (var i in this.games) {
+        //     console.error("name game", i);
+        //     n++;
+        // }
+        // //
+        // console.error("countGame", n);
 
     },
     handlerDestroyGame: function (game) {

@@ -163,12 +163,15 @@ var transportGame = {
                 // echo globally that this client has left
                 //socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
                 var arrRoom = client.manager.roomClients[client.id];
-                for (var i in arrRoom) {
-                    if (arrRoom[i]) {
-                        client.leave(i);
+                for (var nameGame in arrRoom) {
+                    if (arrRoom[nameGame]) {
+                        client.leave(nameGame);
+                        console.error("Ckient disconect and leave room", client.login, nameGame);
+                        serverGame.onDisconnet(client, nameGame);
                         //console.log("disconnect room ", i);
                     }
                 }
+
 
                 //var list = serverGame.getListGames();
                 //console.log("-----------list", list);

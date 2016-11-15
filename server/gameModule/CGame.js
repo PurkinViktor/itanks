@@ -140,7 +140,7 @@ module.exports = function (set) {
         }
         this.gameStop();
     };
-    this.destroy = new CEvent();
+    this.onDestroy = new CEvent();
     this.gameStop = function () {
         // for (var i in this.players) {
         //     var player = this.players[i];
@@ -151,7 +151,7 @@ module.exports = function (set) {
             var tank = this.tanks[i];
             this.deleteTank(tank);
         }
-        this.destroy(this);
+        this.onDestroy(this);
     };
     this.getIsStart = function () {
         return this.isStart;
