@@ -48,14 +48,14 @@ var serverGame = {
             }
         }
 
-        // var n = 0;
-        // for (var i in this.games) {
-        //     console.error("name game", i);
-        //     n++;
-        // }
-        // //
-        // console.error("countGame", n);
-
+        setTimeout(this.doUpdateTeamsForSleep(nameGame), 100);
+        console.error("onDisconnet", nameGame);
+    },
+    doUpdateTeamsForSleep: function (nameGame) {
+        var self = this;
+        return function () {
+            self.doUpdateTeamsOnClients(nameGame);
+        };
     },
     handlerDestroyGame: function (game) {
         // this.io.sockets.clients(game.nameGame).forEach(function (s) {
@@ -69,7 +69,7 @@ var serverGame = {
         }
         delete this.games[game.nameGame];
         this.updateListGamesOnClient();
-       // transportGame.updateListGames(this.getListGamesIsNotStart());
+        // transportGame.updateListGames(this.getListGamesIsNotStart());
 
     },
     getListGamesIsNotStart: function () {
@@ -165,12 +165,16 @@ var serverGame = {
 
     },
     doUpdateTeamsOnClients: function (nameGame) {
-        var arrClients = transportGame.getClientsOfGame(nameGame);
-        this.games[nameGame].doCountPlayersInTeams(arrClients);
-        var data = {};
-        data.teams = this.games[nameGame].getTeams();
-        data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame), ["id", "login", "teamId"]);
-        transportGame.updateTeams(nameGame, data);
+        if (this.games[nameGame]) {
+
+
+            var arrClients = transportGame.getClientsOfGame(nameGame);
+            this.games[nameGame].doCountPlayersInTeams(arrClients);
+            var data = {};
+            data.teams = this.games[nameGame].getTeams();
+            data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame), ["id", "login", "teamId"]);
+            transportGame.updateTeams(nameGame, data);
+        }
     },
     onSwitchToTeam: function (client, data) {
         var isSwitch = this.games[data.nameGame].switchToTeam(client, data.teamId);
