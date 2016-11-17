@@ -30,6 +30,10 @@ var transportGame = {
     updateTeams: function (gameName, data) {//
         this.io.sockets.in(gameName).emit('updateTeams', data);
     },
+    login: function(client, data){
+        //{login: client.login, id: client.id}
+        client.emit('login', data);
+    },
     getClientsOfGame: function (nameGame) {// получение списка игроков
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         var clientsId = this.io.rooms["/" + nameGame];
@@ -113,9 +117,11 @@ var transportGame = {
 
             client.on('getListGames', hundlerEvents(function () {
 
-                var list = serverGame.getListGames();
-                console.log("list", list);
-                client.emit('setListGames', list);
+                serverGame.updateListGamesOnClient();
+
+                // var list = serverGame.getListGames();
+                // console.log("list", list);
+                // client.emit('setListGames', list);
 
 
             }));
@@ -124,9 +130,6 @@ var transportGame = {
                 // {action: action, value: value}
                 console.log("setActiveKey", data);
                 serverGame.setActiveKey(client, data);
-
-                // client.emit('setListGames', list);
-
 
             }));
 

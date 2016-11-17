@@ -9,6 +9,11 @@ var iTanksClient = {
 
 
     },
+    login: false,
+    onLogin: function (data) {
+        this.login = data.login;
+        this.clientInfo = data;
+    },
     newGame: function (nameGame) {
         transportClient.newGame(nameGame);
     },
@@ -107,7 +112,7 @@ var iTanksClient = {
         // this.listGamesMenu.show();
     },
     updateTeams: function (data) {
-
+        // console.log("updateTeams",data);
         gameMenu.updateTeams(data);
         // console.log();
     },
@@ -121,11 +126,12 @@ var iTanksClient = {
     },
     onGameOver: function (data) {
         console.log("onGameOver", data);
+        var msg = "You lose (((.";
         if (data.winner) {
-            alert("YOU WIN !!! )))");
-        } else {
-            alert("You lose (((.");
+            msg = "YOU WIN !!! )))";
+
         }
+        document.title = msg;
 
         renderingSystem.destroy();
         gameMenu.showListGames();

@@ -80,11 +80,14 @@ var CListUI = function (set) {
                 li.get(0).indexItem = i;
                 li.on("click", this.getHandler(this.itemClickHundler));
                 li.text(this.getValueItem(item));
-                menu.append(li);
+                menu.append(this.curentConstructionItem(li, item, i, this.items));
             }
             // this.menu = menu;
 
 
+        },
+        curentConstructionItem: function (li, item, index, items) {
+            return li;
         },
         getValueItem: function (item) {
             return item.title;

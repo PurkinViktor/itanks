@@ -20,14 +20,18 @@ var serverGame = {
             var game = new CGame({nameGame: nameGame});
             game.onDestroy.bind(this.handlerDestroyGame, this);
             this.games[nameGame] = game;
-            transportGame.updateListGames(this.getListGamesIsNotStart());
+
             this.joinToGame(client, nameGame);
+            this.updateListGamesOnClient();
             // transportGame.successJoinToGame(client, nameGame);
         } else {
             transportGame.errorAddNewGame(client, nameGame, "Game already exist");
         }
 
 
+    },
+    updateListGamesOnClient: function () {
+        transportGame.updateListGames(this.getListGamesIsNotStart());
     },
     onDisconnet: function (client, nameGame) {
         if (nameGame == "") {
@@ -64,17 +68,22 @@ var serverGame = {
             console.error("leave", arrClients[i].id);
         }
         delete this.games[game.nameGame];
+        this.updateListGamesOnClient();
+       // transportGame.updateListGames(this.getListGamesIsNotStart());
+
     },
     getListGamesIsNotStart: function () {
         var arr = [];
         var listGame = this.getListGames();
         for (var i in listGame) {
             var nameGame = listGame[i];
-            if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
-                arr.push(nameGame);
+            var game = this.games[nameGame];
+            if (game && !game.getIsStart()) {
+                var infoGame = {nameGame: nameGame, teamsOfGame: game.teamsOfGame};
+                arr.push(infoGame);
             }
         }
-        console.log("----------------", arr);
+        //console.log("----------------", arr);
         return arr;
     },
     getListGames: function () {
@@ -95,6 +104,8 @@ var serverGame = {
         // return ["game1", " game2", "game n"];
     },
     onConnect: function (client) {
+        transportGame.login(client, {login: client.login, id: client.id});
+
         for (var nameGame in this.games) {
             var game = this.games[nameGame];
             for (var i in game.players) {

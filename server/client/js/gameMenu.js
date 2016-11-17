@@ -35,7 +35,7 @@ var gameMenu = {
                 arrPlayers = [];
             }
             for (; arrPlayers.length < team.maxCountPlayers;) {
-                arrPlayers.push({login: " --- ", teamId : team.id});
+                arrPlayers.push({login: " --- ", teamId: team.id});
             }
             team.arrPlayers = arrPlayers;
 
@@ -50,6 +50,7 @@ var gameMenu = {
     },
     getListTeamLayOut: function () {
 
+        var self = this;
         var t = $("<div class='getListTeamLayOut'>" +
             "<ul class='list'>" +
             // "<li></li>" +
@@ -64,7 +65,13 @@ var gameMenu = {
         listTeamUI.onItemSelected.bind(this.changeTeam, this);
         listTeamUI.getValueItem = function (item) {
             return item.login;
-        }
+        };
+        listTeamUI.curentConstructionItem = function (li, item, index, items) {
+            if (self.iTankClient.clientInfo.login == item.login) {
+                li.addClass("selfClient");
+            }
+            return li;
+        };
         this.teams.push(listTeamUI);
         return t;
     },
@@ -135,8 +142,29 @@ var gameMenu = {
     updateListGame: function (list) {
         var items = [];
         for (var i in list) {
-            var nameGame = list[i];
-            items.push({title: "Игра: " + nameGame, itemCode: i, value: nameGame});
+            var gameInfo = list[i];
+            //teamsOfGame
+            //team.countPlayers < team.maxCountPlayers
+            var maxPlayers = 0;
+            var countPlayers = 0;
+            var textTeamsInfo = "";
+            for (var t in gameInfo.teamsOfGame) {
+                var team = gameInfo.teamsOfGame[t];
+                maxPlayers += team.maxCountPlayers;
+                countPlayers += team.countPlayers;
+                if (textTeamsInfo != "") {
+                    textTeamsInfo = textTeamsInfo + "x";
+                }
+                textTeamsInfo += team.maxCountPlayers;
+            }
+            var textCountPlayers = "(" + countPlayers + '/' + maxPlayers + ")";
+            var textTeamsInfo = "[" + textTeamsInfo + "]";
+
+
+            items.push({
+                title: "" + gameInfo.nameGame + " " + textTeamsInfo + " - " + textCountPlayers,
+                value: gameInfo.nameGame
+            });
         }
         this.listGamesUI.updateList(items);
     },

@@ -54,6 +54,10 @@ var transportClient = {
             socket.emit("getListGames");
 
         });
+        this.socket.on('login', function (data) {
+            console.log("onLogin", data);
+            iTanksClient.onLogin(data);
+        });
         this.socket.on('setListGames', function (data) {
             console.log("setListGames", data);
             iTanksClient.updateListGamesMenu(data);
