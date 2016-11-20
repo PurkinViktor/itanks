@@ -69,6 +69,11 @@ var renderingSystem = {
                 top: item.position.y
             });
             item.renderObj.addClass(item.typeObject[0]);
+            if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
+                var point = $('<div class="myTeam"></div>');
+                item.renderObj.append(point);
+               // item.renderObj.addClass("myTeam");
+            }
             this.viewPort.append(item.renderObj);
         }
         ,

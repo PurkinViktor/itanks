@@ -43,7 +43,7 @@ table th {
 
 .obj {
     position: absolute;
-    background: #5f5;
+    /*background: #5f5;*/
 }
 
 .plaerTank {
@@ -222,4 +222,17 @@ table th {
 
 .selfClient{
     font-weight: bold;
+}
+.obj .myTeam{
+    width: 4px;
+    height: 4px;
+    margin: 13px 0px 0 16px;
+    background-color: #0f0;
+}
+
+.igl .myTeam{
+    width: 4px;
+    height: 4px;
+    margin: 13px 0 0 18px;
+    background-color: #0f0;
 }
