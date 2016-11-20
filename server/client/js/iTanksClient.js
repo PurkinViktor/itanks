@@ -10,6 +10,11 @@ var iTanksClient = {
 
     },
     login: false,
+    //teamId: false,
+    clientInfo: {
+        teamId: false,
+        login: false
+    },
     onLogin: function (data) {
         this.login = data.login;
         this.clientInfo = data;
@@ -113,6 +118,22 @@ var iTanksClient = {
     },
     updateTeams: function (data) {
         // console.log("updateTeams",data);
+        for (var i in data.players) {
+            var player = data.players[i];
+            if (player.login == this.login) {
+                $.extend(this.clientInfo, player);
+                break;
+            }
+        }
+        for (var i in data.teams) {
+            var team = data.teams[i];
+            if (team.id == this.clientInfo.teamId) {
+                this.clientInfo.team = team;
+                break;
+            }
+        }
+        console.log("this.clientInfo", this.clientInfo);
+        //console.log("this.clientInfo", this.clientInfo);
         gameMenu.updateTeams(data);
         // console.log();
     },
