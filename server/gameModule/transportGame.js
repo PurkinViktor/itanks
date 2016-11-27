@@ -152,6 +152,12 @@ var transportGame = {
                 //console.log("joinToGame", r);
                 //client.emit('joinToGame', r);
             }));
+            client.on('addBootToTeam', hundlerEvents(function (data) {
+                //client.room
+                serverGame.onAddBootToTeam(client, data);
+                //console.log("joinToGame", r);
+                //client.emit('joinToGame', r);
+            }));
 
             client.on('startGame', hundlerEvents(function (nameGame) {
                 serverGame.startGame(client, nameGame);

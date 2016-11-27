@@ -16,6 +16,12 @@ var transportClient = {
             teamId: teamId
         });
     },
+    addBootToTeam: function (teamId) {
+        this.socket.emit("addBootToTeam", {
+            nameGame: iTanksClient.nameGame,
+            teamId: teamId
+        });
+    },
     setActiveKey: function (action, value) {
         console.log("setActiveKey", value);
         this.socket.emit("setActiveKey", {
@@ -99,7 +105,6 @@ var transportClient = {
         // });
 
         this.socket.on('gameOver', function (data) {
-
 
 
             iTanksClient.onGameOver(data);

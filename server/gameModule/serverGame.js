@@ -167,18 +167,34 @@ var serverGame = {
     doUpdateTeamsOnClients: function (nameGame) {
         if (this.games[nameGame]) {
 
-
-            var arrClients = transportGame.getClientsOfGame(nameGame);
-            this.games[nameGame].doCountPlayersInTeams(arrClients);
+            // var arrClients = transportGame.getClientsOfGame(nameGame);
+            // var arrBoots = this.games[nameGame].getBoots();
+            // var allPlayers = arrClients.concat(arrBoots);
+            var allPlayers = this.getClientsAndBoots(nameGame);
+            this.games[nameGame].doCountPlayersInTeams(allPlayers);
             var data = {};
             data.teams = this.games[nameGame].getTeams();
-            data.players = helper.cutInObjFromArr(transportGame.getClientsOfGame(nameGame), ["id", "login", "teamId"]);
+            data.players = helper.cutInObjFromArr(allPlayers, ["id", "login", "teamId"]);
             transportGame.updateTeams(nameGame, data);
         }
+    },
+    getClientsAndBoots: function (nameGame) {
+        var arrClients = transportGame.getClientsOfGame(nameGame);
+        var arrBoots = this.games[nameGame].getBoots();
+        var allPlayers = arrClients.concat(arrBoots);
+        return allPlayers;
     },
     onSwitchToTeam: function (client, data) {
         var isSwitch = this.games[data.nameGame].switchToTeam(client, data.teamId);
         if (isSwitch) {
+            this.doUpdateTeamsOnClients(data.nameGame);
+        }
+    },
+    onAddBootToTeam: function (client, data) {
+        var allPlayers = this.getClientsAndBoots(data.nameGame);
+
+        var isDo = this.games[data.nameGame].addBootToTeam(data.teamId,allPlayers);
+        if (isDo) {
             this.doUpdateTeamsOnClients(data.nameGame);
         }
 

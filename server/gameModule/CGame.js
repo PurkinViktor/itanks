@@ -1,11 +1,12 @@
 var CBattleArea = require('./CBattleArea.js');
-//var generator = require('./idGenerator.js');
+var generator = require('./idGenerator.js');
 var CTank = require('./CTank.js');
 var rules = require('./rules.js');
 var helper = require('./helper.js');
 var transportGame = require('./transportGame.js');
 var CRenderingSystem = require('./CRenderingSystem.js');
 var CEvent = require('./CEvent.js');
+var CBrain = require('./CBrain.js');
 
 module.exports = function (set) {
     this.isStart = false;
@@ -49,6 +50,8 @@ module.exports = function (set) {
             }
         }
     };
+
+
     this.joinToTeam = function (clientForJoin, arrClients) {
         this.doCountPlayersInTeams(arrClients);
 
@@ -56,6 +59,7 @@ module.exports = function (set) {
             var client = arrClients[i];
             if (client.id != clientForJoin.id && client.login == clientForJoin.login) {
                 // проверка на уникальность клиента в одной игре 2 одинаковых логина не могут быть
+                // проверка id нужна для первого кто в иру присоединяется это исключение
                 return false;
             }
 
@@ -64,6 +68,10 @@ module.exports = function (set) {
 
         for (var t in this.teamsOfGame) { //даем клиенту id команды если есть место
             var team = this.teamsOfGame[t];
+            if (clientForJoin.teamId && clientForJoin.teamId != team.id) {
+                continue;
+            }
+
             if (team.countPlayers < team.maxCountPlayers) {
                 clientForJoin.teamId = team.id;
                 team.countPlayers++;
@@ -109,6 +117,38 @@ module.exports = function (set) {
 
     };
     this.players = {};
+    this.boots = {};
+
+    this.addBootToTeam = function (teamId, arrAll) {
+        var login = "boot_" + generator.getID();
+        //this.createBoot({});
+        var boot = {
+            id: false,// тут типа идентификатор сокета должен быть
+            login: login,
+            teamId: teamId,
+            //isBoot: true,
+            brain: null,
+        };
+        var f = this.joinToTeam(boot, arrAll);
+        if (f) {
+            this.boots[login] = boot;
+        }
+        return f;
+    };
+    this.getBoots = function () {
+        var res = helper.cutInObjFromArr(this.boots, ["id", "login", "teamId"]);
+        return res;
+    };
+    // this.createBoot = function (settings) {
+    //     this.players[settings.login] = {
+    //         id: "id_boot_" + settings.login,// присвоим это чтоб не генерировать
+    //         socketId: settings.id,
+    //         //login: socket.login,
+    //         teamId: settings.teamId,
+    //         tank: null
+    //     };
+    //     return this.players[socket.login];
+    // };
     this.createPlayer = function (socket) {
 
         this.players[socket.login] = {
@@ -142,13 +182,15 @@ module.exports = function (set) {
     };
     this.onDestroy = new CEvent();
     this.gameStop = function () {
-        // for (var i in this.players) {
-        //     var player = this.players[i];
-        //     player.tank.destroy();
-        //
-        // }
-        for (var i in this.tanks) {
-            var tank = this.tanks[i];
+        for (var i in this.players) {
+            var player = this.players[i];
+            //player.tank.destroy();
+            if (player.brain) {
+                player.brain.destroy();
+            }
+        }
+        for (; this.tanks.length > 0;) {
+            var tank = this.tanks[0];
             this.deleteTank(tank);
         }
         this.onDestroy(this);
@@ -193,6 +235,12 @@ module.exports = function (set) {
         for (var i in arrIdClients) {
             var client = this.createPlayer(arrIdClients[i]);
             client.tank = this.createTank({ownerId: client.id, teamId: client.teamId})
+            //this.tanks.push(tank);
+        }
+        for (var i in this.boots) {
+            var client = this.createPlayer(this.boots[i]);
+            client.tank = this.createTank({ownerId: client.id, teamId: client.teamId})
+            client.brain = new CBrain(client);
             //this.tanks.push(tank);
         }
     };
@@ -240,10 +288,10 @@ module.exports = function (set) {
             this.tanks.splice(index, 1);
         }
     };
-    this.start = function (ownerId) {
+    this.start = function () {
         for (var i in this.tanks) {
             var tank = this.tanks[i];
-            tank.setActivat(tank);
+            tank.setActivat(true);
         }
 
         this.isStart = true;

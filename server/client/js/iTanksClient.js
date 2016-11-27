@@ -116,6 +116,7 @@ var iTanksClient = {
         // this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
         // this.listGamesMenu.show();
     },
+    teamsInGame: [],
     updateTeams: function (data) {
         // console.log("updateTeams",data);
         for (var i in data.players) {
@@ -125,6 +126,7 @@ var iTanksClient = {
                 break;
             }
         }
+        this.teamsInGame = data.teams;
         for (var i in data.teams) {
             var team = data.teams[i];
             if (team.id == this.clientInfo.teamId) {
@@ -144,6 +146,12 @@ var iTanksClient = {
     },
     startGame: function () {
         transportClient.startGame(this.nameGame);
+    },
+    addBootToTeam: function (indexTeam) {
+        var team = this.teamsInGame[indexTeam];
+        if (team) {
+            transportClient.addBootToTeam(team.id);
+        }
     },
     onGameOver: function (data) {
         console.log("onGameOver", data);
@@ -177,7 +185,10 @@ var iTanksClient = {
         }
 
     },
-
+    setActiveKeyTouch: function (action, stateKey) {
+        // transportClient.setActiveKey(action, stateKey);
+        console.log(action, stateKey);
+    },
     keydownHundle: function (event) {
 
         this.setActiveKey(event.keyCode, true);

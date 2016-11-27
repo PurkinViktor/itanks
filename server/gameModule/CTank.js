@@ -53,7 +53,9 @@ var CTank = function (settings) {
         this.isActive = value;
         if (this.isActive) {
             this.render();
+            clearInterval(this.actionIntervalId);
             this.actionIntervalId = setInterval(this.getHandler(this.callAction), this.timeInterval);
+
         } else {
             clearInterval(this.actionIntervalId);
             this.actionIntervalId = null;
@@ -72,8 +74,6 @@ var CTank = function (settings) {
     this.render = function () {
         //this.onRender(this);
         renderingSystem.renderItem(this);
-
-
     };
     this.removeBullet = function (bullet) {
         //bullet.destroy();
@@ -195,7 +195,7 @@ var CTank = function (settings) {
                 }
 
 
-            } else if (this.activeKey[action].active ) {
+            } else if (this.activeKey[action].active) {
                 //&& this.activeKey[action].timePress > this.activeKey[action].timeLastCall
 
                 if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
