@@ -1,4 +1,4 @@
-ul{
+ul {
     margin: 0;
     padding: 0;
 }
@@ -199,7 +199,8 @@ table th {
     bottom: 0;
     right: 0;
 }
-.ListTeamsLayOut{
+
+.ListTeamsLayOut {
     height: auto;
 }
 
@@ -213,26 +214,90 @@ table th {
     float: right;
     text-align: center;
 }
+
 .getListTeamLayOut {
     margin-top: 20px;
 }
+
 .inputNameGame {
 
 }
 
-.selfClient{
+.selfClient {
     font-weight: bold;
 }
-.obj .myTeam{
+
+.obj .myTeam {
     width: 4px;
     height: 4px;
     margin: 13px 0px 0 16px;
     background-color: #0f0;
 }
 
-.igl .myTeam{
+.igl .myTeam {
     width: 4px;
     height: 4px;
     margin: 13px 0 0 18px;
     background-color: #0f0;
 }
+
+.Joystick {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    height: 200px;
+    width: 200px;
+    background-color: #8c8c8c;
+}
+
+/* JOYSTICK*/
+.directionJoystick {
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    cursor: pointer;
+    border-radius: 100%;
+    overflow: hidden;
+    background-color: #ff9b15;
+}
+
+.dirButtonJSK {
+    width: 50px;
+    height: 50px;
+    float: left;
+    border: 1px solid #8c8c8c;
+    box-sizing: border-box;
+}
+.dirButtonJSK.active {
+    background-color: #17aa00;
+}
+
+.dirButtonJSK:nth-child(1) {
+
+}
+
+.dirButtonJSK:nth-child(2) {
+
+}
+
+.dirButtonJSK:nth-child(3) {
+
+}
+
+.dirButtonJSK:nth-child(4) {
+
+}
+
+.centerJSK {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    background-color: #051288;
+    border-radius: 100%;
+}
+
+/* -- JOYSTICK*/

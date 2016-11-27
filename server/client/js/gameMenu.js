@@ -9,7 +9,7 @@ var gameMenu = {
 
         this.createListGame();
         this.createListTeams();
-
+        this.createJoystick();
 
     },
     teams: [],
@@ -48,7 +48,14 @@ var gameMenu = {
         }
 
     },
-    getListTeamLayOut: function () {
+    getHundlerBtnAddBoot: function (indexTeam) {
+        var self = this;
+        return function (e) {
+            self.iTankClient.addBootToTeam(indexTeam);
+            // self.onAddBootToTeam(indexTeam);
+        }
+    },
+    getListTeamLayOut: function (indexTeam) {
 
         var self = this;
         var t = $("<div class='getListTeamLayOut'>" +
@@ -60,12 +67,15 @@ var gameMenu = {
             "</div>" +
             "<div");
 
+        t.find(".btnAddPlayer").on("click", this.getHundlerBtnAddBoot(indexTeam));
+
         var set = {items: [], location: t.find(".list")};
         var listTeamUI = new CListUI(set);
         listTeamUI.onItemSelected.bind(this.changeTeam, this);
         listTeamUI.getValueItem = function (item) {
             return item.login;
         };
+
         listTeamUI.curentConstructionItem = function (li, item, index, items) {
             if (self.iTankClient.clientInfo.login == item.login) {
                 li.addClass("selfClient");
@@ -75,6 +85,8 @@ var gameMenu = {
         this.teams.push(listTeamUI);
         return t;
     },
+    // onAddBootToTeam: new CEvent(),
+
     changeTeam: function (menu, item) {
         //this.iTankClient.joinGame
         //console.log("menu", menu, item);//itemCode
@@ -92,11 +104,35 @@ var gameMenu = {
     getListTeamsLayOut: function () {
 
         var listTeamsLayOut = $("<div class='ListTeamsLayOut'><div");
-        listTeamsLayOut.append(this.getListTeamLayOut());
-        listTeamsLayOut.append(this.getListTeamLayOut());
+        //console.log(this.iTankClient.teamsInGame);
+        var team = {};
+        var t = this.getListTeamLayOut(0);
+        // t.find(".btnAddPlayer").on("click", function (e) {
+        //
+        //     self.onAddBootToTeam();
+        // });
+        listTeamsLayOut.append(t);
+        listTeamsLayOut.append(this.getListTeamLayOut(1));
         listTeamsLayOut.append(this.getBtnStartGame());
 
         return listTeamsLayOut;
+    },
+    createJoystick: function () {
+        this.joystickUI = $('<div class="Joystick"></div>');
+        this.joystickUI.hide();
+        this.layOut.append(this.joystickUI);
+
+        joystickControl.init(this.joystickUI);
+        joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
+        this.joystickUI.on("mousedown", function (e) {
+            joystickControl.OnMouseDown(e);
+        });
+        this.joystickUI.on("mousemove", function (e) {
+            joystickControl.OnMouseMove(e);
+        });
+        this.joystickUI.on("mouseup", function (e) {
+            joystickControl.OnMouseUp(e);
+        });
     },
     createListTeams: function () {
         this.listTeamsUI = this.getListTeamsLayOut();
