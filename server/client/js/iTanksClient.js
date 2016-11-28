@@ -2,7 +2,9 @@ var iTanksClient = {
     // listGamesMenu: null,
     init: function () {
         gameMenu.init(this);
-        transportClient.init();
+        //var q = 'login=viktor&password=temp1';
+        var q = document.location.search.substr(1);
+        transportClient.init(q);
 
         $(window).on("keydown", this.getHandler(this.keydownHundle));
         $(window).on("keyup", this.getHandler(this.keyupHundle));
@@ -18,6 +20,9 @@ var iTanksClient = {
     onLogin: function (data) {
         this.login = data.login;
         this.clientInfo = data;
+    },
+    onLoginError: function (data) {
+
     },
     newGame: function (nameGame) {
         transportClient.newGame(nameGame);

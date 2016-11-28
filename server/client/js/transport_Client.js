@@ -29,9 +29,10 @@ var transportClient = {
             data: {action: action, value: value}
         });
     },
-    init: function () {
+    init: function (query) {
 
-        this.socket = io.connect(this.host);
+        this.socket = io.connect(this.host, {query: query});
+        //'login=viktor&password=temp1'
         var socket = this.socket;
         // var name = 'Пётр_' + (Math.round(Math.random() * 10000));
 
@@ -64,6 +65,11 @@ var transportClient = {
             console.log("onLogin", data);
             iTanksClient.onLogin(data);
         });
+        this.socket.on('loginError', function (data) {
+            console.log("onLoginError", data);
+            iTanksClient.onLoginError(data);
+        });
+
         this.socket.on('setListGames', function (data) {
             console.log("setListGames", data);
             iTanksClient.updateListGamesMenu(data);

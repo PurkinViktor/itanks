@@ -4,8 +4,7 @@ var HOST = process.env.HOST || '0.0.0.0';
 
 var express = require('express');
 var http = require('http');
-var session = require("express-session");
-
+//var session = require("express-session");
 
 
 var app = express();
@@ -23,11 +22,6 @@ app.use(express.session({secret: '1234567890QWERTY1V', key: 'express.sid'}));
 // });
 
 
-
-
-
-
-
 app.use('/static', express.static(__dirname + '/static'));
 app.use('/client', express.static(__dirname + '/client'));
 app.use('/GeneralClass', express.static(__dirname + '/GeneralClass'));
@@ -42,8 +36,12 @@ var options = {
 };
 var io = require('socket.io').listen(server, options);
 var cookie = require('cookie');
+
 io.set('authorization', function (data, accept) {
     // check if there's a cookie header
+    console.log(data.query);
+    var login = data.query.login;
+    var password = data.query.password;
 
     if (data.headers.cookie) {
         // if there is, parse the cookie
@@ -51,6 +49,8 @@ io.set('authorization', function (data, accept) {
         // note that you will need to use the same key to grad the
         // session id, as you specified in the Express setup.
         data.sessionID = data.cookie['express.sid'];
+        data.login = login || data.sessionID;
+        data.password = password || "";
         //console.log("data.sessionID",data.sessionID);
 
     } else {

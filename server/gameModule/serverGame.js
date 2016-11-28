@@ -33,24 +33,7 @@ var serverGame = {
     updateListGamesOnClient: function () {
         transportGame.updateListGames(this.getListGamesIsNotStart());
     },
-    onDisconnet: function (client, nameGame) {
-        if (nameGame == "") {
-            return;
-        }
 
-        nameGame = nameGame.substring(1);
-        var arrClients = transportGame.getClientsOfGame(nameGame);
-        // var list = this.getListGames();
-        if (arrClients.length == 0 || arrClients.indexOf(client) >= 0 && arrClients.length == 1) {
-            //значит все вышли из игры
-            if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
-                this.games[nameGame].gameStop();
-            }
-        }
-
-        setTimeout(this.doUpdateTeamsForSleep(nameGame), 100);
-        console.error("onDisconnet", nameGame);
-    },
     doUpdateTeamsForSleep: function (nameGame) {
         var self = this;
         return function () {
@@ -103,8 +86,39 @@ var serverGame = {
         return res;
         // return ["game1", " game2", "game n"];
     },
+    users: {},
+    onDisconnet: function (client, nameGame) {
+        delete this.users[client.login];
+        if (nameGame == "") {
+            return;
+        }
+
+        nameGame = nameGame.substring(1);
+        var arrClients = transportGame.getClientsOfGame(nameGame);
+        // var list = this.getListGames();
+        if (arrClients.length == 0 || arrClients.indexOf(client) >= 0 && arrClients.length == 1) {
+            //значит все вышли из игры
+            if (this.games[nameGame] && !this.games[nameGame].getIsStart()) {
+                this.games[nameGame].gameStop();
+            }
+        }
+
+        setTimeout(this.doUpdateTeamsForSleep(nameGame), 100);
+        console.error("onDisconnet", nameGame);
+    },
     onConnect: function (client) {
-        transportGame.login(client, {login: client.login, id: client.id});
+        var user = {login: client.login, id: client.id};
+        if (this.users[client.login] && this.users[client.login].id !== client.id) {
+            user.text = "Login already exist";
+            //transportGame.loginError(client, user);
+            transportGame.errorMessage(client, user);
+
+            //client.emit("disconnect");
+            client.disconnect(true);
+            return false;
+        }
+        this.users[client.login] = user;
+        transportGame.login(client, user);
 
         for (var nameGame in this.games) {
             var game = this.games[nameGame];
@@ -126,6 +140,7 @@ var serverGame = {
             }
 
         }
+        return true;
     },
 
     getItemsToJSON: function (arr) {
@@ -193,7 +208,7 @@ var serverGame = {
     onAddBootToTeam: function (client, data) {
         var allPlayers = this.getClientsAndBoots(data.nameGame);
 
-        var isDo = this.games[data.nameGame].addBootToTeam(data.teamId,allPlayers);
+        var isDo = this.games[data.nameGame].addBootToTeam(data.teamId, allPlayers);
         if (isDo) {
             this.doUpdateTeamsOnClients(data.nameGame);
         }

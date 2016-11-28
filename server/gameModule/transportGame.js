@@ -12,7 +12,7 @@ var transportGame = {
     errorJoinToGame: function (client, nameGame, text) {// сообщение об ошибки присоединение к игре
         client.emit('errorJoinToGame', {text: text, nameGame: nameGame});
     },
-    errorMessage: function (client, data) {// сообщение об ошибки присоединение к игре
+    errorMessage: function (client, data) {// сообщение об ошибки
         client.emit('errorMessage', data);
     },
 
@@ -30,9 +30,13 @@ var transportGame = {
     updateTeams: function (gameName, data) {//
         this.io.sockets.in(gameName).emit('updateTeams', data);
     },
-    login: function(client, data){
+    login: function (client, data) {
         //{login: client.login, id: client.id}
         client.emit('login', data);
+    },
+    loginError: function (client, data) {
+        //{login: client.login, id: client.id}
+        client.emit('loginError', data);
     },
     getClientsOfGame: function (nameGame) {// получение списка игроков
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
@@ -74,7 +78,7 @@ var transportGame = {
 
 
             client.sessionID = client.handshake.sessionID;
-            client.login = client.handshake.sessionID;
+            client.login = client.handshake.login;
 
 
             client.emit('debugInfo', {login: client.login, id: client.id});
@@ -109,83 +113,88 @@ var transportGame = {
             };
             //var c = client.request.headers.cookie;
 
+            var isConected = false;
             hundlerEvents(function () {
-                serverGame.onConnect(client);
+                isConected = serverGame.onConnect(client);
                 //console.log("onConnect", client);
             })();
 
-
-            client.on('getListGames', hundlerEvents(function () {
-
-                serverGame.updateListGamesOnClient();
-
-                // var list = serverGame.getListGames();
-                // console.log("list", list);
-                // client.emit('setListGames', list);
+            if (isConected) {
 
 
-            }));
+                client.on('getListGames', hundlerEvents(function () {
 
-            client.on('setActiveKey', hundlerEvents(function (data) {
-                // {action: action, value: value}
-                console.log("setActiveKey", data);
-                serverGame.setActiveKey(client, data);
+                    serverGame.updateListGamesOnClient();
 
-            }));
+                    // var list = serverGame.getListGames();
+                    // console.log("list", list);
+                    // client.emit('setListGames', list);
 
 
-            client.on('addGame', hundlerEvents(function (nameGame) {
-                serverGame.addGame(client, nameGame);
-                console.log("addGame", nameGame);
-            }));
+                }));
 
-            client.on('joinToGame', hundlerEvents(function (nameGame) {
-                //client.room
-                serverGame.joinToGame(client, nameGame);
-                //console.log("joinToGame", r);
-                //client.emit('joinToGame', r);
-            }));
+                client.on('setActiveKey', hundlerEvents(function (data) {
+                    // {action: action, value: value}
+                    console.log("setActiveKey", data);
+                    serverGame.setActiveKey(client, data);
 
-            client.on('switchToTeam', hundlerEvents(function (data) {
-                //client.room
-                serverGame.onSwitchToTeam(client, data);
-                //console.log("joinToGame", r);
-                //client.emit('joinToGame', r);
-            }));
-            client.on('addBootToTeam', hundlerEvents(function (data) {
-                //client.room
-                serverGame.onAddBootToTeam(client, data);
-                //console.log("joinToGame", r);
-                //client.emit('joinToGame', r);
-            }));
+                }));
 
-            client.on('startGame', hundlerEvents(function (nameGame) {
-                serverGame.startGame(client, nameGame);
-                console.log("startGame", nameGame);
-            }));
 
-            client.on('disconnect', function () {
-                // remove the username from global usernames list
-                // delete usernames[socket.username];
-                // update list of users in chat, client-side
-                //io.sockets.emit('updateusers', usernames);
-                // echo globally that this client has left
-                //socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
-                var arrRoom = client.manager.roomClients[client.id];
-                for (var nameGame in arrRoom) {
-                    if (arrRoom[nameGame]) {
-                        client.leave(nameGame);
-                        console.error("Ckient disconect and leave room", client.login, nameGame);
-                        serverGame.onDisconnet(client, nameGame);
-                        //console.log("disconnect room ", i);
+                client.on('addGame', hundlerEvents(function (nameGame) {
+                    serverGame.addGame(client, nameGame);
+                    console.log("addGame", nameGame);
+                }));
+
+                client.on('joinToGame', hundlerEvents(function (nameGame) {
+                    //client.room
+                    serverGame.joinToGame(client, nameGame);
+                    //console.log("joinToGame", r);
+                    //client.emit('joinToGame', r);
+                }));
+
+                client.on('switchToTeam', hundlerEvents(function (data) {
+                    //client.room
+                    serverGame.onSwitchToTeam(client, data);
+                    //console.log("joinToGame", r);
+                    //client.emit('joinToGame', r);
+                }));
+                client.on('addBootToTeam', hundlerEvents(function (data) {
+                    //client.room
+                    serverGame.onAddBootToTeam(client, data);
+                    //console.log("joinToGame", r);
+                    //client.emit('joinToGame', r);
+                }));
+
+                client.on('startGame', hundlerEvents(function (nameGame) {
+                    serverGame.startGame(client, nameGame);
+                    console.log("startGame", nameGame);
+                }));
+
+                client.on('disconnect', function () {
+                    // remove the username from global usernames list
+                    // delete usernames[socket.username];
+                    // update list of users in chat, client-side
+                    //io.sockets.emit('updateusers', usernames);
+                    // echo globally that this client has left
+                    //socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+
+                    var arrRoom = client.manager.roomClients[client.id];
+                    for (var nameGame in arrRoom) {
+                        if (arrRoom[nameGame]) {
+                            client.leave(nameGame);
+                            console.error("Ckient disconect and leave room", client.login, nameGame);
+                            serverGame.onDisconnet(client, nameGame);
+                            //console.log("disconnect room ", i);
+                        }
                     }
-                }
 
 
-                //var list = serverGame.getListGames();
-                //console.log("-----------list", list);
+                    //var list = serverGame.getListGames();
+                    //console.log("-----------list", list);
 
-            });
+                });
+            }
 
         });
     }
