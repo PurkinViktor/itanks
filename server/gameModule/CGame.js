@@ -15,14 +15,15 @@ module.exports = function (set) {
         {
             title: "Команда IGL", id: "team1", maxCountPlayers: 5,
             IGLSettings: {
-                x: 0, y: 0,
+                x: 7, y: 0,
                 // onKill: new CEvent()
             }
         },
         {
             title: "Команда Black IGL", id: "team2", maxCountPlayers: 5,
             IGLSettings: {
-                x: 14, y: 7,
+               // x: 14, y: 7,
+                x: 7, y: 14,
                 //onKill: new CEvent()
             }
         },
