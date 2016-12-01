@@ -123,7 +123,7 @@ var gameMenu = {
         this.layOut.append(this.joystickUI);
 
 
-        joystickControlTouch.init(this, "mouse");
+        joystickControlTouch.init(this);
         joystickControlTouch.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
 
 

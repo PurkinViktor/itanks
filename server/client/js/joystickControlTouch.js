@@ -1,7 +1,7 @@
 var joystickControlTouch = {
     isDown: false,
     joystickUILayOut: null,
-    init: function (gameMenu, typeLounch) {
+    init: function (gameMenu) {
 
         this.joystickUILayOut = gameMenu.joystickUI;
         this.joystickUI = $('<div class="directionJoystick">' +
