@@ -3,10 +3,13 @@ var joystickControlTouch = {
     joystickUILayOut: $('<div class="Joystick"></div>'),
     fireUILayOut: $('<div class="FireArea"></div>'),
     hide: function () {
+        this.isShow = false;
         this.joystickUILayOut.hide();
         this.fireUILayOut.hide();
     },
+    isShow: false,
     show: function () {
+        this.isShow = true;
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
     },
@@ -54,24 +57,24 @@ var joystickControlTouch = {
             cbFire = cbFire || function () {
                 };
             var changedTouches = e.originalEvent.changedTouches;
-            var f = false;
+            //var f = false;
             for (var i in changedTouches) {
                 var elemTouch = changedTouches[i];
                 var target = $(elemTouch.target);
 
                 if (target.hasClass(directionLO)) {
                     cbDirection(elemTouch);
-                    f = true;
+                   // f = true;
                 }
 
                 if (target.hasClass(fireLO)) {
-                    f = true;
+                    //f = true;
                     cbFire(elemTouch);
                 }
 
 
             }
-            if (f) {
+            if (self.isShow) {
                 e.preventDefault();
                 e.stopPropagation();
             }
