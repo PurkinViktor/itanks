@@ -119,20 +119,25 @@ var gameMenu = {
     },
     createJoystick: function () {
         this.joystickUI = $('<div class="Joystick"></div>');
-        this.joystickUI.hide();
+        //this.joystickUI.hide();
         this.layOut.append(this.joystickUI);
 
-        joystickControl.init(this.joystickUI);
-        joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
-        this.joystickUI.on("mousedown", function (e) {
-            joystickControl.OnMouseDown(e);
-        });
-        this.joystickUI.on("mousemove", function (e) {
-            joystickControl.OnMouseMove(e);
-        });
-        this.joystickUI.on("mouseup", function (e) {
-            joystickControl.OnMouseUp(e);
-        });
+
+        joystickControlTouch.init(this, "mouse");
+        joystickControlTouch.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
+
+
+        // joystickControl.init(this.joystickUI);
+        // joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
+        // this.joystickUI.on("mousedown", function (e) {
+        //     joystickControl.OnMouseDown(e);
+        // });
+        // this.joystickUI.on("mousemove", function (e) {
+        //     joystickControl.OnMouseMove(e);
+        // });
+        // this.joystickUI.on("mouseup", function (e) {
+        //     joystickControl.OnMouseUp(e);
+        // });
     },
     createListTeams: function () {
         this.listTeamsUI = this.getListTeamsLayOut();
