@@ -178,9 +178,11 @@ var CTank = function (settings) {
         //this.callEvent(this.onRight);
     };
     this.setActiveKey = function (action, value) {
-        this.activeKey[action].active = value;
-        if (value) {
-            this.activeKey[action].timePress = +new Date();
+        if (this.activeKey[action]) {
+            this.activeKey[action].active = value;
+            if (value) {
+                this.activeKey[action].timePress = +new Date();
+            }
         }
     };
     this.callAction = function () {

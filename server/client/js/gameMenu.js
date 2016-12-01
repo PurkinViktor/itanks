@@ -118,12 +118,16 @@ var gameMenu = {
         return listTeamsLayOut;
     },
     createJoystick: function () {
-        this.joystickUI = $('<div class="Joystick"></div>');
-        //this.joystickUI.hide();
-        this.layOut.append(this.joystickUI);
+        // this.joystickUI = $('<div class="Joystick"></div>');
+        // this.fireUI = $('<div class="FireArea"></div>');
+
+
+        // this.layOut.append(this.joystickUI);
+        // this.layOut.append(this.fireUI);
 
 
         joystickControlTouch.init(this);
+        joystickControlTouch.hide();
         joystickControlTouch.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
 
 

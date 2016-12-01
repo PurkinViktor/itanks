@@ -241,16 +241,30 @@ table th {
     background-color: #0f0;
 }
 
-.Joystick {
+.Joystick, .FireArea {
     position: absolute;
-    top: 100px;
-    left: 100px;
-    height: 200px;
+    top: 0px;
+    left: 0px;
+    height: 600px;
     width: 200px;
     background-color: #8c8c8c;
 }
 
+.FireArea {
+    left: 800px;
+}
+
 /* JOYSTICK*/
+.btnFire {
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    border-radius: 100%;
+}
+
 .directionJoystick {
     transform-origin: center;
     transform: translate(-50%, -50%) rotate(45deg);
@@ -270,6 +284,7 @@ table th {
     border: 1px solid #8c8c8c;
     box-sizing: border-box;
 }
+
 .dirButtonJSK.active {
     background-color: #17aa00;
 }

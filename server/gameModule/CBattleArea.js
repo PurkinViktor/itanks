@@ -7,7 +7,7 @@ var helper = require('./helper.js');
 module.exports = function (game) {
     var renderingSystem = game.renderingSystem;
     var battleArea = {
-        x: 40, y: 10, w: 600, h: 600,
+        x: 200, y: 0, w: 600, h: 600,
         barriers: [],
         igls: [],
         map: null, // здесь только расчет сами обьекты в  barriers

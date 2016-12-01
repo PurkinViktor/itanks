@@ -1,9 +1,23 @@
 var joystickControlTouch = {
     isDown: false,
-    joystickUILayOut: null,
+    joystickUILayOut: $('<div class="Joystick"></div>'),
+    fireUILayOut: $('<div class="FireArea"></div>'),
+    hide: function () {
+        this.joystickUILayOut.hide();
+        this.fireUILayOut.hide();
+    },
+    show: function () {
+        this.joystickUILayOut.show();
+        this.fireUILayOut.show();
+    },
     init: function (gameMenu) {
 
-        this.joystickUILayOut = gameMenu.joystickUI;
+        // this.joystickUILayOut = gameMenu.joystickUI;
+        // this.fireUILayOut = gameMenu.fireUI;
+
+        gameMenu.layOut.append(this.joystickUILayOut);
+        gameMenu.layOut.append(this.fireUILayOut);
+
         this.joystickUI = $('<div class="directionJoystick">' +
             '<div class="dirButtonJSK top"></div>' +
             '<div class="dirButtonJSK right" ></div>' +
@@ -12,10 +26,17 @@ var joystickControlTouch = {
             '<div class="centerJSK"></div>' +
             '</div>');
 
+        this.fireUI = $('<div class="btnFire">' +
+            '</div>');
+
 
         this.joystickUI.hide();
         this.joystickUILayOut.append(this.joystickUI);
         this.btnDirectionJSK = this.joystickUI.find(".dirButtonJSK");
+
+        this.fireUI.hide();
+        this.fireUILayOut.append(this.fireUI);
+
 
         var self = this;
 
@@ -24,17 +45,35 @@ var joystickControlTouch = {
             move: "touchmove",
             end: "touchend",
         };
+        var directionLO = this.joystickUILayOut.attr('class');
+        var fireLO = this.fireUILayOut.attr('class');
+        var filterTouch = function (e, cbDirection, cbFire) {
 
-        var filterTouch = function (e, cb) {
-            e.preventDefault();
-            e.stopPropagation();
+            cbDirection = cbDirection || function () {
+                };
+            cbFire = cbFire || function () {
+                };
             var changedTouches = e.originalEvent.changedTouches;
+            var f = false;
             for (var i in changedTouches) {
                 var elemTouch = changedTouches[i];
                 var target = $(elemTouch.target);
-                if (target.hasClass("Joystick")) {
-                    cb(elemTouch);
+
+                if (target.hasClass(directionLO)) {
+                    cbDirection(elemTouch);
+                    f = true;
                 }
+
+                if (target.hasClass(fireLO)) {
+                    f = true;
+                    cbFire(elemTouch);
+                }
+
+
+            }
+            if (f) {
+                e.preventDefault();
+                e.stopPropagation();
             }
         };
         $document = $(document);
@@ -44,6 +83,8 @@ var joystickControlTouch = {
             filterTouch(e, function (elemTouch) {
                 self.OnMouseDown(elemTouch);
 
+            }, function (elemTouch) {
+                self.OnFireDoun(elemTouch);
             });
             // var elemTouch = e.originalEvent.changedTouches;
             // self.OnMouseDown(elemTouch[0]);
@@ -67,7 +108,9 @@ var joystickControlTouch = {
             filterTouch(e, function (elemTouch) {
                 self.OnMouseUp(elemTouch);
 
-               // console.log(elemTouch);
+                // console.log(elemTouch);
+            }, function (elemTouch) {
+                self.OnFireUp(elemTouch);
             });
             // var elemTouch = e.originalEvent.changedTouches;
             //
@@ -78,14 +121,24 @@ var joystickControlTouch = {
 
 
     },
-    getPosition: function (clickPos) {
-        var pos = this.joystickUILayOut.position();
+    getPosition: function (LO, clickPos) {
+        var pos = LO.position();
         var res = {};
         res.left = clickPos.pageX - pos.left;
         res.top = clickPos.pageY - pos.top;
         return res;
     },
+    OnFireDoun: function (e) {
 
+        this.fireUI.css(this.getPosition(this.fireUILayOut, e));
+        this.fireUI.show();
+        this.OnActiveKey("fire", true);
+    },
+    OnFireUp: function (e) {
+        this.fireUI.hide();
+        this.OnActiveKey("fire", false);
+
+    },
     OnMouseDown: function (e) {
         this.isDown = true;
 
@@ -93,7 +146,7 @@ var joystickControlTouch = {
         //     top: e.offsetY,
         //     left: e.offsetX
         // });
-        this.joystickUI.css(this.getPosition(e));
+        this.joystickUI.css(this.getPosition(this.joystickUILayOut, e));
         this.joystickUI.show();
         //console.log(e);
 

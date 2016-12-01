@@ -46,6 +46,7 @@ var iTanksClient = {
         this.battleArea = data.battleArea;
         this.items = data.tanks.concat(data.battleArea.barriers) || [];
         renderingSystem.run(this);
+        joystickControlTouch.show();
     },
     getItem: function (newData) {
         for (var i in this.items) {
@@ -169,6 +170,8 @@ var iTanksClient = {
 
         renderingSystem.destroy();
         gameMenu.showListGames();
+        joystickControlTouch.hide();
+
     },
     keyHundler: {
         87: {action: "top", stateKey: false},
@@ -191,7 +194,7 @@ var iTanksClient = {
 
     },
     setActiveKeyTouch: function (action, stateKey) {
-        // transportClient.setActiveKey(action, stateKey);
+        transportClient.setActiveKey(action, stateKey);
         console.log(action, stateKey);
     },
     keydownHundle: function (event) {
