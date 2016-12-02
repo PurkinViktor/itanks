@@ -52,32 +52,30 @@ var joystickControlTouch = {
         var fireLO = this.fireUILayOut.attr('class');
         var filterTouch = function (e, cbDirection, cbFire) {
 
-            setTimeout(function () {
 
+            cbDirection = cbDirection || function () {
+                };
+            cbFire = cbFire || function () {
+                };
+            var changedTouches = e.originalEvent.changedTouches;
+            //var f = false;
+            for (var i in changedTouches) {
+                var elemTouch = changedTouches[i];
+                var target = $(elemTouch.target);
 
-                cbDirection = cbDirection || function () {
-                    };
-                cbFire = cbFire || function () {
-                    };
-                var changedTouches = e.originalEvent.changedTouches;
-                //var f = false;
-                for (var i in changedTouches) {
-                    var elemTouch = changedTouches[i];
-                    var target = $(elemTouch.target);
-
-                    if (target.hasClass(directionLO)) {
-                        cbDirection(elemTouch);
-                        // f = true;
-                    }
-
-                    if (target.hasClass(fireLO)) {
-                        //f = true;
-                        cbFire(elemTouch);
-                    }
-
-
+                if (target.hasClass(directionLO)) {
+                    cbDirection(elemTouch);
+                    // f = true;
                 }
-            }, 10);
+
+                // if (target.hasClass(fireLO)) {
+                //     //f = true;
+                //     cbFire(elemTouch);
+                // }
+
+
+            }
+
             if (self.isShow) {
                 e.preventDefault();
                 e.stopPropagation();
