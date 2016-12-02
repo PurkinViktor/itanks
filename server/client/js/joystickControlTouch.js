@@ -51,7 +51,11 @@ var joystickControlTouch = {
         var directionLO = this.joystickUILayOut.attr('class');
         var fireLO = this.fireUILayOut.attr('class');
         var filterTouch = function (e, cbDirection, cbFire) {
-
+            if (self.isShow) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            return;
 
             cbDirection = cbDirection || function () {
                 };
@@ -76,10 +80,7 @@ var joystickControlTouch = {
 
             }
 
-            if (self.isShow) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
+
         };
         $document = $(document);
         $document.on(events.start, function (e) {
