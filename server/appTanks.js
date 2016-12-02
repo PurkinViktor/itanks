@@ -1,5 +1,5 @@
 var PORT = process.env.PORT || 5000;
-var HOST = process.env.HOST || 'localhost';
+var HOST = process.env.HOST || '0.0.0.0';
 
 
 var express = require('express');
