@@ -129,6 +129,11 @@ var joystickControlTouch = {
             e.stopPropagation();
             console.log("click was made");
         });
+        $(window).on("click", function (e) {
+            // e.preventDefault();
+            //e.stopPropagation();
+            console.log("window click was made");
+        });
 
 
     },
