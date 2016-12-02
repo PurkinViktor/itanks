@@ -126,6 +126,12 @@ var joystickControlTouch = {
             // console.log(elemTouch);
         });
 
+        $document.on("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("click was made");
+        });
+
 
     },
     getPosition: function (LO, clickPos) {
