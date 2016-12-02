@@ -83,7 +83,8 @@ var joystickControlTouch = {
 
         };
         $document = $(document);
-        $document.on(events.start, function (e) {
+
+        document.addEventListener(events.start, function (e) {
 
 
             filterTouch(e, function (elemTouch) {
@@ -96,8 +97,8 @@ var joystickControlTouch = {
             // self.OnMouseDown(elemTouch[0]);
 
 
-        });
-        $document.on(events.move, function (e) {
+        }, true);
+        document.addEventListener(events.move, function (e) {
             filterTouch(e, function (elemTouch) {
                 var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
 
@@ -109,8 +110,8 @@ var joystickControlTouch = {
             // console.log(e, realTarget);
             // self.handlerOnMouseMoveDirectionBatton($(realTarget));
 
-        });
-        $document.on(events.end, function (e) {
+        }, true);
+        document.addEventListener(events.end, function (e) {
             filterTouch(e, function (elemTouch) {
                 self.OnMouseUp(elemTouch);
 
@@ -123,13 +124,13 @@ var joystickControlTouch = {
             // self.OnMouseUp(elemTouch[0]);
             //
             // console.log(elemTouch);
-        });
+        }, true);
 
-        $document.on("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("click was made");
-        });
+        // $document.on("click", function (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     console.log("click was made");
+        // });
         $(window).on("click", function (e) {
             // e.preventDefault();
             //e.stopPropagation();
