@@ -90,13 +90,13 @@ var joystickControlTouch = {
         };
         var el = document;//.getElementsByTagName("canvas")[0];
         el.addEventListener("touchstart", handleStart, true);
-        el.addEventListener("touchend", handleEnd, ture);
-        el.addEventListener("touchcancel", handleCancel, ture);
-        el.addEventListener("touchmove", handleMove, ture);
+        el.addEventListener("touchend", handleStart, ture);
+        el.addEventListener("touchcancel", handleStart, ture);
+        el.addEventListener("touchmove", handleStart, ture);
         el.addEventListener("touchstart", handleStart, false);
-        el.addEventListener("touchend", handleEnd, false);
-        el.addEventListener("touchcancel", handleCancel, false);
-        el.addEventListener("touchmove", handleMove, false);
+        el.addEventListener("touchend", handleStart, false);
+        el.addEventListener("touchcancel", handleStart, false);
+        el.addEventListener("touchmove", handleStart, false);
         // document.addEventListener(events.start, function (e) {
         //
         //
