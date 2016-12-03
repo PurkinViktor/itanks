@@ -90,9 +90,9 @@ var joystickControlTouch = {
         };
         var el = document;//.getElementsByTagName("canvas")[0];
         el.addEventListener("touchstart", handleStart, true);
-        el.addEventListener("touchend", handleStart, ture);
-        el.addEventListener("touchcancel", handleStart, ture);
-        el.addEventListener("touchmove", handleStart, ture);
+        el.addEventListener("touchend", handleStart, true);
+        el.addEventListener("touchcancel", handleStart, true);
+        el.addEventListener("touchmove", handleStart, true);
         el.addEventListener("touchstart", handleStart, false);
         el.addEventListener("touchend", handleStart, false);
         el.addEventListener("touchcancel", handleStart, false);
