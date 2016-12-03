@@ -57,30 +57,32 @@ var joystickControlTouch = {
                 e.stopPropagation();
             }
 
+            setTimeout(function () {
 
-            cbDirection = cbDirection || function () {
-                };
-            cbFire = cbFire || function () {
-                };
-            // var changedTouches = e.originalEvent.changedTouches;
-            var changedTouches = e.changedTouches;
+                cbDirection = cbDirection || function () {
+                    };
+                cbFire = cbFire || function () {
+                    };
+                // var changedTouches = e.originalEvent.changedTouches;
+                var changedTouches = e.changedTouches;
 
-            for (var i in changedTouches) {
-                var elemTouch = changedTouches[i];
-                var target = $(elemTouch.target);
+                for (var i in changedTouches) {
+                    var elemTouch = changedTouches[i];
+                    var target = $(elemTouch.target);
 
-                if (target.hasClass(directionLO)) {
-                    cbDirection(elemTouch);
+                    if (target.hasClass(directionLO)) {
+                        cbDirection(elemTouch);
+
+                    }
+
+                    if (target.hasClass(fireLO)) {
+
+                        cbFire(elemTouch);
+                    }
+
 
                 }
-
-                if (target.hasClass(fireLO)) {
-
-                    cbFire(elemTouch);
-                }
-
-
-            }
+            }, 100);
             return !self.isShow;
 
         };
@@ -104,7 +106,7 @@ var joystickControlTouch = {
 
         el.addEventListener("touchstart", function (e) {
 
-            console.log("eeeeeeeeeeeeeeeeee",e);
+            console.log("eeeeeeeeeeeeeeeeee", e);
             return filterTouch(e, function (elemTouch) {
                 self.OnMouseDown(elemTouch);
 
