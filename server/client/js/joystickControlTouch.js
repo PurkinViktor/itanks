@@ -51,7 +51,7 @@ var joystickControlTouch = {
         var directionLO = this.joystickUILayOut.attr('class');
         var fireLO = this.fireUILayOut.attr('class');
         var filterTouch = function (e, cbDirection, cbFire) {
-
+            console.time("filterTouch");
             if (self.isShow) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -64,23 +64,28 @@ var joystickControlTouch = {
                 };
             // var changedTouches = e.originalEvent.changedTouches;
             var changedTouches = e.changedTouches;
+            setTimeout(function (changedTouches) {
+                return function () {
+                    for (var i in changedTouches) {
+                        var elemTouch = changedTouches[i];
+                        var target = $(elemTouch.target);
 
-            for (var i in changedTouches) {
-                var elemTouch = changedTouches[i];
-                var target = $(elemTouch.target);
+                        if (target.hasClass(directionLO)) {
+                            cbDirection(elemTouch);
 
-                if (target.hasClass(directionLO)) {
-                    cbDirection(elemTouch);
+                        }
 
-                }
+                        if (target.hasClass(fireLO)) {
 
-                if (target.hasClass(fireLO)) {
+                            cbFire(elemTouch);
 
-                    cbFire(elemTouch);
-                }
+                        }
 
 
-            }
+                    }
+                };
+            }(changedTouches), 100);
+            console.timeEnd("filterTouch");
 
             return !self.isShow;
 
