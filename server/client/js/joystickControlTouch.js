@@ -13,11 +13,18 @@ var joystickControlTouch = {
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
     },
+    eventList: [],
     init: function (gameMenu) {
 
         // this.joystickUILayOut = gameMenu.joystickUI;
         // this.fireUILayOut = gameMenu.fireUI;
-
+        var self = this;
+        var idTO = setInterval(function () {
+            if (self.eventList[0]) {
+                self.eventList[0]();
+                self.eventList.splice(0, 1);
+            }
+        }, 10);
         gameMenu.layOut.append(this.joystickUILayOut);
         gameMenu.layOut.append(this.fireUILayOut);
 
@@ -64,7 +71,7 @@ var joystickControlTouch = {
                 };
             // var changedTouches = e.originalEvent.changedTouches;
             var changedTouches = e.changedTouches;
-            setTimeout(function (changedTouches) {
+            var eventFucntion = function (changedTouches) {
                 return function () {
                     for (var i in changedTouches) {
                         var elemTouch = changedTouches[i];
@@ -84,7 +91,8 @@ var joystickControlTouch = {
 
                     }
                 };
-            }(changedTouches), 100);
+            };
+            self.eventList.push(eventFucntion(changedTouches));
             console.timeEnd("filterTouch");
 
             return !self.isShow;
