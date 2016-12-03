@@ -273,8 +273,9 @@ table th {
     position: absolute;
     cursor: pointer;
     border-radius: 100%;
-    overflow: hidden;
+     
     background-color: #ff9b15;
+    z-index: 1;
 }
 
 .dirButtonJSK {
@@ -283,25 +284,44 @@ table th {
     float: left;
     border: 1px solid #8c8c8c;
     box-sizing: border-box;
+    position: relative;
 }
 
 .dirButtonJSK.active {
     background-color: #17aa00;
 }
 
-.dirButtonJSK:nth-child(1) {
+.dirButtonJSK > .dirArea {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: black;
+    opacity: 0.2;
+}
+
+.dirButtonJSK:nth-child(1) > .dirArea {
+    bottom: 0px;
+    right: 0px;
+    border-radius: 100% 0 0 0;
+}
+
+.dirButtonJSK:nth-child(2) > .dirArea {
+    left: 0px;
+    bottom: 0px;
+    border-radius: 0 100% 0 0;
+}
+
+.dirButtonJSK:nth-child(3) > .dirArea {
+    top: 0px;
+    right: 0px;
+    border-radius: 0 0 0 100%;
 
 }
 
-.dirButtonJSK:nth-child(2) {
-
-}
-
-.dirButtonJSK:nth-child(3) {
-
-}
-
-.dirButtonJSK:nth-child(4) {
+.dirButtonJSK:nth-child(4) > .dirArea {
+    left: 0px;
+    top: 0px;
+    border-radius: 0 0 100% 0;
 
 }
 

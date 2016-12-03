@@ -22,10 +22,10 @@ var joystickControlTouch = {
         gameMenu.layOut.append(this.fireUILayOut);
 
         this.joystickUI = $('<div class="directionJoystick">' +
-            '<div class="dirButtonJSK top"></div>' +
-            '<div class="dirButtonJSK right" ></div>' +
-            '<div class="dirButtonJSK left "></div>' +
-            '<div class="dirButtonJSK bottom"></div>' +
+            '<div class="dirButtonJSK top"><div class="dirArea top"></div></div>' +
+            '<div class="dirButtonJSK right"><div class="dirArea right"></div></div>' +
+            '<div class="dirButtonJSK left"><div class="dirArea left"></div></div>' +
+            '<div class="dirButtonJSK bottom"><div class="dirArea bottom"></div></div>' +
             '<div class="centerJSK"></div>' +
             '</div>');
 
@@ -57,32 +57,31 @@ var joystickControlTouch = {
                 e.stopPropagation();
             }
 
-            setTimeout(function () {
 
-                cbDirection = cbDirection || function () {
-                    };
-                cbFire = cbFire || function () {
-                    };
-                // var changedTouches = e.originalEvent.changedTouches;
-                var changedTouches = e.changedTouches;
+            cbDirection = cbDirection || function () {
+                };
+            cbFire = cbFire || function () {
+                };
+            // var changedTouches = e.originalEvent.changedTouches;
+            var changedTouches = e.changedTouches;
 
-                for (var i in changedTouches) {
-                    var elemTouch = changedTouches[i];
-                    var target = $(elemTouch.target);
+            for (var i in changedTouches) {
+                var elemTouch = changedTouches[i];
+                var target = $(elemTouch.target);
 
-                    if (target.hasClass(directionLO)) {
-                        cbDirection(elemTouch);
-
-                    }
-
-                    if (target.hasClass(fireLO)) {
-
-                        cbFire(elemTouch);
-                    }
-
+                if (target.hasClass(directionLO)) {
+                    cbDirection(elemTouch);
 
                 }
-            }, 100);
+
+                if (target.hasClass(fireLO)) {
+
+                    cbFire(elemTouch);
+                }
+
+
+            }
+
             return !self.isShow;
 
         };
