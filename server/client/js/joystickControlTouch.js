@@ -60,7 +60,8 @@ var joystickControlTouch = {
         var filterTouch = function (e, cbDirection, cbFire) {
             console.time("filterTouch");
             if (self.isShow) {
-                e.preventDefault();
+                //e.preventDefault();
+
                 e.stopPropagation();
             }
 
@@ -98,15 +99,16 @@ var joystickControlTouch = {
             return !self.isShow;
 
         };
-        $document = $(document);
-        var handleStart = function (e) {
-            if (self.isShow) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-        };
-        var el = document;//.getElementsByTagName("canvas")[0];
+        // $document = $(document);
+        // var handleStart = function (e) {
+        //     if (self.isShow) {
+        //         e.preventDefault();
+        //         e.stopPropagation();
+        //         return false;
+        //     }
+        // };
+        // var el = document;//.getElementsByTagName("canvas")[0];
+        var el = window;
         // el.addEventListener("touchstart", handleStart, true);
         // el.addEventListener("touchend", handleStart, true);
         // el.addEventListener("touchcancel", handleStart, true);
@@ -115,7 +117,7 @@ var joystickControlTouch = {
         // el.addEventListener("touchend", handleStart, false);
         // el.addEventListener("touchcancel", handleStart, false);
         // el.addEventListener("touchmove", handleStart, false);
-
+        var argvEvent = {capture: true, passive: true};
         el.addEventListener("touchstart", function (e) {
 
             console.log("eeeeeeeeeeeeeeeeee", e);
@@ -127,7 +129,7 @@ var joystickControlTouch = {
             });
 
 
-        }, true);
+        }, argvEvent);
         el.addEventListener("touchend", function (e) {
             return filterTouch(e, function (elemTouch) {
                 self.OnMouseUp(elemTouch);
@@ -137,7 +139,7 @@ var joystickControlTouch = {
                 self.OnFireUp(elemTouch);
             });
 
-        }, true);
+        }, argvEvent);
         el.addEventListener("touchcancel", function (e) {// перехватываем чтобы анимация не лагала
             return filterTouch(e, function (elemTouch) {
 
@@ -145,7 +147,7 @@ var joystickControlTouch = {
 
             });
 
-        }, true);
+        }, argvEvent);
         el.addEventListener("touchmove", function (e) {
             return filterTouch(e, function (elemTouch) {
                 var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
@@ -158,7 +160,7 @@ var joystickControlTouch = {
             // console.log(e, realTarget);
             // self.handlerOnMouseMoveDirectionBatton($(realTarget));
 
-        }, true);
+        }, argvEvent);
 
 
         // $document.on(events.start, function (e) {
