@@ -83,59 +83,81 @@ var joystickControlTouch = {
 
         };
         $document = $(document);
-
-        document.addEventListener(events.start, function (e) {
-
-
-            filterTouch(e, function (elemTouch) {
-                self.OnMouseDown(elemTouch);
-
-            }, function (elemTouch) {
-                self.OnFireDoun(elemTouch);
-            });
-            // var elemTouch = e.originalEvent.changedTouches;
-            // self.OnMouseDown(elemTouch[0]);
-
-
-        }, true);
-        document.addEventListener(events.move, function (e) {
-            filterTouch(e, function (elemTouch) {
-                var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
-
-                self.handlerOnMouseMoveDirectionBatton($(realTarget));
-                //console.log(e, realTarget);
-            });
-            // var elemTouch = e.originalEvent.changedTouches;
-            // var realTarget = document.elementFromPoint(elemTouch[0].clientX, elemTouch[0].clientY);
-            // console.log(e, realTarget);
-            // self.handlerOnMouseMoveDirectionBatton($(realTarget));
-
-        }, true);
-        document.addEventListener(events.end, function (e) {
-            filterTouch(e, function (elemTouch) {
-                self.OnMouseUp(elemTouch);
-
-                // console.log(elemTouch);
-            }, function (elemTouch) {
-                self.OnFireUp(elemTouch);
-            });
-            // var elemTouch = e.originalEvent.changedTouches;
-            //
-            // self.OnMouseUp(elemTouch[0]);
-            //
-            // console.log(elemTouch);
-        }, true);
+        var handleStart = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        };
+        var el = document;//.getElementsByTagName("canvas")[0];
+        el.addEventListener("touchstart", handleStart, true);
+        el.addEventListener("touchend", handleEnd, ture);
+        el.addEventListener("touchcancel", handleCancel, ture);
+        el.addEventListener("touchmove", handleMove, ture);
+        el.addEventListener("touchstart", handleStart, false);
+        el.addEventListener("touchend", handleEnd, false);
+        el.addEventListener("touchcancel", handleCancel, false);
+        el.addEventListener("touchmove", handleMove, false);
+        // document.addEventListener(events.start, function (e) {
+        //
+        //
+        //     filterTouch(e, function (elemTouch) {
+        //         self.OnMouseDown(elemTouch);
+        //
+        //     }, function (elemTouch) {
+        //         self.OnFireDoun(elemTouch);
+        //     });
+        //     // var elemTouch = e.originalEvent.changedTouches;
+        //     // self.OnMouseDown(elemTouch[0]);
+        //
+        //
+        // }, true);
+        // document.addEventListener(events.move, function (e) {
+        //     filterTouch(e, function (elemTouch) {
+        //         var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
+        //
+        //         self.handlerOnMouseMoveDirectionBatton($(realTarget));
+        //         //console.log(e, realTarget);
+        //     });
+        //     // var elemTouch = e.originalEvent.changedTouches;
+        //     // var realTarget = document.elementFromPoint(elemTouch[0].clientX, elemTouch[0].clientY);
+        //     // console.log(e, realTarget);
+        //     // self.handlerOnMouseMoveDirectionBatton($(realTarget));
+        //
+        // }, true);
+        // document.addEventListener(events.end, function (e) {
+        //     filterTouch(e, function (elemTouch) {
+        //         self.OnMouseUp(elemTouch);
+        //
+        //         // console.log(elemTouch);
+        //     }, function (elemTouch) {
+        //         self.OnFireUp(elemTouch);
+        //     });
+        //     // var elemTouch = e.originalEvent.changedTouches;
+        //     //
+        //     // self.OnMouseUp(elemTouch[0]);
+        //     //
+        //     // console.log(elemTouch);
+        // }, true);
 
         // $document.on("click", function (e) {
         //     e.preventDefault();
         //     e.stopPropagation();
         //     console.log("click was made");
         // });
-        $(window).on("click", function (e) {
-            // e.preventDefault();
-            //e.stopPropagation();
-            console.log("window click was made");
-        });
+        // window.addEventListener(events.end, function (e) {
+        //     filterTouch(e, function (elemTouch) {
+        //         self.OnMouseUp(elemTouch);
+        //
+        //         // console.log(elemTouch);
+        //     }, function (elemTouch) {
+        //         self.OnFireUp(elemTouch);
+        //     });
+        //     // var elemTouch = e.originalEvent.changedTouches;
+        //     //
+        //     // self.OnMouseUp(elemTouch[0]);
+        //     //
+        //     // console.log(elemTouch);
+        // }, true);
 
 
     },
