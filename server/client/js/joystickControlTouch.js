@@ -84,9 +84,13 @@ var joystickControlTouch = {
         };
         $document = $(document);
         var handleStart = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+            if (self.isShow) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+
+
         };
         var el = document;//.getElementsByTagName("canvas")[0];
         el.addEventListener("touchstart", handleStart, true);
