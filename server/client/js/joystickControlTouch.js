@@ -51,35 +51,36 @@ var joystickControlTouch = {
         var directionLO = this.joystickUILayOut.attr('class');
         var fireLO = this.fireUILayOut.attr('class');
         var filterTouch = function (e, cbDirection, cbFire) {
+
             if (self.isShow) {
                 e.preventDefault();
                 e.stopPropagation();
             }
-            return;
+
 
             cbDirection = cbDirection || function () {
                 };
             cbFire = cbFire || function () {
                 };
             var changedTouches = e.originalEvent.changedTouches;
-            //var f = false;
+
             for (var i in changedTouches) {
                 var elemTouch = changedTouches[i];
                 var target = $(elemTouch.target);
 
                 if (target.hasClass(directionLO)) {
                     cbDirection(elemTouch);
-                    // f = true;
+
                 }
 
-                // if (target.hasClass(fireLO)) {
-                //     //f = true;
-                //     cbFire(elemTouch);
-                // }
+                if (target.hasClass(fireLO)) {
+
+                    cbFire(elemTouch);
+                }
 
 
             }
-
+            return !self.isShow;
 
         };
         $document = $(document);
@@ -92,57 +93,58 @@ var joystickControlTouch = {
 
 
         };
-        var el = document;//.getElementsByTagName("canvas")[0];
-        el.addEventListener("touchstart", handleStart, true);
-        el.addEventListener("touchend", handleStart, true);
-        el.addEventListener("touchcancel", handleStart, true);
-        el.addEventListener("touchmove", handleStart, true);
-        el.addEventListener("touchstart", handleStart, false);
-        el.addEventListener("touchend", handleStart, false);
-        el.addEventListener("touchcancel", handleStart, false);
-        el.addEventListener("touchmove", handleStart, false);
-        // document.addEventListener(events.start, function (e) {
-        //
-        //
-        //     filterTouch(e, function (elemTouch) {
-        //         self.OnMouseDown(elemTouch);
-        //
-        //     }, function (elemTouch) {
-        //         self.OnFireDoun(elemTouch);
-        //     });
-        //     // var elemTouch = e.originalEvent.changedTouches;
-        //     // self.OnMouseDown(elemTouch[0]);
-        //
-        //
-        // }, true);
-        // document.addEventListener(events.move, function (e) {
-        //     filterTouch(e, function (elemTouch) {
-        //         var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
-        //
-        //         self.handlerOnMouseMoveDirectionBatton($(realTarget));
-        //         //console.log(e, realTarget);
-        //     });
-        //     // var elemTouch = e.originalEvent.changedTouches;
-        //     // var realTarget = document.elementFromPoint(elemTouch[0].clientX, elemTouch[0].clientY);
-        //     // console.log(e, realTarget);
-        //     // self.handlerOnMouseMoveDirectionBatton($(realTarget));
-        //
-        // }, true);
-        // document.addEventListener(events.end, function (e) {
-        //     filterTouch(e, function (elemTouch) {
-        //         self.OnMouseUp(elemTouch);
-        //
-        //         // console.log(elemTouch);
-        //     }, function (elemTouch) {
-        //         self.OnFireUp(elemTouch);
-        //     });
-        //     // var elemTouch = e.originalEvent.changedTouches;
-        //     //
-        //     // self.OnMouseUp(elemTouch[0]);
-        //     //
-        //     // console.log(elemTouch);
-        // }, true);
+        // var el = document;//.getElementsByTagName("canvas")[0];
+        // el.addEventListener("touchstart", handleStart, true);
+        // el.addEventListener("touchend", handleStart, true);
+        // el.addEventListener("touchcancel", handleStart, true);
+        // el.addEventListener("touchmove", handleStart, true);
+        // el.addEventListener("touchstart", handleStart, false);
+        // el.addEventListener("touchend", handleStart, false);
+        // el.addEventListener("touchcancel", handleStart, false);
+        // el.addEventListener("touchmove", handleStart, false);
+        $document.on(events.start, function (e) {
 
+
+            return filterTouch(e, function (elemTouch) {
+                self.OnMouseDown(elemTouch);
+
+            }, function (elemTouch) {
+                self.OnFireDoun(elemTouch);
+            });
+
+
+        });
+        $document.on(events.move, function (e) {
+            return filterTouch(e, function (elemTouch) {
+                var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
+
+                self.handlerOnMouseMoveDirectionBatton($(realTarget));
+                //console.log(e, realTarget);
+            });
+            // var elemTouch = e.originalEvent.changedTouches;
+            // var realTarget = document.elementFromPoint(elemTouch[0].clientX, elemTouch[0].clientY);
+            // console.log(e, realTarget);
+            // self.handlerOnMouseMoveDirectionBatton($(realTarget));
+
+        });
+        $document.on(events.end, function (e) {
+            return filterTouch(e, function (elemTouch) {
+                self.OnMouseUp(elemTouch);
+
+                // console.log(elemTouch);
+            }, function (elemTouch) {
+                self.OnFireUp(elemTouch);
+            });
+
+        });
+        $document.on("touchcancel", function (e) {// перехватываем чтобы анимация не лагала
+            return filterTouch(e, function (elemTouch) {
+
+            }, function (elemTouch) {
+
+            });
+
+        });
         // $document.on("click", function (e) {
         //     e.preventDefault();
         //     e.stopPropagation();
