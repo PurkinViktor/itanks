@@ -107,6 +107,7 @@ var serverGame = {
         console.error("onDisconnet", nameGame);
     },
     onConnect: function (client) {
+        // проверяем логин может уже есть
         var user = {login: client.login, id: client.id};
         if (this.users[client.login] && this.users[client.login].id !== client.id) {
             user.text = "Login already exist";
@@ -120,6 +121,7 @@ var serverGame = {
         this.users[client.login] = user;
         transportGame.login(client, user);
 
+        // если есть уже в игре то присоединяем к игре
         for (var nameGame in this.games) {
             var game = this.games[nameGame];
             for (var i in game.players) {
@@ -127,6 +129,16 @@ var serverGame = {
                 if (player.login == client.login) {
                     client.emit('debugInfo', "типа вошел в игру " + nameGame + " игрок " + player.login);
                     var game = this.games[nameGame];
+
+                    transportGame.successJoinToGame(client, nameGame);
+                    client.join(nameGame);
+
+                    client.teamId = player.teamId;
+                    player.socketId= client.id;
+                    this.doUpdateTeamsOnClients(nameGame);
+
+                    //client.emit('debugInfo', player);
+
                     var tanks = this.getItemsToJSON(game.tanks);
                     var dataOfGame = {
                         battleArea: game.battleArea,
@@ -135,7 +147,11 @@ var serverGame = {
                     client.emit('setDataOfGame', dataOfGame);
                     // transportGame.setDataOfGame(game.nameGame, dataOfGame);
 
-                    this.joinToGame(client, nameGame);
+
+
+
+
+                    //this.joinToGame(client, nameGame);
                 }
             }
 
