@@ -6,25 +6,37 @@ var joystickControlTouch = {
         this.isShow = false;
         this.joystickUILayOut.hide();
         this.fireUILayOut.hide();
+
+        this.scaling("1.0");
+    },
+    scalingTo: function (widthContent, height) {
+        var ratio = window.screen.width / widthContent;
+        var ratioH = window.screen.height / height;
+        if (ratio > ratioH) {
+            ratio = ratioH;
+        }
+        this.scaling(ratio);
+
+    },
+    scaling: function (ratio) {
+
+        $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+
     },
     isShow: false,
     show: function () {
         this.isShow = true;
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
+        this.scalingTo(1000, 600);
     },
-    eventList: [],
+
     init: function (gameMenu) {
 
         // this.joystickUILayOut = gameMenu.joystickUI;
         // this.fireUILayOut = gameMenu.fireUI;
         var self = this;
-        var idTO = setInterval(function () {
-            if (self.eventList[0]) {
-                self.eventList[0]();
-                self.eventList.splice(0, 1);
-            }
-        }, 10);
+
         gameMenu.layOut.append(this.joystickUILayOut);
         gameMenu.layOut.append(this.fireUILayOut);
 
@@ -60,7 +72,7 @@ var joystickControlTouch = {
         var filterTouch = function (e, cbDirection, cbFire) {
             console.time("filterTouch");
             if (self.isShow) {
-                //e.preventDefault();
+                e.preventDefault();
 
                 e.stopPropagation();
             }
@@ -72,28 +84,27 @@ var joystickControlTouch = {
                 };
             // var changedTouches = e.originalEvent.changedTouches;
             var changedTouches = e.changedTouches;
-            var eventFucntion = function (changedTouches) {
-                return function () {
-                    for (var i in changedTouches) {
-                        var elemTouch = changedTouches[i];
-                        var target = $(elemTouch.target);
+            var eventFucntion = function () {
+                for (var i in changedTouches) {
+                    var elemTouch = changedTouches[i];
+                    var target = $(elemTouch.target);
 
-                        if (target.hasClass(directionLO)) {
-                            cbDirection(elemTouch);
-
-                        }
-
-                        if (target.hasClass(fireLO)) {
-
-                            cbFire(elemTouch);
-
-                        }
-
+                    if (target.hasClass(directionLO)) {
+                        cbDirection(elemTouch);
 
                     }
-                };
+
+                    if (target.hasClass(fireLO)) {
+
+                        cbFire(elemTouch);
+
+                    }
+
+
+                }
             };
-            self.eventList.push(eventFucntion(changedTouches));
+
+            eventFucntion(changedTouches);
             console.timeEnd("filterTouch");
 
             return !self.isShow;
@@ -118,9 +129,10 @@ var joystickControlTouch = {
         // el.addEventListener("touchcancel", handleStart, false);
         // el.addEventListener("touchmove", handleStart, false);
         var argvEvent = {capture: true, passive: true};
+        var argvEvent = {capture: true};
         el.addEventListener("touchstart", function (e) {
 
-            console.log("eeeeeeeeeeeeeeeeee", e);
+            // console.log("eeeeeeeeeeeeeeeeee", e);
             return filterTouch(e, function (elemTouch) {
                 self.OnMouseDown(elemTouch);
 

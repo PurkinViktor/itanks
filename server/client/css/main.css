@@ -9,7 +9,6 @@ body {
     position: absolute;
     margin: 0;
     padding: 0;
-    touch-action: none;
 }
 
 .battleArea {
