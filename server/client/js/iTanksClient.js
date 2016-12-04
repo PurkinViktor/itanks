@@ -99,7 +99,10 @@ var iTanksClient = {
     onUpdateDataItem: function (newDataItem) {
 
         var t = this.getItem(newDataItem);
-        renderingSystem.renderItem(t);
+        requestAnimationFrame(function () {
+            renderingSystem.renderItem(t);
+        });
+
         //console.log("", tank);
         // renderingSystem.run(this);
     },

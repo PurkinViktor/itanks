@@ -49,8 +49,12 @@ var renderingSystem = {
                 this.renderItem(item);
 
             }
-        }
-        ,
+        },
+        requestAnimationFrame: function (f) {
+            requestAnimationFrame(function () {
+                f();
+            });
+        },
         destroyItem: function (item) {
             if (item.renderObj) {
                 item.renderObj.stop("", true, true);
@@ -72,12 +76,14 @@ var renderingSystem = {
             if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
                 var point = $('<div class="myTeam"></div>');
                 item.renderObj.append(point);
-               // item.renderObj.addClass("myTeam");
+                // item.renderObj.addClass("myTeam");
             }
             this.viewPort.append(item.renderObj);
-        }
-        ,
+        },
         renderItem: function (item) {
+
+
+
             if (item.renderObj) {
 
 
@@ -126,8 +132,7 @@ var renderingSystem = {
                     duration: duration
                 }
             );
-        }
-        ,
+        },
         renderExplosion: function (item) {// взрыв
             if (item.direction === EnumDirection.top || item.direction === EnumDirection.bottom) {
                 item.position.x -= 6;

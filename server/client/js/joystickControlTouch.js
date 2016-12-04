@@ -73,8 +73,8 @@ var joystickControlTouch = {
             console.time("filterTouch");
             if (self.isShow) {
                 e.preventDefault();
-
-                e.stopPropagation();
+                e.stopImmediatePropagation();
+                //e.stopPropagation();
             }
 
 
@@ -104,7 +104,7 @@ var joystickControlTouch = {
                 }
             };
 
-            eventFucntion(changedTouches);
+             eventFucntion(changedTouches);
             console.timeEnd("filterTouch");
 
             return !self.isShow;
