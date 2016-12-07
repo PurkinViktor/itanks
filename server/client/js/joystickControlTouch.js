@@ -33,10 +33,16 @@ var joystickControlTouch = {
 
         this.scaling(ratio);
 
+        console.log("$('#Viewport').attr('content');");
+        console.log($('#Viewport').attr('content'));
+
+
     },
     scaling: function (ratio) {
 
         $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+
+
 
     },
     isShow: false,
