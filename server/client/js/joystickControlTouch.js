@@ -12,6 +12,9 @@ var joystickControlTouch = {
     scalingTo: function (widthContent, height) {
         var ratio = window.screen.width / widthContent;
         var ratioH = window.screen.height / height;
+        console.log("window.screen.width", window.screen.width);
+        console.log("window.screen.height", window.screen.height);
+        console.log("window.screen", window.screen);
         if (ratio > ratioH) {
             ratio = ratioH;
         }
@@ -104,7 +107,7 @@ var joystickControlTouch = {
                 }
             };
 
-             eventFucntion(changedTouches);
+            eventFucntion(changedTouches);
             console.timeEnd("filterTouch");
 
             return !self.isShow;
