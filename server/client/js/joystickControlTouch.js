@@ -10,8 +10,9 @@ var joystickControlTouch = {
         this.scaling("1.0");
     },
     scalingTo: function (widthContent, height) {
-        var ratio = window.screen.width / widthContent * 3;
-        var ratioH = window.screen.height / height * 3;
+        var k = 3;
+        var ratio = window.screen.width / (widthContent * k);
+        var ratioH = window.screen.height / (height * k);
         console.log("window.screen.width", window.screen.width);
         console.log(window.screen.width);
         console.log("window.screen.height", window.screen.height);
