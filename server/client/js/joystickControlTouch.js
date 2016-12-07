@@ -50,7 +50,7 @@ var joystickControlTouch = {
         this.isShow = true;
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
-        this.scalingTo(1000, 600);
+        this.scalingTo(1800, 1000);
     },
 
     init: function (gameMenu) {
