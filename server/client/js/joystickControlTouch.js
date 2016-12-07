@@ -34,7 +34,7 @@ var joystickControlTouch = {
 
         //this.scaling(ratio);
         //this.scaling("0.4");
-        $('#Viewport').attr('content', 'width=3000px, initial-scale=1.0');
+        $('#Viewport').attr('content', 'width=1500, initial-scale=1.0');
 
         console.log("$('#Viewport').attr('content');");
         console.log($('#Viewport').attr('content'));
