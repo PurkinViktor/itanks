@@ -40,8 +40,9 @@ var joystickControlTouch = {
     },
     scaling: function (ratio) {
 
-        $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
-
+        setTimeout(function () {
+            $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+        }, 100);
 
 
     },
@@ -50,7 +51,7 @@ var joystickControlTouch = {
         this.isShow = true;
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
-        this.scalingTo(1800, 1000);
+        this.scalingTo(1000, 600);
     },
 
     init: function (gameMenu) {
