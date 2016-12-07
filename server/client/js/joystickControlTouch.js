@@ -33,7 +33,7 @@ var joystickControlTouch = {
         console.log(ratio);
 
         this.scaling(ratio);
-        this.scaling("0,4");
+        this.scaling("0.4");
 
         console.log("$('#Viewport').attr('content');");
         console.log($('#Viewport').attr('content'));
@@ -43,7 +43,7 @@ var joystickControlTouch = {
     scaling: function (ratio) {
 
 
-        $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+        $('#Viewport').attr('content', 'width=device-width, minimum-scale=0.1, initial-scale=' + ratio);
 
 
     },
