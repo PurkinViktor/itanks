@@ -18,9 +18,12 @@ var joystickControlTouch = {
         console.log(window.screen.height);
         console.log("window.screen", window.screen);
         console.log(window.screen);
+        console.log("window.screen.orientation.type");
+        console.log(window.screen.orientation.type);
+        ratio = window.screen.width / height;
+        ratioH = window.screen.height / widthContent;
         if (window.screen.orientation.type == "landscape-primary") {
-            ratio = window.screen.width / height;
-            ratioH = window.screen.height / widthContent;
+
         }
         if (ratio > ratioH) {
             ratio = ratioH;
