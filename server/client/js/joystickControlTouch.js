@@ -13,8 +13,11 @@ var joystickControlTouch = {
         var ratio = window.screen.width / widthContent;
         var ratioH = window.screen.height / height;
         console.log("window.screen.width", window.screen.width);
+        console.log(window.screen.width);
         console.log("window.screen.height", window.screen.height);
+        console.log(window.screen.height);
         console.log("window.screen", window.screen);
+        console.log(window.screen);
         if (ratio > ratioH) {
             ratio = ratioH;
         }
