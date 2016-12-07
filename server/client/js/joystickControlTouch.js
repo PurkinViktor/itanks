@@ -41,10 +41,9 @@ var joystickControlTouch = {
     },
     scaling: function (ratio) {
 
-        setTimeout(function () {
-            $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
-        }, 100);
 
+        $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+        
 
     },
     isShow: false,
