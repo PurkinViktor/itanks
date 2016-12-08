@@ -7,7 +7,7 @@ var joystickControlTouch = {
         this.joystickUILayOut.hide();
         this.fireUILayOut.hide();
 
-        this.scaling("1.0");
+        this.scaling("0.6");
     },
     scalingTo: function (widthContent, height) {
         var k = 3;
@@ -35,7 +35,7 @@ var joystickControlTouch = {
         //this.scaling(ratio);
         //this.scaling("0.4");
 
-        $('body').css('width', 1000);
+        //$('body').css('width', 1000);
        // $('#Viewport').attr('content', 'width=device-width, initial-scale=1.0');
 
         console.log("$('#Viewport').attr('content');");
