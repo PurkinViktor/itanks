@@ -47,6 +47,14 @@ var iTanksClient = {
         this.items = data.tanks.concat(data.battleArea.barriers) || [];
         renderingSystem.run(this);
         joystickControlTouch.show();
+
+        if (window.Android) {
+            Android.startTouch();
+            console.log("Android", Android);
+
+        } else {
+            console.log("Андройда нет");
+        }
     },
     getItem: function (newData) {
         for (var i in this.items) {
@@ -174,6 +182,14 @@ var iTanksClient = {
         renderingSystem.destroy();
         gameMenu.showListGames();
         joystickControlTouch.hide();
+
+        if (window.Android) {
+            Android.stopTouch();
+            console.log("Android", Android);
+
+        } else {
+            console.log("Андройда нет");
+        }
 
     },
     keyHundler: {
