@@ -36,7 +36,7 @@ var joystickControlTouch = {
         //this.scaling("0.4");
 
         //$('body').css('width', 1000);
-       // $('#Viewport').attr('content', 'width=device-width, initial-scale=1.0');
+        // $('#Viewport').attr('content', 'width=device-width, initial-scale=1.0');
 
         console.log("$('#Viewport').attr('content');");
         console.log($('#Viewport').attr('content'));
@@ -268,6 +268,7 @@ var joystickControlTouch = {
 
     },
     getPosition: function (LO, clickPos) {
+
         var pos = LO.position();
         var res = {};
         res.left = clickPos.pageX - pos.left;
@@ -286,6 +287,7 @@ var joystickControlTouch = {
 
     },
     OnMouseDown: function (e) {
+        console.log("вызываю из приложения", e);
         this.isDown = true;
 
         // this.joystickUI.css({

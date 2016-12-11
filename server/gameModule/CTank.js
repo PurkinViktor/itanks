@@ -185,6 +185,16 @@ var CTank = function (settings) {
             }
         }
     };
+    // this.mayBeCallAction = function (action) {
+    //     if (action === "fire" && this.activeKey[action].active) {
+    //         var data = +new Date();
+    //         if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
+    //             this.runActivKey(action);
+    //         }
+    //     }
+    //         clearInterval(this.actionIntervalId);
+    //     this.actionIntervalId = setInterval(this.getHandler(this.callAction), this.timeInterval);
+    // };
     this.callAction = function () {
 
         var actionMove = false;

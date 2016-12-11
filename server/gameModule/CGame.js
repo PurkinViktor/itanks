@@ -22,7 +22,7 @@ module.exports = function (set) {
         {
             title: "Команда Black IGL", id: "team2", maxCountPlayers: 5,
             IGLSettings: {
-               // x: 14, y: 7,
+                // x: 14, y: 7,
                 x: 7, y: 14,
                 //onKill: new CEvent()
             }
@@ -183,6 +183,13 @@ module.exports = function (set) {
     };
     this.onDestroy = new CEvent();
     this.gameStop = function () {
+        if (window.Android) {
+            Android.stopTouch();
+            console.log("Android", Android);
+
+        } else {
+            console.log("Андройда нет");
+        }
         for (var i in this.players) {
             var player = this.players[i];
             //player.tank.destroy();
@@ -290,6 +297,13 @@ module.exports = function (set) {
         }
     };
     this.start = function () {
+        if (window.Android) {
+            Android.startTouch();
+            console.log("Android", Android);
+
+        } else {
+            console.log("Андройда нет");
+        }
         for (var i in this.tanks) {
             var tank = this.tanks[i];
             tank.setActivat(true);
