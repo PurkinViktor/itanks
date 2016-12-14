@@ -17,10 +17,10 @@ var android = {
         this.dx = window.innerWidth / w;
         this.dy = window.innerHeight / h;
         console.log("this.dx");
-        console.log(dx);
+        console.log(this.dx);
         console.log("this.dy");
 
-        console.log(dy);
+        console.log(this.dy);
 
 
     },
