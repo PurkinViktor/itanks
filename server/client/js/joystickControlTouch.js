@@ -202,69 +202,12 @@ var joystickControlTouch = {
         }, argvEvent);
 
 
-        // $document.on(events.start, function (e) {
-        //
-        //
-        //     return filterTouch(e, function (elemTouch) {
-        //         self.OnMouseDown(elemTouch);
-        //
-        //     }, function (elemTouch) {
-        //         self.OnFireDoun(elemTouch);
-        //     });
-        //
-        //
-        // });
-        // $document.on(events.move, function (e) {
-        //     return filterTouch(e, function (elemTouch) {
-        //         var realTarget = document.elementFromPoint(elemTouch.clientX, elemTouch.clientY);
-        //
-        //         self.handlerOnMouseMoveDirectionBatton($(realTarget));
-        //         //console.log(e, realTarget);
-        //     });
-        //     // var elemTouch = e.originalEvent.changedTouches;
-        //     // var realTarget = document.elementFromPoint(elemTouch[0].clientX, elemTouch[0].clientY);
-        //     // console.log(e, realTarget);
-        //     // self.handlerOnMouseMoveDirectionBatton($(realTarget));
-        //
-        // });
-        // $document.on(events.end, function (e) {
-        //     return filterTouch(e, function (elemTouch) {
-        //         self.OnMouseUp(elemTouch);
-        //
-        //         // console.log(elemTouch);
-        //     }, function (elemTouch) {
-        //         self.OnFireUp(elemTouch);
-        //     });
-        //
-        // });
-        // $document.on("touchcancel", function (e) {// перехватываем чтобы анимация не лагала
-        //     return filterTouch(e, function (elemTouch) {
-        //
-        //     }, function (elemTouch) {
-        //
-        //     });
-        //
-        // });
-        // $document.on("click", function (e) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     console.log("click was made");
-        // });
-        // window.addEventListener(events.end, function (e) {
-        //     filterTouch(e, function (elemTouch) {
-        //         self.OnMouseUp(elemTouch);
-        //
-        //         // console.log(elemTouch);
-        //     }, function (elemTouch) {
-        //         self.OnFireUp(elemTouch);
-        //     });
-        //     // var elemTouch = e.originalEvent.changedTouches;
-        //     //
-        //     // self.OnMouseUp(elemTouch[0]);
-        //     //
-        //     // console.log(elemTouch);
-        // }, true);
 
+
+    },
+    OnMouseMove: function (e) {
+        var realTarget = document.elementFromPoint(e.pageX, e.pageY);
+        this.handlerOnMouseMoveDirectionBatton($(realTarget));
 
     },
     getPosition: function (LO, clickPos) {
