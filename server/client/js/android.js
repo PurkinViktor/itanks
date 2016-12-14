@@ -35,10 +35,19 @@ var android = {
         return pos;
     },
     OnTouch: function (pos) {
-        console.log("pos");
-        console.log(pos);
+
         joystickControlTouch.OnMouseDown(this.reCalcPosition(pos));
     },
+    OnMove: function (pos) {
+
+        joystickControlTouch.OnMouseMove(this.reCalcPosition(pos));
+    },
+    OnUp: function (pos) {
+
+        joystickControlTouch.OnMouseUp(this.reCalcPosition(pos));
+    },
+
+
 
     stopTouch: function () {
         if (window.InterfaceAndroid) {
