@@ -47,14 +47,15 @@ var iTanksClient = {
         this.items = data.tanks.concat(data.battleArea.barriers) || [];
         renderingSystem.run(this);
         joystickControlTouch.show();
+        android.startTouch();
 
-        if (window.Android) {
-            Android.startTouch();
-            console.log("Android", Android);
-
-        } else {
-            console.log("Андройда нет");
-        }
+        // if (window.Android) {
+        //     Android.startTouch();
+        //     console.log("Android", Android);
+        //
+        // } else {
+        //     console.log("Андройда нет");
+        // }
     },
     getItem: function (newData) {
         for (var i in this.items) {
@@ -183,13 +184,14 @@ var iTanksClient = {
         gameMenu.showListGames();
         joystickControlTouch.hide();
 
-        if (window.Android) {
-            Android.stopTouch();
-            console.log("Android", Android);
-
-        } else {
-            console.log("Андройда нет");
-        }
+        android.stopTouch();
+        // if (window.Android) {//InterfaceAndroid
+        //     android.stopTouch();
+        //     console.log("Android", Android);
+        //
+        // } else {
+        //     console.log("Андройда нет");
+        // }
 
     },
     keyHundler: {
