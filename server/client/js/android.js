@@ -38,7 +38,7 @@ var android = {
     },
     startTouch: function () {
         if (window.InterfaceAndroid) {
-            InterfaceAndroid.stopTouch();
+            InterfaceAndroid.startTouch();
         }
     }
 
