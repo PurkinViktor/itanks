@@ -206,8 +206,13 @@ var joystickControlTouch = {
 
     },
     OnMouseMove: function (e) {
+        console.log("выполнился OnMouseMove 1");
+
         var realTarget = document.elementFromPoint(e.pageX, e.pageY);
+        console.log("выполнился OnMouseMove 2");
+
         this.handlerOnMouseMoveDirectionBatton($(realTarget));
+        console.log("выполнился OnMouseMove");
 
     },
     getPosition: function (LO, clickPos) {
