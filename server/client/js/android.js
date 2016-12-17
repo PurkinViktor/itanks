@@ -46,6 +46,14 @@ var android = {
 
         joystickControlTouch.OnMouseUp(this.reCalcPosition(pos));
     },
+    OnFireDoun: function (pos) {
+
+        joystickControlTouch.OnFireDoun(this.reCalcPosition(pos));
+    },
+    OnFireUp: function (pos) {
+
+        joystickControlTouch.OnFireDoun(this.reCalcPosition(pos));
+    },
 
 
 
