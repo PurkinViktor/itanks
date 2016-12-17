@@ -24,6 +24,14 @@ var android = {
 
 
     },
+    calcDxDy: function () {
+        this.dx = $("body").width() / this.widthDevice;
+        this.dy = $("body").height() / this.heightDevice;
+        console.log("this.dx");
+        console.log(this.dx);
+        console.log("this.dy");
+        console.log(this.dy);
+    },
     reCalcPosition: function (pos) {
         //{pageX:40, pageY: 40}
         console.log("pos.pageX1");
@@ -56,7 +64,6 @@ var android = {
     },
 
 
-
     stopTouch: function () {
         if (window.InterfaceAndroid) {
             InterfaceAndroid.stopTouch();
@@ -65,8 +72,10 @@ var android = {
     startTouch: function () {
         if (window.InterfaceAndroid) {
             InterfaceAndroid.startTouch();
+            this.calcDxDy()
         }
+
     }
 
 
-}
+};
