@@ -7,12 +7,12 @@ var joystickControlTouch = {
         this.joystickUILayOut.hide();
         this.fireUILayOut.hide();
 
-        this.scaling("0.6");
+        this.scaling("1.0");
     },
     scalingTo: function (widthContent, height) {
-        var k = 3;
-        var ratio = window.screen.width / (widthContent * k);
-        var ratioH = window.screen.height / (height * k);
+
+        var ratio = window.screen.width / widthContent ;
+        var ratioH = window.screen.height / height ;
         console.log("window.screen.width", window.screen.width);
         console.log(window.screen.width);
         console.log("window.screen.height", window.screen.height);
@@ -32,7 +32,7 @@ var joystickControlTouch = {
         console.log("ratio");
         console.log(ratio);
 
-        //this.scaling(ratio);
+        this.scaling(ratio);
         //this.scaling("0.4");
 
         //$('body').css('width', 1000);
@@ -55,7 +55,7 @@ var joystickControlTouch = {
         this.isShow = true;
         this.joystickUILayOut.show();
         this.fireUILayOut.show();
-        this.scalingTo(1000, 600);
+        this.scalingTo(1000, 650);
     },
 
     init: function (gameMenu) {
@@ -64,8 +64,11 @@ var joystickControlTouch = {
         // this.fireUILayOut = gameMenu.fireUI;
         var self = this;
 
-        gameMenu.layOut.append(this.joystickUILayOut);
-        gameMenu.layOut.append(this.fireUILayOut);
+        // gameMenu.layOut.append(this.joystickUILayOut);
+        // gameMenu.layOut.append(this.fireUILayOut);
+
+        $(".gameAreaContent").append(this.joystickUILayOut);
+        $(".gameAreaContent").append(this.fireUILayOut);
 
         this.joystickUI = $('<div class="directionJoystick">' +
             '<div class="dirButtonJSK top"><div class="dirArea top"></div></div>' +

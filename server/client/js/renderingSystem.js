@@ -7,7 +7,7 @@ var renderingSystem = {
 //        console.log('Caller: ',arguments.callee.caller.name);
             var set = {
                 class: "battleArea",
-                parent: "body",
+                parent: ".gameAreaContent",
                 h: game.battleArea.h,
                 w: game.battleArea.w,
                 y: game.battleArea.y,

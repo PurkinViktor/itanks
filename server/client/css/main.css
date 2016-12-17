@@ -13,9 +13,9 @@ body {
 
 .battleArea {
     background: #D3D3D8;
-    border: #000 2px solid;
+    /*border: #000 2px solid;*/
     position: relative;
-/ / margin: auto;
+    margin: 0 auto;
 }
 
 .statViewPort {
@@ -244,14 +244,15 @@ table th {
 .Joystick, .FireArea {
     position: absolute;
     top: 0px;
-    left: 0px;
-    height: 600px;
-    width: 200px;
+    height: 100%;
+    width: 50%;
     background-color: #8c8c8c;
 }
-
+.Joystick {
+    left: 0px;
+}
 .FireArea {
-    left: 800px;
+    right: 0px;
 }
 
 /* JOYSTICK*/
@@ -336,3 +337,13 @@ table th {
 }
 
 /* -- JOYSTICK*/
+.wrapperGameAreaContent{
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+.gameAreaContent{
+    display:table-cell;
+    text-align:center;
+    vertical-align:middle;
+}
