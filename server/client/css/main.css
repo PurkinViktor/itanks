@@ -260,10 +260,11 @@ table th {
     transform-origin: center;
     transform: translate(-50%, -50%);
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     background-color: red;
     border-radius: 100%;
+    opacity: 0.2;
 }
 
 .directionJoystick {
