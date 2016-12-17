@@ -52,7 +52,7 @@ var android = {
     },
     OnFireUp: function (pos) {
 
-        joystickControlTouch.OnFireDoun(this.reCalcPosition(pos));
+        joystickControlTouch.OnFireUp(this.reCalcPosition(pos));
     },
 
 
