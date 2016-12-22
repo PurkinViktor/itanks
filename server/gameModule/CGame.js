@@ -214,7 +214,7 @@ module.exports = function (set) {
             ownerId: "player_" + set.ownerId,
             hp: 10,
             countBullet: 3,// количество выстрелов одновреммено
-            typeObject: ["player1", "player1_"],
+            typeObject: ["player", "player_"],
             teamId: set.teamId,
 //			width: 26,
 //			height: 26

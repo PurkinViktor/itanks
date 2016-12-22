@@ -46,26 +46,57 @@ table th {
     /*background: #5f5;*/
 }
 
-.plaerTank {
-    background: url(../img/Player.png) no-repeat;
-    background-size: 60px 30px;
-}
-
-.plaerTank_ {
-    background-position: -30px;
-}
-
-.player1 {
-    background: url(../img/player1.png) no-repeat;
-}
-
-.player1_ {
-    background: url(../img/player1_.png) no-repeat;
+.obj.myTeam {
 
 }
 
-.player1, .player1_ {
+.tankDrawLayer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -4px;
+    left: -4px;
+    border: 4px dashed #f00;
+    opacity: 1;
+}
+
+
+.player.opponentTeam {
+    background-image: url(../img/playerOpponent.png);
+}
+
+.player_.opponentTeam {
+    background-image: url(../img/playerOpponent_.png);
+}
+
+.player.playerMy {
+    background-image: url(../img/playerMy.png);
+}
+
+.player_.playerMy {
+    background-image: url(../img/playerMy_.png);
+}
+/*.plaerTank {*/
+/*background: url(../img/Player.png) no-repeat;*/
+/*background-size: 60px 30px;*/
+/*}*/
+
+/*.plaerTank_ {*/
+/*background-position: -30px;*/
+/*}*/
+
+.player {
+    background-image: url(../img/player1.png);
+}
+
+.player_ {
+    background-image: url(../img/player1_.png);
+
+}
+
+.player, .player_, .opponentTeam {
     background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .boot {
@@ -227,14 +258,15 @@ table th {
     font-weight: bold;
 }
 
-.obj .myTeam {
+.obj .myTeamFlag {
     width: 4px;
     height: 4px;
     margin: 13px 0px 0 16px;
-    background-color: #0f0;
+    background-color: red;
+    border-radius: 100%;
 }
 
-.igl .myTeam {
+.igl .myTeamFlag {
     width: 4px;
     height: 4px;
     margin: 13px 0 0 18px;
@@ -248,9 +280,11 @@ table th {
     width: 50%;
     background-color: #8c8c8c;
 }
+
 .Joystick {
     left: 0px;
 }
+
 .FireArea {
     right: 0px;
 }
@@ -338,13 +372,14 @@ table th {
 }
 
 /* -- JOYSTICK*/
-.wrapperGameAreaContent{
+.wrapperGameAreaContent {
     height: 100%;
     width: 100%;
     display: table;
 }
-.gameAreaContent{
-    display:table-cell;
-    text-align:center;
-    vertical-align:middle;
+
+.gameAreaContent {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }

@@ -33,6 +33,7 @@ var CTank = function (settings) {
     this.onLeft = null;
     this.onRight = null;
     this.typeObject = settings.typeObject || ["plaerTank", "plaerTank_"];
+    this.typeObject.push("playerTank");
 
     this.bullets = [];
     this.countBullet = settings.countBullet || 1;// одновременных выстрелов

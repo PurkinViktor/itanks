@@ -73,15 +73,31 @@ var renderingSystem = {
                 top: item.position.y
             });
             item.renderObj.addClass(item.typeObject[0]);
-            if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
-                var point = $('<div class="myTeam"></div>');
-                item.renderObj.append(point);
-                // item.renderObj.addClass("myTeam");
+            if (item.typeObject.indexOf("playerTank") > 0) {// если это танк тогда
+                if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
+
+                    if (item.typeObject.indexOf("playerTank") > 0) {// если это танк тогда
+                        item.renderObj.addClass("myTeam");
+                        if (item.ownerId == "player_id_player_" + this.game.clientInfo.login) {
+                            // var layer = $('<div class="tankDrawLayer"></div>');
+                            // item.renderObj.append(layer);
+                            var point = $('<div class="myTeamFlag"></div>');
+                            item.renderObj.append(point);
+                            item.renderObj.addClass("playerMy");
+
+                        }
+                        // item.renderObj.append(layer.clone());
+                        //item.renderObj.append(layer.clone());
+
+
+                    }
+                } else {
+                    item.renderObj.addClass("opponentTeam");
+                }
             }
             this.viewPort.append(item.renderObj);
         },
         renderItem: function (item) {
-
 
 
             if (item.renderObj) {
@@ -132,7 +148,8 @@ var renderingSystem = {
                     duration: duration
                 }
             );
-        },
+        }
+        ,
         renderExplosion: function (item) {// взрыв
             if (item.direction === EnumDirection.top || item.direction === EnumDirection.bottom) {
                 item.position.x -= 6;
