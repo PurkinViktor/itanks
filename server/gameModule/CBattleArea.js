@@ -2,6 +2,7 @@ var CBarrier = require('./CBarrier.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var CEvent = require('./CEvent.js');
 var helper = require('./helper.js');
+var extend = require('extend');
 
 
 module.exports = function (game) {
@@ -63,7 +64,7 @@ module.exports = function (game) {
 
 
             this.cleanMap(); /// очищаем карту если она уже была
-            this.createRandMap(10); // создаем только разметку на карте
+            this.createRandMap(20); // создаем только разметку на карте
             this.createMaps(this.map); // создаем сами обьеты на карте
             this.renderingMap(); // отрисовываем
         },
@@ -73,25 +74,30 @@ module.exports = function (game) {
                 barrier.destroy();
             }
         },
-        addCellInMap: function (x, y, dataBarrier) {
+        addCellInMap: function (x, y, dataBarrier, additionalInfoCell) {
 
             var cell = this.map[x][y] || {
-                    infoCell: {},// не используется походу
+                    infoCell: additionalInfoCell || {},// не используется походу
                     barriers: []
                 };
+
+            if (additionalInfoCell) {
+                extend(dataBarrier, additionalInfoCell);
+            }
             cell.barriers.push(dataBarrier);
+            //cell.infoCell.push(dataBarrier);
             this.map[x][y] = cell;
 
         },
-        createCellOfMap: function (x, y, type, sixeCell) {
+        createCellOfMap: function (x, y, type, sizeCell, infoCell) {
 
             if (x < 0 || y < 0 || this.map.length <= x || this.map[0].length <= y) {
                 return;
             }
-            for (var i = 0; i < sixeCell; i++) {
-                for (var j = 0; j < sixeCell; j++) {
+            for (var i = 0; i < sizeCell; i++) {
+                for (var j = 0; j < sizeCell; j++) {
 
-                    this.addCellInMap(x, y, CBarrier.create(x * sixeCell + i, y * sixeCell + j, type));
+                    this.addCellInMap(x, y, CBarrier.create(x * sizeCell + i, y * sizeCell + j, type), infoCell);
                 }
             }
         },
@@ -101,23 +107,26 @@ module.exports = function (game) {
                 this.map[i] = new Array(countY);
             }
         },
-        createIGL: function (x, y) {
+        createIGL: function (x, y, infoIgl) {
             var igl = CBarrier.create(x, y, EnumBarrier.igl);
             igl.width = CBarrier.width * this.sizeCell;
             igl.height = CBarrier.height * this.sizeCell;
 
-            this.addCellInMap(x, y, igl);
+            // var infoCell = {teamId: infoIgl.teamId};
+            var infoCell = infoIgl;
 
-            this.createCellOfMap(x - 1, y, EnumBarrier.default, this.sizeCell);
-            this.createCellOfMap(x + 1, y, EnumBarrier.default, this.sizeCell);
+            this.addCellInMap(x, y, igl, infoCell);
 
-            this.createCellOfMap(x - 1, y - 1, EnumBarrier.default, this.sizeCell);// верх
-            this.createCellOfMap(x, y - 1, EnumBarrier.default, this.sizeCell);// верх
-            this.createCellOfMap(x + 1, y - 1, EnumBarrier.default, this.sizeCell);// верх
+            this.createCellOfMap(x - 1, y, EnumBarrier.default, this.sizeCell, infoCell);
+            this.createCellOfMap(x + 1, y, EnumBarrier.default, this.sizeCell, infoCell);
 
-            this.createCellOfMap(x - 1, y + 1, EnumBarrier.default, this.sizeCell);// низ
-            this.createCellOfMap(x, y + 1, EnumBarrier.default, this.sizeCell);// низ
-            this.createCellOfMap(x + 1, y + 1, EnumBarrier.default, this.sizeCell);// низ
+            this.createCellOfMap(x - 1, y - 1, EnumBarrier.default, this.sizeCell, infoCell);// верх
+            this.createCellOfMap(x, y - 1, EnumBarrier.default, this.sizeCell, infoCell);// верх
+            this.createCellOfMap(x + 1, y - 1, EnumBarrier.default, this.sizeCell, infoCell);// верх
+
+            this.createCellOfMap(x - 1, y + 1, EnumBarrier.default, this.sizeCell, infoCell);// низ
+            this.createCellOfMap(x, y + 1, EnumBarrier.default, this.sizeCell, infoCell);// низ
+            this.createCellOfMap(x + 1, y + 1, EnumBarrier.default, this.sizeCell, infoCell);// низ
 
             return igl;
         },
@@ -145,7 +154,7 @@ module.exports = function (game) {
                 //
                 //     }
                 // );
-                var igl = this.createIGL(team.IGLSettings.x, team.IGLSettings.y);
+                var igl = this.createIGL(team.IGLSettings.x, team.IGLSettings.y, {teamId: team.id});
                 igl.teamId = team.id;
                 //igl.onKill = team.IGLSettings.onKill;
 
@@ -179,7 +188,9 @@ module.exports = function (game) {
             //var countBarr = 4;
             for (var i in map) {
                 for (var j in map[i]) {
+                    //var infoCell =  map[i][j].infoCell;
                     for (var n in map[i][j].barriers) {
+
                         this.createBarrier(map[i][j].barriers[n]);
                     }
 

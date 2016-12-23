@@ -70,11 +70,15 @@ var CBullet = function (settings, tank) {
             var arrBarriers = rules.rulesBarriers(this, this.position, exceptionsBarriers);
 
             if (arrBarriers.length > 0) {
-                var areaBlast = this.areaBlast();
-                arrBarriers = rules.rulesBarriers(areaBlast, areaBlast.position, exceptionsBarriers);
-                for (var i in arrBarriers) {
+                var barrier = arrBarriers[0];
+                if (barrier.teamId !== self.teamId) {
+                    // если барьер не своей команды то уничтожаем его
+                    var areaBlast = this.areaBlast();
+                    arrBarriers = rules.rulesBarriers(areaBlast, areaBlast.position, exceptionsBarriers);
+                    for (var i in arrBarriers) {
 
-                    arrBarriers[i].hit();
+                        arrBarriers[i].hit();
+                    }
                 }
                 if (this.onHit) {
                     this.onHit(this);
