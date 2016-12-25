@@ -22,6 +22,10 @@ var transportClient = {
             teamId: teamId
         });
     },
+    kickPlayer: function (data) {
+        data.nameGame = iTanksClient.nameGame;
+        this.socket.emit("kickPlayer", data);
+    },
     setActiveKey: function (action, value) {
         console.log("setActiveKey", value);
         this.socket.emit("setActiveKey", {
@@ -61,6 +65,11 @@ var transportClient = {
             socket.emit("getListGames");
 
         });
+        this.socket.on('goToLayerListOfGames', function (data) {
+            console.log("ongoToLayerListOfGames", data);
+            iTanksClient.onKickOurFromGame(data);
+        });
+
         this.socket.on('login', function (data) {
             console.log("onLogin", data);
             iTanksClient.onLogin(data);

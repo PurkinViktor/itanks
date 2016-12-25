@@ -136,6 +136,10 @@ module.exports = function (set) {
         }
         return f;
     };
+    this.kickPlayer = function (teamId, login) {
+        delete this.boots[login];
+        return true;
+    };
     this.getBoots = function () {
         var res = helper.cutInObjFromArr(this.boots, ["id", "login", "teamId"]);
         return res;

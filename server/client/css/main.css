@@ -60,7 +60,6 @@ table th {
     opacity: 1;
 }
 
-
 .player.opponentTeam {
     background-image: url(../img/playerOpponent.png);
 }
@@ -76,6 +75,7 @@ table th {
 .player_.playerMy {
     background-image: url(../img/playerMy_.png);
 }
+
 /*.plaerTank {*/
 /*background: url(../img/Player.png) no-repeat;*/
 /*background-size: 60px 30px;*/
@@ -212,6 +212,7 @@ table th {
 
 .gameMenu li {
     cursor: pointer;
+    position: relative;
 }
 
 .gameMenu li:hover, .active {
@@ -233,8 +234,20 @@ table th {
 
 .ListTeamsLayOut {
     height: auto;
-}
+    width: auto;
 
+}
+.btnKickPlayer{
+    background-image: url(../img/cross.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+}
 .inputNameGame, .btnAddGame {
     display: inline-block;
 }
@@ -247,7 +260,13 @@ table th {
 }
 
 .getListTeamLayOut {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
+    width: 48%;
+    float: left;
+}
+
+.getListTeamLayOut:nth-child(2) {
+    float: right;
 }
 
 .inputNameGame {

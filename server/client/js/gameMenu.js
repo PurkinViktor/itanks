@@ -55,18 +55,18 @@ var gameMenu = {
             // self.onAddBootToTeam(indexTeam);
         }
     },
-    getListTeamLayOut: function (indexTeam) {
+    getListTeamLayOut: function () {
 
         var self = this;
         var t = $("<div class='getListTeamLayOut'>" +
-            "<ul class='list'>" +
+            "<div class='list'>" +
             // "<li></li>" +
-            "</ul>" +
+            "</div>" +
             "<div class='gameListPanel'>" +
             "<input type='button' class='btnAddPlayer' value='Add Player'>" +
             "</div>" +
             "<div");
-
+        var indexTeam = this.teams.length;
         t.find(".btnAddPlayer").on("click", this.getHundlerBtnAddBoot(indexTeam));
 
         var set = {items: [], location: t.find(".list")};
@@ -77,16 +77,37 @@ var gameMenu = {
         };
 
         listTeamUI.curentConstructionItem = function (li, item, index, items) {
+
             if (self.iTankClient.clientInfo.login == item.login) {
                 li.addClass("selfClient");
             }
+            console.log(item);
+            if (item.id !== undefined) {
+                /// если id есть то это игрок или бот
+                // id :"R80H8RXJKVLz_Mm3l6I8"
+                // login                    :                    "vasa"
+                // teamId                    :                    "team1"
+                var btnKick = $('<div class="btnKickPlayer"></div>');
+                li.append(btnKick);
+                btnKick.on("click", self.getHundlerBtnKick(item))
+
+            }
+
             return li;
         };
         this.teams.push(listTeamUI);
         return t;
     },
     // onAddBootToTeam: new CEvent(),
+    getHundlerBtnKick:function (item) {
+        var self = this;
+        return function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            self.iTankClient.kickPlayer(item);
+        };
 
+    },
     changeTeam: function (menu, item) {
         //this.iTankClient.joinGame
         //console.log("menu", menu, item);//itemCode
@@ -106,13 +127,13 @@ var gameMenu = {
         var listTeamsLayOut = $("<div class='ListTeamsLayOut'><div");
         //console.log(this.iTankClient.teamsInGame);
         var team = {};
-        var t = this.getListTeamLayOut(0);
+        var t = this.getListTeamLayOut();
         // t.find(".btnAddPlayer").on("click", function (e) {
         //
         //     self.onAddBootToTeam();
         // });
         listTeamsLayOut.append(t);
-        listTeamsLayOut.append(this.getListTeamLayOut(1));
+        listTeamsLayOut.append(this.getListTeamLayOut());
         listTeamsLayOut.append(this.getBtnStartGame());
 
         return listTeamsLayOut;

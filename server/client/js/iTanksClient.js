@@ -171,6 +171,14 @@ var iTanksClient = {
             transportClient.addBootToTeam(team.id);
         }
     },
+    kickPlayer: function (playerInfo) {
+
+        transportClient.kickPlayer(playerInfo);
+
+    },
+    onKickOurFromGame: function (data) {
+        gameMenu.showListGames();
+    },
     onGameOver: function (data) {
         console.log("onGameOver", data);
         var msg = "You lose (((.";

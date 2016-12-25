@@ -134,7 +134,7 @@ var serverGame = {
                     client.join(nameGame);
 
                     client.teamId = player.teamId;
-                    player.socketId= client.id;
+                    player.socketId = client.id;
                     this.doUpdateTeamsOnClients(nameGame);
 
                     //client.emit('debugInfo', player);
@@ -146,9 +146,6 @@ var serverGame = {
                     };
                     client.emit('setDataOfGame', dataOfGame);
                     // transportGame.setDataOfGame(game.nameGame, dataOfGame);
-
-
-
 
 
                     //this.joinToGame(client, nameGame);
@@ -228,6 +225,32 @@ var serverGame = {
         if (isDo) {
             this.doUpdateTeamsOnClients(data.nameGame);
         }
+
+    },
+    onKickPlayer: function (client, data) {
+
+        // data.nameGame
+        // data.login
+        // data.id
+        // data.teaamId
+        if (data.id) {
+            //id не пустой значит есть пользователь
+            var clientForKick = transportGame.getClientById(data.id);
+            if (clientForKick) {
+
+                clientForKick.leave(data.nameGame);
+                clientForKick.emit("goToLayerListOfGames", {});
+            }
+
+
+            //  client.leave(data.nameGame);
+        } else {
+            // значит бот
+            this.games[data.nameGame].kickPlayer(data.teamId, data.login);
+        }
+
+        this.doUpdateTeamsOnClients(data.nameGame);
+
 
     },
     startGame: function (client, nameGame) {

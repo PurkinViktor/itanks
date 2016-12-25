@@ -56,7 +56,10 @@ var transportGame = {
         this.io.sockets.in(gameName).emit('renderExplosion', item);
 
     },
-
+    getClientById: function (socketId) {
+        return this.io.sockets.sockets[socketId];
+        //this.io.sockets.manager.connected[socketId];
+    },
     sendUpdateDataItem: function (gameName, item) {//
 
         // setTimeout(function () {
@@ -162,6 +165,12 @@ var transportGame = {
                 client.on('addBootToTeam', hundlerEvents(function (data) {
                     //client.room
                     serverGame.onAddBootToTeam(client, data);
+                    //console.log("joinToGame", r);
+                    //client.emit('joinToGame', r);
+                }));
+                client.on('kickPlayer', hundlerEvents(function (data) {
+                    //client.room
+                    serverGame.onKickPlayer(client, data);
                     //console.log("joinToGame", r);
                     //client.emit('joinToGame', r);
                 }));
