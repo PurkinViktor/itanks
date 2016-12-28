@@ -211,13 +211,18 @@ table th {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    height: 179px;
+
+    height: 100%;
     overflow: auto;
 }
 
 .gameMenu li {
     cursor: pointer;
     position: relative;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 39px;
 }
 
 .gameMenu li:hover, .active {
@@ -225,8 +230,8 @@ table th {
 }
 
 .ListGameLayOut, .ListTeamsLayOut {
-    width: 220px;
-    height: 200px;
+    /*width: 220px;*/
+    /*height: 200px;*/
     z-index: 2;
     background: #8c8c8c;
     margin: auto;
@@ -247,12 +252,13 @@ table th {
     background-image: url(../img/cross.png);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 80%;
+    background-size: 60%;
     height: 100%;
     position: absolute;
     top: 0;
     right: 0;
-    width: 20px;
+    width: 48px;
+    opacity: 0.9;
 }
 
 .inputNameGame, .btnAddGame {
@@ -260,16 +266,20 @@ table th {
 }
 
 .btnAddGame {
-
-    margin-left: 5px;
-    float: right;
-    text-align: center;
+    right: 0;
+    position: absolute;
+    width: 70px;
+    height: 100%;
+    border: 0;
 }
 
 .getListTeamLayOut {
-    /*margin-top: 20px;*/
     width: 48%;
     float: left;
+    height: 100%;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .getListTeamLayOut:nth-child(2) {
@@ -277,7 +287,15 @@ table th {
 }
 
 .inputNameGame {
-
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    border: 0;
+    border-right: 70px solid #fff;
+    padding-left: 10px;
+    box-sizing: border-box;
+    background-color: #828282;
 }
 
 .selfClient {
@@ -408,4 +426,39 @@ table th {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
+}
+.btnAddPlayer{
+    border: none;
+    height: 40px;
+    width: 100%;
+}
+.btnStartGame{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.list{
+    height: 100%;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+ }
+.gameListPanel{
+    position: absolute;
+    bottom: 55px;
+    width: 100%;
+}
+.ListGameLayOut{
+    height: 100%;
+}
+.ListGameLayOut .gameListPanel{
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    bottom: 0;
 }
