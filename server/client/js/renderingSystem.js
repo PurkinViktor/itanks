@@ -135,19 +135,23 @@ var renderingSystem = {
                     item.renderObj.addClass(item.typeObject[1]);
                 }
             }
-
-            item.renderObj.animate({
+            item.renderObj.css({
                     left: item.position.x,
                     top: item.position.y
-                },
-                {
-                    step: function (aa, bb, cc) {
-
-
-                    },
-                    duration: duration
                 }
             );
+            // item.renderObj.animate({
+            //         left: item.position.x,
+            //         top: item.position.y
+            //     },
+            //     {
+            //         step: function (aa, bb, cc) {
+            //
+            //
+            //         },
+            //         duration: duration
+            //     }
+            // );
         }
         ,
         renderExplosion: function (item) {// взрыв

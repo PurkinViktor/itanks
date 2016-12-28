@@ -90,30 +90,66 @@ var iTanksClient = {
 
     onDestroyItem: function (dataItem) {
 
-        for (var i in this.items) {
-            var t = this.items[i];
-            if (t.id == dataItem.id) {
-                renderingSystem.destroyItem(t);
-                this.items.slice(i, 1);
+        //console.log("", tank);
+        var f = this.getHundlerDestroyItem(dataItem);
+        f();
+        // renderingSystem.run(this);
+    },
+    getHundlerDestroyItem: function (dataItem) {
+        var self = this;
+        return function () {
+            console.time("this.onDestroyItem");
+            var arrItems = self.items;
+            for (var i in arrItems) {
+                var t = arrItems[i];
+                if (t.id == dataItem.id) {
+                    renderingSystem.destroyItem(t);
+                    arrItems.slice(i, 1);
+                }
             }
-        }
+            console.timeEnd("this.onDestroyItem");
+        };
         //console.log("", tank);
         // renderingSystem.run(this);
     },
     onRenderExplosion: function (dataItem) {
-
-        renderingSystem.renderExplosion(dataItem);
+        //console.time("this.onRenderExplosion");
+        GNAME_TIME = "this.onRenderExplosion";
+        this.callInWraper(renderingSystem.renderExplosion, dataItem);
+       // console.timeEnd("this.onRenderExplosion");
+        //renderingSystem.renderExplosion(dataItem);
 
     },
     onUpdateDataItem: function (newDataItem) {
 
+        console.time("this.getItem");
         var t = this.getItem(newDataItem);
-        requestAnimationFrame(function () {
-            renderingSystem.renderItem(t);
-        });
+        console.timeEnd("this.getItem");
+        GNAME_TIME = "this.onUpdateDataItem";
+
+        this.callInWraper(renderingSystem.renderItem, t);
+        // requestAnimationFrame(function (at) {
+        //     return function () {
+        //         console.time("renderingSystem.renderItem");
+        //         renderingSystem.renderItem(at);
+        //         console.timeEnd("renderingSystem.renderItem");
+        //     }
+        // }(t));
 
         //console.log("", tank);
         // renderingSystem.run(this);
+    },
+    callInWraper: function (f, t) {
+        requestAnimationFrame(function (a) {
+            return function () {
+
+                console.time(GNAME_TIME);
+                //renderingSystem[f](a);
+                f.call(renderingSystem, a);
+                console.timeEnd(GNAME_TIME);
+            }
+        }(t));
+
     },
     onErrorMessage: function (data) {
         alert("Error: " + data.text);

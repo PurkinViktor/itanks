@@ -11,6 +11,11 @@ body {
     padding: 0;
 }
 
+.obj {
+    transition: top 0.04s linear ,
+    left 0.04s linear;
+}
+
 .battleArea {
     background: #D3D3D8;
     /*border: #000 2px solid;*/
@@ -237,7 +242,8 @@ table th {
     width: auto;
 
 }
-.btnKickPlayer{
+
+.btnKickPlayer {
     background-image: url(../img/cross.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -248,6 +254,7 @@ table th {
     right: 0;
     width: 20px;
 }
+
 .inputNameGame, .btnAddGame {
     display: inline-block;
 }
