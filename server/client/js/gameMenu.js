@@ -172,6 +172,7 @@ var gameMenu = {
 
     getListGameLayOut: function () {
         return $("<div class='ListGameLayOut'>" +
+            "<div class='title'>List Game</div>" +
             "<div class='list'></div>" +
             "<div class='gameListPanel'>" +
             "<input type='text' placeholder='Name game' class='inputNameGame'>" +

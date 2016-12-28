@@ -12,7 +12,7 @@ body {
 }
 
 .obj {
-    transition: top 0.04s linear ,
+    transition: top 0.04s linear,
     left 0.04s linear;
 }
 
@@ -427,12 +427,14 @@ table th {
     text-align: center;
     vertical-align: middle;
 }
-.btnAddPlayer{
+
+.btnAddPlayer {
     border: none;
     height: 40px;
     width: 100%;
 }
-.btnStartGame{
+
+.btnStartGame {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -442,20 +444,36 @@ table th {
     margin: 0;
     padding: 0;
 }
-.list{
+
+.list {
     height: 100%;
     padding-bottom: 50px;
     box-sizing: border-box;
- }
-.gameListPanel{
+    padding-top: 30px;
+}
+
+.gameListPanel {
     position: absolute;
     bottom: 55px;
     width: 100%;
 }
-.ListGameLayOut{
+
+.ListGameLayOut {
     height: 100%;
 }
-.ListGameLayOut .gameListPanel{
+
+.ListGameLayOut .title {
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0;
+    text-align: center;
+    font-size: 24px;
+    font-family: Arial;
+}
+
+.ListGameLayOut .gameListPanel {
     height: 50px;
     padding: 0;
     margin: 0;
