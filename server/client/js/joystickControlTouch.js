@@ -2,10 +2,14 @@ var joystickControlTouch = {
     isDown: false,
     joystickUILayOut: $('<div class="Joystick"></div>'),
     fireUILayOut: $('<div class="FireArea"></div>'),
-    hide: function () {
+    hideControll:  function () {
         this.isShow = false;
         this.joystickUILayOut.hide();
         this.fireUILayOut.hide();
+
+    },
+    hide: function () {
+        this.hideControll();
 
         this.scaling("1.0");
     },

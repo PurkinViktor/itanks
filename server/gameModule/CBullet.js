@@ -21,9 +21,9 @@ var CBullet = function (settings, tank) {
     this.height = 10;
     this.position = settings.position || {x: 30, y: 30};
     this.direction = settings.direction;
-    this.speed = 8;
+    this.speed = 16;
     this.intervalId = null;
-    this.timeInterval = 25;
+    this.timeInterval = 50;
 
 
     this.ownerId = settings.ownerId;

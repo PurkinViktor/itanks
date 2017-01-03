@@ -192,6 +192,20 @@ module.exports = function (set) {
             var player = this.players[i];
             //player.tank.destroy();
             if (player.brain) {
+                player.brain.setActivat(false);
+            }
+        }
+        for (var i in this.tanks ) {
+            var tank = this.tanks[i];
+            tank.setActivat(false);
+        }
+        this.OnDestroy(this);
+    };
+    this.OnDestroy = function(){
+        for (var i in this.players) {
+            var player = this.players[i];
+            //player.tank.destroy();
+            if (player.brain) {
                 player.brain.destroy();
             }
         }

@@ -1,6 +1,7 @@
 var CBarrier = require('./CBarrier.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var CEvent = require('./CEvent.js');
+var CIgl = require('./CIgl.js');
 var helper = require('./helper.js');
 var extend = require('extend');
 
@@ -203,11 +204,18 @@ module.exports = function (game) {
             }
         },
         createBarrier: function (set) {
-            var bar = new CBarrier(set);
-            bar.onDestroy.bind(this.removeBarrier, this);// = this.getHandler(this.removeBarrier);
+            var bar = false;
+            if (set.type === EnumBarrier.igl) {
+                //set.renderingSystem = renderingSystem;
+                bar = new CIgl(set, renderingSystem);
+                bar.onKilled.bind(this.onIglKilled, this);
+            } else {
+                bar = new CBarrier(set);
+                bar.onDestroy.bind(this.removeBarrier, this);// = this.getHandler(this.removeBarrier);
 
-            if (bar.type === EnumBarrier.igl) {
-                bar.onDestroy.bind(this.onIglKilled, this);
+                // if (bar.type === EnumBarrier.igl) {
+                //     bar.onDestroy.bind(this.onIglKilled, this);
+                // }
             }
             this.barriers.push(bar);
         },

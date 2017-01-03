@@ -9,7 +9,10 @@ var gameMenu = {
 
         this.createListGame();
         this.createListTeams();
+        this.createStatisticsScreen();
+
         this.createJoystick();
+
 
     },
     teams: [],
@@ -99,7 +102,7 @@ var gameMenu = {
         return t;
     },
     // onAddBootToTeam: new CEvent(),
-    getHundlerBtnKick:function (item) {
+    getHundlerBtnKick: function (item) {
         var self = this;
         return function (e) {
             e.preventDefault();
@@ -169,7 +172,26 @@ var gameMenu = {
         this.listTeamsUI.hide();
         this.layOut.append(this.listTeamsUI);
     },
+    createStatisticsScreen: function () {
 
+        var lo = $("<div class='StatisticsLayOut'>" +
+             "<div class='wrapperStatisticsLayOut'>"   +
+            "<div class='title'>Statistics of Game</div>" +
+            "<div class='statisticsContent'></div>" +
+            "<div class='statisticsPanel'>" +
+            "<input type='button' class='btnContinue' value='Continue'>" +
+            "</div>" +
+            "</div>" +
+            "<div");
+        var self = this;
+        lo.find(".btnContinue").on("click", function () {
+            self.iTankClient.destroyGame();
+        });
+
+        this.statisticsUI = lo;
+        this.statisticsUI.hide();
+        this.layOut.append(this.statisticsUI);
+    },
     getListGameLayOut: function () {
         return $("<div class='ListGameLayOut'>" +
             "<div class='title'>List Game</div>" +
@@ -236,12 +258,22 @@ var gameMenu = {
         this.listGamesUI.updateList(items);
     },
     hideAll: function () {
-        this.layOut.find(".ListTeamsLayOut, .ListGameLayOut").hide();
+        this.layOut.find(".ListTeamsLayOut, .ListGameLayOut, .StatisticsLayOut").hide();
         //this.listTeamsUI.hide();
     },
     showTeams: function () {
         this.hideAll();
         this.layOut.find(".ListTeamsLayOut").show();
+    },
+    showStatistics: function (data) {
+        this.hideAll();
+        var msg = "You lose (((.";
+        if (data.winner) {
+            msg = "YOU WIN !!! )))";
+
+        }
+        this.statisticsUI.find(".statisticsContent").text(msg);
+        this.statisticsUI.show();
     },
     showListGames: function () {
         this.hideAll();

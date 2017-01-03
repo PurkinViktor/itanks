@@ -116,7 +116,7 @@ var iTanksClient = {
         //console.time("this.onRenderExplosion");
         GNAME_TIME = "this.onRenderExplosion";
         this.callInWraper(renderingSystem.renderExplosion, dataItem);
-       // console.timeEnd("this.onRenderExplosion");
+        // console.timeEnd("this.onRenderExplosion");
         //renderingSystem.renderExplosion(dataItem);
 
     },
@@ -215,20 +215,35 @@ var iTanksClient = {
     onKickOurFromGame: function (data) {
         gameMenu.showListGames();
     },
-    onGameOver: function (data) {
-        console.log("onGameOver", data);
-        var msg = "You lose (((.";
-        if (data.winner) {
-            msg = "YOU WIN !!! )))";
-
-        }
-        document.title = msg;
-
+    destroyGame: function () {
         renderingSystem.destroy();
-        gameMenu.showListGames();
         joystickControlTouch.hide();
+        gameMenu.showListGames();
+    },
+    onGameOver: function (data) {
+
+
+        console.log("onGameOver", data);
+        // var msg = "You lose (((.";
+        // if (data.winner) {
+        //     msg = "YOU WIN !!! )))";
+        //
+        // }
+        // document.title = msg;
+
+        //renderingSystem.destroy();
+        //gameMenu.showListGames();
+
 
         android.stopTouch();
+        joystickControlTouch.hideControll();
+        gameMenu.showStatistics(data);
+        // setTimeout(function () {
+        //     renderingSystem.destroy();
+        //     joystickControlTouch.hide();
+        //     gameMenu.showListGames();
+        //
+        // }, 7000);
         // if (window.Android) {//InterfaceAndroid
         //     android.stopTouch();
         //     console.log("Android", Android);

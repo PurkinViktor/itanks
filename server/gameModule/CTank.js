@@ -21,7 +21,7 @@ var CTank = function (settings) {
     this.height = settings.height || callee.height;
     this.position = settings.position || {x: 30, y: 30};
     this.direction = EnumDirection.top;
-    this.speed = 5;
+    this.speed = 20;
     this.delayBetweenShots = 300;
 
     this.onFire = new CEvent();
@@ -37,7 +37,7 @@ var CTank = function (settings) {
 
     this.bullets = [];
     this.countBullet = settings.countBullet || 1;// одновременных выстрелов
-    this.timeInterval = 50;
+    this.timeInterval = 200;
     this.actionIntervalId = null;
     this.destroy = function () {
         this.setActivat(false);
