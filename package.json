@@ -1,17 +1,18 @@
 {
-  "name" : "iTanks",
-  "private" : true,
-  "version" : "0.0.0",
-  "description" : "a express application",
-  "keywords" : [ ],
-  "dependencies" : {
+  "name": "iTanks",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a express application",
+  "keywords": [],
+  "dependencies": {
+    "mongoose": "^4.8.1"
   },
-  "scripts" : {
-    "start" : "node server/appTanks.js",
-    "debug" : "node debug server/appTanks.js"
+  "scripts": {
+    "start": "node server/appTanks.js",
+    "debug": "node debug server/appTanks.js"
   },
-  "main" : "./server/appTanks.js",
-  "bugs" : {
-    "url" : "null"
+  "main": "./server/appTanks.js",
+  "bugs": {
+    "url": "null"
   }
 }

@@ -5,6 +5,10 @@ var HOST = process.env.HOST || '0.0.0.0';
 var express = require('express');
 var http = require('http');
 //var session = require("express-session");
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/iTanks');
+var api = require('./controllers/api.js');
+var UserController = require('./controllers/UserController.js');
 
 
 var app = express();
@@ -12,8 +16,12 @@ var app = express();
 
 var server = http.createServer(app);
 server.listen(PORT, HOST);
+
+app.use(express.bodyParser());
+//app.use(app.router);
 app.use(express.cookieParser());
 app.use(express.session({secret: '1234567890QWERTY1V', key: 'express.sid'}));
+
 
 // app.configure(function () {
 //     app.use(express.cookieParser());
@@ -29,6 +37,12 @@ app.use('/GeneralClass', express.static(__dirname + '/GeneralClass'));
 app.get('/', function (req, res) {
     res.sendfile(__dirname + '/index.html');
 });
+
+//app.post('/thread', api.post);
+//app.get('/user/:name.:format?', api.show);
+var vAPI = "v1.0";
+app.get('/'+vAPI+'/user', UserController.getAll);
+app.post('/'+vAPI+'/user/create', UserController.create);
 
 var options = {
 //    'log level': 0
@@ -65,3 +79,5 @@ io.set('authorization', function (data, accept) {
 var serverGame = require('./gameModule/serverGame.js');
 
 serverGame.start(io);
+
+

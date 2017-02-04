@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--<meta id="Viewport" name="viewport" content="width=device-width, initial-scale=1 ">-->
+    <!--<meta charset="utf-8">-->
+    <!--<link rel="stylesheet" href="css/main.css">-->
+    <!--<meta name="robots" content="noindex,nofollow"/>-->
+    <!--<title>Демо простой чат с помощью nodejs и socket.io</title>-->
+
+    <script src="js/lib/jquery.min.js"></script>
+    <!--<script src="/socket.io/socket.io.js"></script>-->
+
+    <!--<script src="js/forModules.js"></script>-->
+    <!--<script src="js/main.js"></script>-->
+
+    <!--<script src="js/CListUI.js"></script>-->
+    <!--<script src="js/CEvent.js"></script>-->
+    <!--<script src="js/transport_Client.js"></script>-->
+    <!--<script src="js/renderingSystem.js"></script>-->
+    <!--<script src="js/joystickControl.js"></script>-->
+    <!--<script src="js/joystickControlTouch.js"></script>-->
+    <!--<script src="js/gameMenu.js"></script>-->
+    <!--<script src="js/iTanksClient.js"></script>-->
+    <!--<script src="../GeneralClass/const.js"></script>-->
+
+
+</head>
+<body>
+ускорить работу можно-
+1 при отправке отправлять н евес обьект
+2 искать не в масиве а сразу по id
+<iframe src="index.html"></iframe>
+<div id="UI"></div>
+
+
+<style>
+    #UI {
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        background-color: #2e2e2e;
+        opacity: 0.3;
+        top: 0;
+        left: 0;
+    }
+
+    html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<script>
+    $(function () {
+        var el = document;
+
+        var filterTouch = function (e) {
+
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            console.log("filterTouch");
+        };
+        var argvEvent = {capture: true};
+        el.addEventListener("click", function (e) {
+            console.log("click filterTouch");
+
+            return filterTouch(e);
+
+
+        }, argvEvent);
+        el.addEventListener("touchstart", function (e) {
+            return filterTouch(e);
+
+
+        }, argvEvent);
+        el.addEventListener("touchend", function (e) {
+            return filterTouch(e);
+
+        }, argvEvent);
+        el.addEventListener("touchcancel", function (e) {// перехватываем чтобы анимация не лагала
+            return filterTouch(e);
+
+
+        }, argvEvent);
+        el.addEventListener("touchmove", function (e) {
+            return filterTouch(e);
+
+
+        }, argvEvent);
+    });
+</script>
+
+
+</body>
+</html>
