@@ -75,10 +75,10 @@ var joystickControlTouch = {
         $(".gameAreaContent").append(this.fireUILayOut);
 
         this.joystickUI = $('<div class="directionJoystick">' +
-            '<div class="dirButtonJSK top"><div class="dirArea top"></div></div>' +
-            '<div class="dirButtonJSK right"><div class="dirArea right"></div></div>' +
-            '<div class="dirButtonJSK left"><div class="dirArea left"></div></div>' +
-            '<div class="dirButtonJSK bottom"><div class="dirArea bottom"></div></div>' +
+            '<div class="dirButtonJSK top"><div class="dirArea"></div><div class="dirArea dirSeparate  top"></div></div>' +
+            '<div class="dirButtonJSK right"><div class="dirArea"></div><div class="dirArea dirSeparate right"></div></div>' +
+            '<div class="dirButtonJSK left"><div class="dirArea"></div><div class="dirArea dirSeparate left"></div></div>' +
+            '<div class="dirButtonJSK bottom"><div class="dirArea"></div><div class="dirArea dirSeparate bottom"></div></div>' +
             '<div class="centerJSK"></div>' +
             '</div>');
 

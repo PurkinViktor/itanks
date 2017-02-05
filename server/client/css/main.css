@@ -406,6 +406,38 @@ table th {
 
 }
 
+.dirButtonJSK .dirSeparate {
+    width: 400px;
+    height: 400px;
+    opacity: 0.5;
+
+    background: none;
+}
+.dirButtonJSK:nth-child(1) > .dirSeparate {
+    border-right: 2px solid #F00;
+    border-bottom: 2px solid #F00;
+    bottom: -2px;
+    right: -2px;
+}
+
+.dirButtonJSK:nth-child(2) > .dirSeparate {
+
+}
+
+.dirButtonJSK:nth-child(3) > .dirSeparate {
+
+
+}
+
+.dirButtonJSK:nth-child(4) > .dirSeparate {
+    left: -2px;
+    top: -2px;
+    border-left: 2px solid #F00;
+    border-top: 2px solid #F00;
+}
+
+
+
 .centerJSK {
     width: 30px;
     height: 30px;
