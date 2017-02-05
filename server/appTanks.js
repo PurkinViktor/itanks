@@ -6,7 +6,7 @@ var express = require('express');
 var http = require('http');
 //var session = require("express-session");
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/iTanks');
+//mongoose.connect('mongodb://localhost:27017/iTanks');
 var api = require('./controllers/api.js');
 var UserController = require('./controllers/UserController.js');
 
