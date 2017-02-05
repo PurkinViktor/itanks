@@ -43,6 +43,10 @@ app.get('/', function (req, res) {
 var vAPI = "v1.0";
 app.get('/'+vAPI+'/user', UserController.getAll);
 app.post('/'+vAPI+'/user/create', UserController.create);
+app.post('/'+vAPI+'/user/create', UserController.create);
+app.post('/'+vAPI+'/user/logIn', UserController.logIn);
+app.get('/'+vAPI+'/user/logOut', UserController.logOut);
+
 
 var options = {
 //    'log level': 0

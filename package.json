@@ -5,6 +5,7 @@
   "description": "a express application",
   "keywords": [],
   "dependencies": {
+    "crypto": "0.0.3",
     "mongoose": "^4.8.1"
   },
   "scripts": {
