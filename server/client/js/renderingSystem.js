@@ -21,7 +21,8 @@ var renderingSystem = {
 
         };
         this.viewPort = this.createViewPort(set);
-
+        var fpsBlock = $("<div class='fpsBlock'></div>");
+        this.viewPort.append(fpsBlock);
         var self = this;
 
 
@@ -35,13 +36,14 @@ var renderingSystem = {
             count++;
             self.allRender();
             if (dt > 1000) {
-                console.log("fps: ", count, "time: ", dt);
+                fpsBlock.text("fps: " + count + " time: " + dt);
+                //console.log("fps: ", count, "time: ", dt);
                 time = now;
                 count = 0;
             }
         }
 
-        updateScreen();
+        requestAnimationFrame(updateScreen);
 
     },
     destroy: function () {
@@ -98,7 +100,7 @@ var renderingSystem = {
         });
     },
     setAction: function (item, renderingSysEnum) {
-        if(item.renderingSystemAction != renderingSystemEnum.DELETE){
+        if (item.renderingSystemAction != renderingSystemEnum.DELETE) {
             item.renderingSystemAction = renderingSysEnum;
             item.renderingSystemActionTime = new Date().getTime();
         }

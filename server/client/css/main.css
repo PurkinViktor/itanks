@@ -14,7 +14,7 @@ body {
 .obj {
 
     transition: top 0.2s linear 0ms;
-    transition-property: top,left;
+    transition-property: top, left;
 }
 
 .battleArea {
@@ -413,6 +413,7 @@ table th {
 
     background: none;
 }
+
 .dirButtonJSK:nth-child(1) > .dirSeparate {
     border-right: 2px solid #F00;
     border-bottom: 2px solid #F00;
@@ -426,7 +427,6 @@ table th {
 
 .dirButtonJSK:nth-child(3) > .dirSeparate {
 
-
 }
 
 .dirButtonJSK:nth-child(4) > .dirSeparate {
@@ -435,8 +435,6 @@ table th {
     border-left: 2px solid #F00;
     border-top: 2px solid #F00;
 }
-
-
 
 .centerJSK {
     width: 30px;
@@ -513,6 +511,7 @@ table th {
     border: 0;
     bottom: 0;
 }
+
 .StatisticsLayOut {
     margin: 0 auto;
     position: absolute;
@@ -522,7 +521,8 @@ table th {
     font-size: 36px;
     text-align: center;
 }
-.wrapperStatisticsLayOut{
+
+.wrapperStatisticsLayOut {
     width: 350px;
     margin: 0 auto;
     background: #5e6966;
@@ -530,13 +530,22 @@ table th {
     position: relative;
     margin-top: 50%;
 }
-.statisticsPanel{
+
+.statisticsPanel {
 
 }
-.btnContinue{
+
+.btnContinue {
     font-size: 36px;
     border: none;
     margin-top: 20px;
     width: 100%;
     background: #56b556;
+}
+
+.fpsBlock {
+    position: fixed;
+    font-size: 20px;
+    top: 0;
+    right: 0;
 }
