@@ -109,7 +109,7 @@ var renderingSystem = {
 
     destroyItem: function (item) {
         if (item.renderObj) {
-            item.renderObj.stop("", true, true);
+            //item.renderObj.stop("", true, true);
             item.renderObj.remove();
             //item.renderObj = null;
         }
