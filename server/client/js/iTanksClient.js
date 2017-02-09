@@ -37,14 +37,19 @@ var iTanksClient = {
     },
     battleArea: {},
     //tanks: [],
-    items: [],
+    items: {},
     initGame: function (data) {
         setTimeout(function () {
             gameMenu.hideAll();
         }, 100);
         //gameMenu.hideAll();
         this.battleArea = data.battleArea;
-        this.items = data.tanks.concat(data.battleArea.barriers) || [];
+        var arrTemp = data.tanks.concat(data.battleArea.barriers) || [];
+        for (var i in arrTemp) {
+            var item = arrTemp[i];
+            this.items[item.id] = item;
+        }
+
         renderingSystem.run(this);
         joystickControlTouch.show();
         android.startTouch();
@@ -58,13 +63,18 @@ var iTanksClient = {
         // }
     },
     getItem: function (newData) {
-        for (var i in this.items) {
-            var t = this.items[i];
-            if (t.id == newData.id) {
-                return $.extend(t, newData);
-            }
+        var item = this.items[newData.id];
+        if (item) {
+            return $.extend(item, newData);
         }
-        this.items.push(newData);
+        // for (var i in this.items) {
+        //     var t = this.items[i];
+        //     if (t.id == newData.id) {
+        //         return $.extend(t, newData);
+        //     }
+        // }
+        // this.items.push(newData);
+        this.items[newData.id] = newData;
         return newData;
 
     },
@@ -91,43 +101,55 @@ var iTanksClient = {
     onDestroyItem: function (dataItem) {
 
         //console.log("", tank);
-        var f = this.getHundlerDestroyItem(dataItem);
-        f();
+        // var f = this.getHundlerDestroyItem(dataItem);
+        // f();
         // renderingSystem.run(this);
+        var t = this.getItem(dataItem);
+        renderingSystem.setAction(t, renderingSystemEnum.DELETE);
+
+
     },
-    getHundlerDestroyItem: function (dataItem) {
-        var self = this;
-        return function () {
-            console.time("this.onDestroyItem");
-            var arrItems = self.items;
-            for (var i in arrItems) {
-                var t = arrItems[i];
-                if (t.id == dataItem.id) {
-                    renderingSystem.destroyItem(t);
-                    arrItems.slice(i, 1);
-                }
-            }
-            console.timeEnd("this.onDestroyItem");
-        };
-        //console.log("", tank);
-        // renderingSystem.run(this);
-    },
+    // getHundlerDestroyItem: function (dataItem) {
+    //     var self = this;
+    //     return function () {
+    //         console.time("this.onDestroyItem");
+    //         var arrItems = self.items;
+    //         for (var i in arrItems) {
+    //             var t = arrItems[i];
+    //             if (t.id == dataItem.id) {
+    //                 renderingSystem.destroyItem(t);
+    //                 arrItems.slice(i, 1);
+    //             }
+    //         }
+    //         console.timeEnd("this.onDestroyItem");
+    //     };
+    //     //console.log("", tank);
+    //     // renderingSystem.run(this);
+    // },
     onRenderExplosion: function (dataItem) {
         //console.time("this.onRenderExplosion");
-        GNAME_TIME = "this.onRenderExplosion";
-        this.callInWraper(renderingSystem.renderExplosion, dataItem);
+        // GNAME_TIME = "this.onRenderExplosion";
+        // this.callInWraper(renderingSystem.renderExplosion, dataItem);
         // console.timeEnd("this.onRenderExplosion");
         //renderingSystem.renderExplosion(dataItem);
+        dataItem.id = "explosion" + new Date().getTime();
+        var t = this.getItem(dataItem);
+        renderingSystem.setAction(t, renderingSystemEnum.EXPLOSION);
+
 
     },
     onUpdateDataItem: function (newDataItem) {
 
-        console.time("this.getItem");
         var t = this.getItem(newDataItem);
-        console.timeEnd("this.getItem");
-        GNAME_TIME = "this.onUpdateDataItem";
+        renderingSystem.setAction(t, renderingSystemEnum.UPDATE);
 
-        this.callInWraper(renderingSystem.renderItem, t);
+
+        // console.time("this.getItem");
+        // var t = this.getItem(newDataItem);
+        // console.timeEnd("this.getItem");
+        // GNAME_TIME = "this.onUpdateDataItem";
+
+        //this.callInWraper(renderingSystem.renderItem, t);
         // requestAnimationFrame(function (at) {
         //     return function () {
         //         console.time("renderingSystem.renderItem");
@@ -345,3 +367,4 @@ var iTanksClient = {
         };
     }
 };
+

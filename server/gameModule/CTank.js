@@ -36,7 +36,7 @@ var CTank = function (settings) {
     this.typeObject.push("playerTank");
 
     this.bullets = [];
-    this.countBullet = settings.countBullet || 1;// одновременных выстрелов
+    this.countBullet = 1;//settings.countBullet || 1;// одновременных выстрелов
     this.timeInterval = 200;
     this.actionIntervalId = null;
     this.destroy = function () {
