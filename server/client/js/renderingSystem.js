@@ -83,14 +83,18 @@ var renderingSystem = {
                     this.renderItem(item);
                     break;
                 case renderingSystemEnum.DELETE:
-                    this.destroyItem(item);
-                    delete arrItems[i];
+                    // this.destroyItem(item);
+                    // delete arrItems[i];
                     break;
                 case renderingSystemEnum.EXPLOSION:
                     this.renderExplosion(item);
                     break;
             }
 
+            if (item.renderingSystemActionDelete) {
+                this.destroyItem(item);
+                delete arrItems[i];
+            }
 
         }
     },
@@ -100,19 +104,23 @@ var renderingSystem = {
         });
     },
     setAction: function (item, renderingSysEnum) {
-        if (item.renderingSystemAction != renderingSystemEnum.DELETE) {
-            item.renderingSystemAction = renderingSysEnum;
-            item.renderingSystemActionTime = new Date().getTime();
+        if (renderingSysEnum == renderingSystemEnum.DELETE) {
+            item.renderingSystemActionDelete = true;
+            console.log("delete  setAction ", item.id);
         }
-
+        item.renderingSystemAction = renderingSysEnum;
+        item.renderingSystemActionTime = new Date().getTime();
         //console.log("item", item.id, item.renderingSystemAction, item.renderingSystemActionTime, item);
 
     },
 
     destroyItem: function (item) {
+        console.log("delete  destroyItem ", item.id);
         if (item.renderObj) {
             //item.renderObj.stop("", true, true);
             item.renderObj.remove();
+            console.log("delete  IF true destroyItem ", item.id);
+
             //item.renderObj = null;
         }
     },
