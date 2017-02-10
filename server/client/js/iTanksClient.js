@@ -105,7 +105,7 @@ var iTanksClient = {
         // f();
         // renderingSystem.run(this);
         var t = this.getItem(dataItem);
-        console.log("delete  ", t.id);
+        //console.log("delete  ", t.id);
         renderingSystem.setAction(t, renderingSystemEnum.DELETE);
 
 

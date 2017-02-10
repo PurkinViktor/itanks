@@ -30,7 +30,7 @@ var renderingSystem = {
         var count = 0;
 
         function updateScreen() {
-            requestAnimationFrame(updateScreen);
+
             var now = new Date().getTime();
             var dt = now - time;
             count++;
@@ -41,6 +41,7 @@ var renderingSystem = {
                 time = now;
                 count = 0;
             }
+            requestAnimationFrame(updateScreen);
         }
 
         requestAnimationFrame(updateScreen);
@@ -80,7 +81,10 @@ var renderingSystem = {
             switch (action) {
                 case undefined:
                 case renderingSystemEnum.UPDATE:
-                    this.renderItem(item);
+                    //if (!item.renderingSystemActionDelete) {
+                        this.renderItem(item);
+                    //}
+
                     break;
                 case renderingSystemEnum.DELETE:
                     // this.destroyItem(item);
@@ -93,7 +97,7 @@ var renderingSystem = {
 
             if (item.renderingSystemActionDelete) {
                 this.destroyItem(item);
-                delete arrItems[i];
+                //delete arrItems[i];
             }
 
         }
@@ -106,7 +110,7 @@ var renderingSystem = {
     setAction: function (item, renderingSysEnum) {
         if (renderingSysEnum == renderingSystemEnum.DELETE) {
             item.renderingSystemActionDelete = true;
-            console.log("delete  setAction ", item.id);
+            //console.log("delete  setAction ", item.id);
         }
         item.renderingSystemAction = renderingSysEnum;
         item.renderingSystemActionTime = new Date().getTime();
@@ -115,11 +119,11 @@ var renderingSystem = {
     },
 
     destroyItem: function (item) {
-        console.log("delete  destroyItem ", item.id);
+        //console.log("delete  destroyItem ", item.id);
         if (item.renderObj) {
             //item.renderObj.stop("", true, true);
             item.renderObj.remove();
-            console.log("delete  IF true destroyItem ", item.id);
+            //console.log("delete  IF true destroyItem ", item.id);
 
             //item.renderObj = null;
         }
