@@ -2,6 +2,7 @@ var transportGame = require('./transportGame.js');
 var CGame = require('./CGame.js');
 //var CBattleArea = require('./CBattleArea.js');
 var helper = require('./helper.js');
+var Map = require('../models/MapModel.js');
 
 var serverGame = {
     games: [],
@@ -261,6 +262,13 @@ var serverGame = {
             //client.emit('debugInfo', {arrIdClients_: arrClients});
 
             game.init(arrClients);//
+
+            Map.create(game.getMap(),function(err, map){
+                if (err){
+                    console.log("ERR", err);
+                }
+
+            });
             var dataOfGame = {
                 battleArea: game.battleArea,
                 tanks: game.tanks

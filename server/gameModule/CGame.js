@@ -8,6 +8,7 @@ var CRenderingSystem = require('./CRenderingSystem.js');
 var CEvent = require('./CEvent.js');
 var CBrain = require('./CBrain.js');
 
+
 module.exports = function (set) {
     this.isStart = false;
     this.nameGame = set.nameGame;
@@ -109,13 +110,22 @@ module.exports = function (set) {
     this.renderingSystem = new CRenderingSystem(this);
     this.battleArea = new CBattleArea(this);
 
-    //this.onInit();
+
     this.init = function (arrClients) {
         this.battleArea.init();
+
+
         this.battleArea.onIglKilled.bind(this.handlerIglKilled, this);
         rules.init(helper.cutInObj(this, ["battleArea", "tanks"]));
         this.initClients(arrClients);
 
+    };
+    this.getMap = function () {
+        var data = {};
+        data.teamsOfGame = this.teamsOfGame;
+        data.battleArea = this.battleArea;
+        data.nameGame = this.nameGame;
+        return data;
     };
     this.players = {};
     this.boots = {};
@@ -195,13 +205,13 @@ module.exports = function (set) {
                 player.brain.setActivat(false);
             }
         }
-        for (var i in this.tanks ) {
+        for (var i in this.tanks) {
             var tank = this.tanks[i];
             tank.setActivat(false);
         }
         this.OnDestroy(this);
     };
-    this.OnDestroy = function(){
+    this.OnDestroy = function () {
         for (var i in this.players) {
             var player = this.players[i];
             //player.tank.destroy();
@@ -237,6 +247,7 @@ module.exports = function (set) {
 //			width: 26,
 //			height: 26
         });
+        tank.position = this.getRandPositionAlign(40, 5);
         this.setInFreePlace(tank);
 
         return tank;
@@ -244,12 +255,18 @@ module.exports = function (set) {
     this.setInFreePlace = function (tank) {
         var pos = tank.position;
         for (; rules.rulesMovement(tank, pos);) {
-            pos = this.getRandPosition();
+            pos = this.getRandPositionAlign(40, 5);
         }
 
     };
     this.getRandPosition = function () {
         return helper.getRandPosition(0, this.battleArea.w, 0, this.battleArea.h);
+    };
+    this.getRandPositionAlign = function (multipleOf, shift) {
+        var pos = helper.getRandPosition(0, this.battleArea.w, 0, this.battleArea.h);
+        pos.x = Math.floor(Math.floor(pos.x) / multipleOf) * multipleOf + shift;
+        pos.y = Math.floor(Math.floor(pos.y) / multipleOf) * multipleOf + shift;
+        return pos;
     };
     this.initClients = function (arrIdClients) {
         for (var i in arrIdClients) {

@@ -69,6 +69,9 @@ module.exports = function (game) {
             this.createMaps(this.map); // создаем сами обьеты на карте
             this.renderingMap(); // отрисовываем
         },
+        // getMap: function () {
+        //     return this.map;
+        // },
         cleanMap: function () { // по событию удаляется из масива поэтому так
             for (; this.barriers.length > 0;) {
                 var barrier = this.barriers[0];

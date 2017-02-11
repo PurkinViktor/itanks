@@ -86,9 +86,11 @@ module.exports = {
 
 	},
 	rulesMovement: function(aTank, newPos) {
-		this.battleAreaRule(aTank, newPos);
-
-		function exceptions(bar) {
+        var conflict = this.battleAreaRule(aTank, newPos);
+        if (conflict) {
+            return true;
+        }
+        function exceptions(bar) {
 			return bar.type === EnumBarrier.forest;
 		}
 		var arrConflicts = this.rulesBarriers(aTank, newPos, exceptions);
