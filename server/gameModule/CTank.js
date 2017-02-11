@@ -23,6 +23,8 @@ var CTank = function (settings) {
     this.direction = EnumDirection.top;
     this.speed = 20;
     this.delayBetweenShots = 300;
+    this.delayBetweenMove = 200;
+
 
     this.onFire = new CEvent();
     this.onKill = new CEvent();// было без new
@@ -36,9 +38,10 @@ var CTank = function (settings) {
     this.typeObject.push("playerTank");
 
     this.bullets = [];
-    this.countBullet = 1;//settings.countBullet || 1;// одновременных выстрелов
+    this.countBullet = 2;//settings.countBullet || 1;// одновременных выстрелов
     this.timeInterval = 200;
-    this.actionIntervalId = null;
+    this.IntervalIdActionMove = null;
+    this.IntervalIdActionFire = null;
     this.destroy = function () {
         this.setActivat(false);
         renderingSystem.destroyItem(this);
@@ -50,16 +53,37 @@ var CTank = function (settings) {
 
     };
     this.isActive = false;
+    this.reStartIntervalMove = function () {
+        if (this.isActive) {
+            clearInterval(this.IntervalIdActionMove);
+            this.IntervalIdActionMove = setInterval(this.getHandler(this.callActionMove), this.timeInterval);
+        } else {
+            this.clearInterval(this.IntervalIdActionMove);
+        }
+    };
+    this.reStartIntervalFire = function () {
+        if (this.isActive) {
+            clearInterval(this.IntervalIdActionFire);
+            this.IntervalIdActionFire = setInterval(this.getHandler(this.callActionFire), this.timeInterval);
+        } else {
+            this.clearInterval(this.IntervalIdActionFire);
+        }
+    };
+    this.clearInterval = function (intId) {
+        clearInterval(intId);
+        intId = null;
+    };
     this.setActivat = function (value) {
         this.isActive = value;
         if (this.isActive) {
             this.render();
-            clearInterval(this.actionIntervalId);
-            this.actionIntervalId = setInterval(this.getHandler(this.callAction), this.timeInterval);
+            this.reStartIntervalMove();
+            this.reStartIntervalFire();
+
 
         } else {
-            clearInterval(this.actionIntervalId);
-            this.actionIntervalId = null;
+            this.clearInterval(this.IntervalIdActionMove);
+            this.clearInterval(this.IntervalIdActionFire);
         }
     };
     this.keyHundler = settings.keyHundler || {};
@@ -183,9 +207,23 @@ var CTank = function (settings) {
             this.activeKey[action].active = value;
             if (value) {
                 this.activeKey[action].timePress = +new Date();
+                this.checkStateActiveKey(action);
             }
         }
     };
+    this.checkStateActiveKey = function (action) {
+
+        if (action === "fire") {
+            this.callActionFire();
+            this.reStartIntervalFire();
+        } else {
+            this.callActionMove();
+            this.reStartIntervalMove();
+        }
+
+
+    };
+
     // this.mayBeCallAction = function (action) {
     //     if (action === "fire" && this.activeKey[action].active) {
     //         var data = +new Date();
@@ -193,35 +231,71 @@ var CTank = function (settings) {
     //             this.runActivKey(action);
     //         }
     //     }
-    //         clearInterval(this.actionIntervalId);
-    //     this.actionIntervalId = setInterval(this.getHandler(this.callAction), this.timeInterval);
+    //         clearInterval(this.IntervalIdActionMove);
+    //     this.IntervalIdActionMove = setInterval(this.getHandler(this.callAction), this.timeInterval);
     // };
-    this.callAction = function () {
 
+    // this.callAction = function () {
+    //
+    //     var actionMove = false;
+    //     for (var action in this.activeKey) {
+    //         if (this.activeKey[action].active && action === "fire") {
+    //
+    //             var data = +new Date();
+    //             if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
+    //                 this.runActivKey(action);
+    //             }
+    //
+    //
+    //         } else if (this.activeKey[action].active) {
+    //             //&& this.activeKey[action].timePress > this.activeKey[action].timeLastCall
+    //
+    //             if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
+    //                 actionMove = action;
+    //             }
+    //
+    //         }
+    //     }
+    //
+    //     if (actionMove) {
+    //         this.runActivKey(actionMove);
+    //         this.render();
+    //     }
+    // };
+    this.callActionFire = function () {
+
+        var action = "fire";
+        if (this.activeKey[action].active) {
+            var data = +new Date();
+            if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
+                this.runActivKey(action);
+            }
+        }
+    };
+    this.callActionMove = function () {
         var actionMove = false;
         for (var action in this.activeKey) {
-            if (this.activeKey[action].active && action === "fire") {
+            if (this.activeKey[action].active && action != "fire") {
 
-                var data = +new Date();
-                if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
-                    this.runActivKey(action);
-                }
-
-
-            } else if (this.activeKey[action].active) {
                 //&& this.activeKey[action].timePress > this.activeKey[action].timeLastCall
 
                 if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
                     actionMove = action;
                 }
 
+
             }
         }
 
         if (actionMove) {
-            this.runActivKey(actionMove);
+            var data = +new Date();
+            if (this.activeKey[actionMove].timeLastCall + this.delayBetweenMove <= data) {
+                this.runActivKey(actionMove);
+            }
+
             this.render();
         }
+
     };
     this.runActivKey = function (action) {
         this.activeKey[action].On();
