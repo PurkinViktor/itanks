@@ -272,6 +272,7 @@ var CTank = function (settings) {
             }
         }
     };
+    this.timeLastCallMovement = 0;
     this.callActionMove = function () {
         var actionMove = false;
         for (var action in this.activeKey) {
@@ -289,8 +290,9 @@ var CTank = function (settings) {
 
         if (actionMove) {
             var data = +new Date();
-            if (this.activeKey[actionMove].timeLastCall + this.delayBetweenMove <= data) {
+            if (this.timeLastCallMovement + this.delayBetweenMove <= data) {
                 this.runActivKey(actionMove);
+                this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
             }
 
             this.render();
