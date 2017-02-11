@@ -35,8 +35,9 @@ var renderingSystem = {
             var dt = now - time;
             count++;
             self.allRender();
-            if (dt > 1000) {
-                fpsBlock.text("fps: " + count + " time: " + dt);
+            var ms = 1000;
+            if (dt >= ms) {
+                fpsBlock.text("fps: " + count + " in time: " + (dt/ms) + "s .");
                 //console.log("fps: ", count, "time: ", dt);
                 time = now;
                 count = 0;
