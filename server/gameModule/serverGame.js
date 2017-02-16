@@ -140,7 +140,7 @@ var serverGame = {
 
                     //client.emit('debugInfo', player);
 
-                    var tanks = this.getItemsToJSON(game.tanks);
+                    var tanks = this.getItemsToJSON(game.tanks, game.renderingSystem.getListFielsForSend());
                     var dataOfGame = {
                         battleArea: game.battleArea,
                         tanks: tanks
@@ -157,8 +157,11 @@ var serverGame = {
         return true;
     },
 
-    getItemsToJSON: function (arr) {
-        return helper.cutInObjFromArr(arr, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+    getItemsToJSON: function (arr, list) {
+        return helper.cutInObjFromArr(arr, list);
+        // return helper.cutInObjFromArr(arr, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+
+
         // var items = [];
         // for (var i in arr) {
         //     var tank = arr[i];
@@ -219,6 +222,43 @@ var serverGame = {
             this.doUpdateTeamsOnClients(data.nameGame);
         }
     },
+    onGetMaps: function (client, data) {
+        Map.getAll(function (err, items) {
+            if (err) {
+                console.log("ERR", err);
+            }
+            transportGame.updateListMaps(client, items);
+        });
+
+        // this.games[data.nameGame]
+
+    },
+    onLoadMapById: function (client, data) {
+        var crit = {_id: data.idMap};
+        var self = this;
+        Map.getData(crit, function (err, items) {
+            if (err) {
+                console.log("ERR", err);
+            }
+            // console.log(" Load Map By Id", crit, items);
+            var map = items[0];
+            if (map) {
+                //map.value
+                //console.log(map, map.value);
+                var newNameGame = map.value.nameGame + client.login;
+                //map.battleArea
+                self.addGame(client, newNameGame);
+                var game = self.games[newNameGame];
+                game.loadMap(map);
+
+            } else {
+                console.log("Map Not Fount ", crit);
+
+            }
+            // transportGame.updateListMaps(client, items);
+        });
+        // this.games[data.nameGame]
+    },
     onAddBootToTeam: function (client, data) {
         var allPlayers = this.getClientsAndBoots(data.nameGame);
 
@@ -263,12 +303,16 @@ var serverGame = {
 
             game.init(arrClients);//
 
-            Map.create(game.getMap(),function(err, map){
-                if (err){
-                    console.log("ERR", err);
-                }
+            var dataMap = game.getMap();
+            if (!dataMap.id) {
+                Map.create(dataMap, function (err, map) {
+                    if (err) {
+                        console.log("ERR", err);
+                    }
 
-            });
+                });
+            }
+
             var dataOfGame = {
                 battleArea: game.battleArea,
                 tanks: game.tanks

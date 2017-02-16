@@ -20,6 +20,7 @@ var iTanksClient = {
     onLogin: function (data) {
         this.login = data.login;
         this.clientInfo = data;
+        console.log("LOGIN", this.clientInfo);
     },
     onLoginError: function (data) {
 
@@ -35,19 +36,40 @@ var iTanksClient = {
     switchToTeam: function (teamId) {
         transportClient.switchToTeam(teamId);
     },
+    getMaps: function () {
+        transportClient.getMaps();
+    },
+    loadMapById: function (idMap) {
+        transportClient.loadMapById(idMap);
+    },
+    onUpdateListMaps: new CEvent(),
+
     battleArea: {},
     //tanks: [],
     items: {},
+    tankOfClient: null,
     initGame: function (data) {
         setTimeout(function () {
             gameMenu.hideAll();
         }, 100);
         //gameMenu.hideAll();
         this.battleArea = data.battleArea;
+
+        for (var i in data.tanks) {
+            var tank = data.tanks[i];
+            if (tank.ownerId == "player_id_player_" + this.clientInfo.login) {
+                tank.isMyTank = true;
+                this.tankOfClient = tank;
+                break;
+            }
+        }
         var arrTemp = data.tanks.concat(data.battleArea.barriers) || [];
         for (var i in arrTemp) {
             var item = arrTemp[i];
             this.items[item.id] = item;
+            // if (this.tankOfClient.id == item.id) {
+            //     this.tankOfClient = item;
+            // }
         }
 
         renderingSystem.run(this);

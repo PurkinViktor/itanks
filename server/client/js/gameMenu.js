@@ -7,12 +7,18 @@ var gameMenu = {
             '</div>');
         $(".allContent").append(this.layOut);
 
+        // this.createMainScreen();
         this.createListGame();
         this.createListTeams();
         this.createStatisticsScreen();
+        // this.createListMapsScreen();
+
+        this.mainScreen = new CMainScreen(this, this.iTankClient);
+        this.mapsScreen = new CMapsScreen(this, this.iTankClient);
 
         this.createJoystick();
 
+        this.showMainScreen();
 
     },
     teams: [],
@@ -175,7 +181,7 @@ var gameMenu = {
     createStatisticsScreen: function () {
 
         var lo = $("<div class='StatisticsLayOut'>" +
-             "<div class='wrapperStatisticsLayOut'>"   +
+            "<div class='wrapperStatisticsLayOut'>" +
             "<div class='title'>Statistics of Game</div>" +
             "<div class='statisticsContent'></div>" +
             "<div class='statisticsPanel'>" +
@@ -228,43 +234,68 @@ var gameMenu = {
         this.listGamesUI.onItemSelected.bind(this.iTankClient.joinGame, this.iTankClient);
         //this.listGamesUI.show();
     },
+    createMainScreen: function () {
+
+    },
+
+    createListMapsScreen: function () {
+
+    },
     updateListGame: function (list) {
         var items = [];
         for (var i in list) {
             var gameInfo = list[i];
-            //teamsOfGame
-            //team.countPlayers < team.maxCountPlayers
-            var maxPlayers = 0;
-            var countPlayers = 0;
-            var textTeamsInfo = "";
-            for (var t in gameInfo.teamsOfGame) {
-                var team = gameInfo.teamsOfGame[t];
-                maxPlayers += team.maxCountPlayers;
-                countPlayers += team.countPlayers;
-                if (textTeamsInfo != "") {
-                    textTeamsInfo = textTeamsInfo + "x";
-                }
-                textTeamsInfo += team.maxCountPlayers;
-            }
-            var textCountPlayers = "(" + countPlayers + '/' + maxPlayers + ")";
-            var textTeamsInfo = "[" + textTeamsInfo + "]";
 
+            // var maxPlayers = 0;
+            // var countPlayers = 0;
+            // var textTeamsInfo = "";
+            // for (var t in gameInfo.teamsOfGame) {
+            //     var team = gameInfo.teamsOfGame[t];
+            //     maxPlayers += team.maxCountPlayers;
+            //     countPlayers += team.countPlayers;
+            //     if (textTeamsInfo != "") {
+            //         textTeamsInfo = textTeamsInfo + "x";
+            //     }
+            //     textTeamsInfo += team.maxCountPlayers;
+            // }
+            // var textCountPlayers = "(" + countPlayers + '/' + maxPlayers + ")";
+            // var textTeamsInfo = "[" + textTeamsInfo + "]";
+            //
+            //
+            // items.push({
+            //     title: "" + gameInfo.nameGame + " " + textTeamsInfo + " - " + textCountPlayers,
+            //     value: gameInfo.nameGame
+            // });
 
-            items.push({
-                title: "" + gameInfo.nameGame + " " + textTeamsInfo + " - " + textCountPlayers,
-                value: gameInfo.nameGame
-            });
+            items.push(Utils.getInfoGameExtend(gameInfo));
         }
         this.listGamesUI.updateList(items);
     },
     hideAll: function () {
-        this.layOut.find(".ListTeamsLayOut, .ListGameLayOut, .StatisticsLayOut").hide();
+        this.mainScreen.hide();
+        this.mapsScreen.hide();
+        this.layOut.find(" .ListTeamsLayOut, .ListGameLayOut, .StatisticsLayOut").hide();
+        //.MainScreenLayOut, .ListMapsLayOut,
         //this.listTeamsUI.hide();
     },
+    showMainScreen: function () {
+        this.hideAll();
+        this.mainScreen.show();
+    },
+    showMapsScreen: function () {
+        this.hideAll();
+        this.mapsScreen.show();
+    },
+
     showTeams: function () {
         this.hideAll();
         this.layOut.find(".ListTeamsLayOut").show();
     },
+    // showListMaps: function () {
+    //     this.hideAll();
+    //     this.layOut.find(".ListMapsLayOut").show();
+    // },
+
     showStatistics: function (data) {
         this.hideAll();
         var msg = "You lose (((.";

@@ -120,13 +120,22 @@ module.exports = function (set) {
         this.initClients(arrClients);
 
     };
+    this.dataForSaveMapInDB = {};
     this.getMap = function () {
-        var data = {};
-        data.teamsOfGame = this.teamsOfGame;
-        data.battleArea = this.battleArea;
-        data.nameGame = this.nameGame;
-        return data;
+        //var data = {};
+        this.dataForSaveMapInDB.teamsOfGame = this.teamsOfGame;
+        this.dataForSaveMapInDB.battleArea = this.battleArea;
+        this.dataForSaveMapInDB.nameGame = this.nameGame;
+
+        return this.dataForSaveMapInDB;
     };
+
+    this.loadMap = function (map) {
+        this.dataForSaveMapInDB.id = map.id;
+        this.battleArea.loadMap(map.value.battleArea);
+    };
+
+
     this.players = {};
     this.boots = {};
 

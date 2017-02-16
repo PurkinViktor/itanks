@@ -60,13 +60,19 @@ var CListUI = function (set) {
         createMenu: function (selector) {
 
             this.menu = $("<ul>");
-            this.menu.addClass("gameMenu");
+            this.setClass("gameMenu");
 
             this.updateList(this.items);
             // this.hide();
             this.renderItem();
             $(selector).append(this.menu);
-
+        },
+        getLayOut: function () {
+            return this.menu;
+        },
+        setClass: function (value) {
+            this.menu.removeClass();
+            this.menu.addClass(value);
         },
         updateList: function (items) {
             this.items = items;

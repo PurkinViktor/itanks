@@ -65,13 +65,18 @@ module.exports = function (game) {
 
 
             this.cleanMap(); /// очищаем карту если она уже была
-            this.createRandMap(20); // создаем только разметку на карте
+            if (this.map == null) {// если не нул значит загрузили катру методом  loadMap
+                this.createRandMap(20); // создаем только разметку на карте
+            }
             this.createMaps(this.map); // создаем сами обьеты на карте
             this.renderingMap(); // отрисовываем
         },
         // getMap: function () {
         //     return this.map;
         // },
+        loadMap: function (battleArea) {
+            this.map = battleArea.map;
+        },
         cleanMap: function () { // по событию удаляется из масива поэтому так
             for (; this.barriers.length > 0;) {
                 var barrier = this.barriers[0];
@@ -151,6 +156,7 @@ module.exports = function (game) {
             //var allCell = countCellX * countCellY;
 
             this.initMap(countCellX, countCellY);
+
             for (var i in  game.teamsOfGame) {
                 var team = game.teamsOfGame[i];
                 // team.IGLSettings.onKill.bind(
@@ -193,9 +199,12 @@ module.exports = function (game) {
             for (var i in map) {
                 for (var j in map[i]) {
                     //var infoCell =  map[i][j].infoCell;
-                    for (var n in map[i][j].barriers) {
+                    var cell = map[i][j];
+                    if (cell) {
+                        for (var n in cell.barriers) {
 
-                        this.createBarrier(map[i][j].barriers[n]);
+                            this.createBarrier(cell.barriers[n]);
+                        }
                     }
 
                 }

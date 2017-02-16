@@ -38,6 +38,10 @@ var transportGame = {
         //{login: client.login, id: client.id}
         client.emit('loginError', data);
     },
+    updateListMaps:function (client, data) {
+        //{login: client.login, id: client.id}
+        client.emit('updateListMaps', data);
+    },
     getClientsOfGame: function (nameGame) {// получение списка игроков
         // this.io.sockets.in(data.gameId).emit('playerJoinedRoom', data);
         var clientsId = this.io.rooms["/" + nameGame];
@@ -71,6 +75,7 @@ var transportGame = {
 
 
     },
+
     sendDebagInfo: function (gameName, data) {
         this.io.sockets.in(gameName).emit('debugInfo', data);
     },
@@ -178,6 +183,15 @@ var transportGame = {
                 client.on('startGame', hundlerEvents(function (nameGame) {
                     serverGame.startGame(client, nameGame);
                     console.log("startGame", nameGame);
+                }));
+
+                client.on('getMaps', hundlerEvents(function (data) {
+                    serverGame.onGetMaps(client, data);
+                    console.log("onGetMaps", data);
+                }));
+                client.on('loadMapById', hundlerEvents(function (data) {
+                    serverGame.onLoadMapById(client, data);
+                    console.log("onLoadMapById", data);
                 }));
 
                 client.on('disconnect', function () {

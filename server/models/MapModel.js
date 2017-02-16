@@ -31,8 +31,11 @@ var schema = new Schema({
 // we need to create a model using it
 var Map = mongoose.model('Map', schema);
 Map.getAll = function (cb) {
+    Map.getData({}, cb);
+};
+Map.getData = function (criteria, cb) {
 
-    var criteria = {};
+    //var criteria = {};
 
     Map.find(criteria, function (err, items) {
         if (err) {

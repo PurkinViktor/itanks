@@ -16,6 +16,17 @@ var transportClient = {
             teamId: teamId
         });
     },
+    getMaps: function () {
+        this.socket.emit("getMaps", {
+            nameGame: iTanksClient.nameGame
+        });
+    },
+    loadMapById: function (idMap) {
+        this.socket.emit("loadMapById", {
+            nameGame: iTanksClient.nameGame,
+            idMap: idMap
+        });
+    },
     addBootToTeam: function (teamId) {
         this.socket.emit("addBootToTeam", {
             nameGame: iTanksClient.nameGame,
@@ -141,7 +152,9 @@ var transportClient = {
         this.socket.on('renderExplosion', function (item) {
             iTanksClient.onRenderExplosion(item);
         });
-
+        this.socket.on('updateListMaps', function (item) {
+            iTanksClient.onUpdateListMaps(item);
+        });
 
         // function safe(str) {
         //     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

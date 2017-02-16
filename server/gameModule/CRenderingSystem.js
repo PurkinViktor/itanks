@@ -16,10 +16,13 @@ module.exports = function (game) {
         // transportGame.sendUpdateDataItem(this.game.nameGame, data);
         // transportGame.sendData(data);
     };
+    this.getListFielsForSend = function () {
+        return ["id", "teamId", "hp", "delayBetweenMove", "countBullet", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"];
+    };
     this.sendRequest = function (f, item) {
         if (this.game.isStart) {
             var argv = [];
-            var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
+            var data = helper.cutInObj(item, this.getListFielsForSend());
 
             argv.push(this.game.nameGame);
             argv.push(data);

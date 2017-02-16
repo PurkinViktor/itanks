@@ -37,7 +37,7 @@ var renderingSystem = {
             self.allRender();
             var ms = 1000;
             if (dt >= ms) {
-                fpsBlock.text("fps: " + count + " in time: " + (dt/ms) + "s .");
+                fpsBlock.text("fps: " + count + " in time: " + (dt / ms) + "s .");
                 //console.log("fps: ", count, "time: ", dt);
                 time = now;
                 count = 0;
@@ -49,6 +49,7 @@ var renderingSystem = {
 
     },
     destroy: function () {
+        this.blockInfoTank.remove();
         this.viewPort.remove();
     },
     createViewPort: function (set) {
@@ -64,13 +65,45 @@ var renderingSystem = {
                 top: set.y,
                 left: set.x
             });
+
+            viewPort.append(this.createBlockInfoTank());
             $(set.parent).append(viewPort);
         }
         return viewPort;
     },
+    blockInfoTank: null,
+    createBlockInfoTank: function () {
+        this.blockInfoTank = $('<div class="blockInfoTank">' +
+            '<div class="XP_label">XP</div>' +
+            '<div class="XP"></div>' +
+            '<div class="Speed_label">Speed</div>' +
+            '<div class="Speed"></div>' +
+            '<div class="RateOfFire_label">Rate of fire</div>' +
+            '<div class="RateOfFire"></div>' +
+            '</div>');
+        return this.blockInfoTank;
+    },
+    renderInfoTank: function (tankOfClient) {
 
+        //var item = this.game.items[tankOfClient.id];
+        var item = tankOfClient;
+
+
+        switch (item.renderingSystemAction) {
+            case undefined:
+            case renderingSystemEnum.UPDATE:
+                this.blockInfoTank.find(".XP").text(item.hp);
+                this.blockInfoTank.find(".RateOfFire").text(item.countBullet);
+                this.blockInfoTank.find(".Speed").text(1000 / item.delayBetweenMove);
+                break;
+        }
+
+    },
     allRender: function () {
+        this.renderInfoTank(this.game.tankOfClient);
         this.render(this.game.items);
+
+
         //this.render(this.game.battleArea.barriers);
     },
     render: function (arrItems) {
@@ -83,8 +116,12 @@ var renderingSystem = {
                 case undefined:
                 case renderingSystemEnum.UPDATE:
                     //if (!item.renderingSystemActionDelete) {
-                        this.renderItem(item);
+                    this.renderItem(item);
                     //}
+                    // if (item.isMyTank) {
+                    //     //item viktorPC
+                    //     console.log(item);
+                    // }
 
                     break;
                 case renderingSystemEnum.DELETE:
@@ -109,6 +146,8 @@ var renderingSystem = {
         });
     },
     setAction: function (item, renderingSysEnum) {
+        //тут можно логику попроще сделать теперь
+        // удалить renderingSystemActionDelete
         if (renderingSysEnum == renderingSystemEnum.DELETE) {
             item.renderingSystemActionDelete = true;
             //console.log("delete  setAction ", item.id);
@@ -141,22 +180,18 @@ var renderingSystem = {
         item.renderObj.addClass(item.typeObject[0]);
         if (item.typeObject.indexOf("playerTank") > 0) {// если это танк тогда
             if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
+                item.renderObj.addClass("myTeam");
+                if (item.isMyTank) {
+                    // var layer = $('<div class="tankDrawLayer"></div>');
+                    // item.renderObj.append(layer);
 
-                if (item.typeObject.indexOf("playerTank") > 0) {// если это танк тогда
-                    item.renderObj.addClass("myTeam");
-                    if (item.ownerId == "player_id_player_" + this.game.clientInfo.login) {
-                        // var layer = $('<div class="tankDrawLayer"></div>');
-                        // item.renderObj.append(layer);
-                        var point = $('<div class="myTeamFlag"></div>');
-                        item.renderObj.append(point);
-                        item.renderObj.addClass("playerMy");
-
-                    }
-                    // item.renderObj.append(layer.clone());
-                    //item.renderObj.append(layer.clone());
-
+                    var point = $('<div class="myTeamFlag"></div>');
+                    item.renderObj.append(point);
+                    item.renderObj.addClass("playerMy");
 
                 }
+                // item.renderObj.append(layer.clone());
+                //item.renderObj.append(layer.clone());
             } else {
                 item.renderObj.addClass("opponentTeam");
             }

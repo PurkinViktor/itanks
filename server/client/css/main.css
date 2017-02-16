@@ -16,7 +16,18 @@ body {
     transition: top 0.2s linear 0ms;
     transition-property: top, left;
 }
+.gameMenuLayOut{
 
+}
+.gameMenuLayOut > div{
+    position: absolute;
+    z-index: 2;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 .battleArea {
     background: #D3D3D8;
     /*border: #000 2px solid;*/
@@ -207,7 +218,7 @@ table th {
 }
 
 .gameMenu {
-    background-color: #3b920c;
+    background-color: #CABCA2;
     text-align: center;
     list-style-type: none;
     padding: 0;
@@ -229,6 +240,31 @@ table th {
 .gameMenu li:hover, .active {
     background-color: #CB2F2F;
 }
+
+.UlListPams{
+    background-color: #8c8c8c;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    overflow: auto;
+}
+.UlListPams li {
+    cursor: pointer;
+    position: relative;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 39px;
+    width: auto;
+    display: inline-block;
+    margin: 5px;
+    background-color: #feff37;
+    padding: 0 15px;
+    border-radius: 10px;
+}
+
 
 .ListGameLayOut, .ListTeamsLayOut {
     /*width: 220px;*/
@@ -548,4 +584,14 @@ table th {
     font-size: 20px;
     top: 0;
     right: 0;
+}
+
+.blockInfoTank{
+    height: 100%;
+    position: absolute;
+    left: 100%;
+}
+.blockInfoTank > div{
+    white-space: nowrap;
+    text-align: left;
 }
