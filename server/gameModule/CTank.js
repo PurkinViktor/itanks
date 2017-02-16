@@ -157,6 +157,7 @@ var CTank = function (settings) {
             //this.callEvent(this.onKill, [this, bullet]);
             this.onKill(this, bullet);
         }
+        this.render();
     };
     //this.onMove = new CEvent();
     this.rulesMovement = function (newPos) {
@@ -273,6 +274,9 @@ var CTank = function (settings) {
         }
     };
     this.timeLastCallMovement = 0;
+    this.timeLastPressMovement = 0;
+
+
     this.callActionMove = function () {
         var actionMove = false;
         for (var action in this.activeKey) {
@@ -282,6 +286,8 @@ var CTank = function (settings) {
 
                 if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
                     actionMove = action;
+
+
                 }
 
 
@@ -290,9 +296,10 @@ var CTank = function (settings) {
 
         if (actionMove) {
             var data = +new Date();
-            if (this.timeLastCallMovement + this.delayBetweenMove <= data) {
+            if (this.timeLastPressMovement + this.delayBetweenMove <= data) {
                 this.runActivKey(actionMove);
-                this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
+                this.timeLastPressMovement = this.activeKey[actionMove].timePress;
+                //this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
             }
 
             this.render();
