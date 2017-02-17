@@ -39,7 +39,10 @@ var CTank = function (settings) {
 
     this.bullets = [];
     this.countBullet = 2;//settings.countBullet || 1;// одновременных выстрелов
-    this.timeInterval = 200;
+    //this.timeInterval = 200;
+    this.timeIntervalMove = 200;
+    this.timeIntervalFire = 200;
+
     this.IntervalIdActionMove = null;
     this.IntervalIdActionFire = null;
     this.destroy = function () {
@@ -48,7 +51,7 @@ var CTank = function (settings) {
     };
     //this.testAray = new Array(1200000000);
     this.init = function () {
-        this.durationAnimate = this.timeInterval;
+        this.durationAnimate = this.timeIntervalMove;
         this.initActiveKey();
 
     };
@@ -56,7 +59,7 @@ var CTank = function (settings) {
     this.reStartIntervalMove = function () {
         if (this.isActive) {
             clearInterval(this.IntervalIdActionMove);
-            this.IntervalIdActionMove = setInterval(this.getHandler(this.callActionMove), this.timeInterval);
+            this.IntervalIdActionMove = setInterval(this.getHandler(this.callActionMove), this.timeIntervalMove);
         } else {
             this.clearInterval(this.IntervalIdActionMove);
         }
@@ -64,7 +67,7 @@ var CTank = function (settings) {
     this.reStartIntervalFire = function () {
         if (this.isActive) {
             clearInterval(this.IntervalIdActionFire);
-            this.IntervalIdActionFire = setInterval(this.getHandler(this.callActionFire), this.timeInterval);
+            this.IntervalIdActionFire = setInterval(this.getHandler(this.callActionFire), this.timeIntervalFire);
         } else {
             this.clearInterval(this.IntervalIdActionFire);
         }
@@ -149,6 +152,7 @@ var CTank = function (settings) {
     this.hp = settings.hp || 1;
     this.hit = function (bullet) {// попадание в танк
         this.hp--;
+       // this.timeIntervalMove -= 15;
 
         this.callEvent(this.onHit, [this, bullet]);
 

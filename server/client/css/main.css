@@ -303,7 +303,7 @@ table th {
 }
 
 .btnAddGame {
-    right: 0;
+    right: 10px;
     position: absolute;
     width: 70px;
     height: 100%;
@@ -324,15 +324,15 @@ table th {
 }
 
 .inputNameGame {
-    height: 50px;
+    height: 100%;
     padding: 0;
     margin: 0;
     width: 100%;
     border: 0;
-    border-right: 70px solid #fff;
+    border-right: 80px solid #8c8c8c;
     padding-left: 10px;
     box-sizing: border-box;
-    background-color: #828282;
+    background-color: #ea5f5f;
 }
 
 .selfClient {
@@ -514,9 +514,9 @@ table th {
 
 .list {
     height: 100%;
-    padding-bottom: 50px;
+    padding: 50px 10px;
     box-sizing: border-box;
-    padding-top: 30px;
+
 }
 
 .gameListPanel {
@@ -529,23 +529,36 @@ table th {
     height: 100%;
 }
 
-.ListGameLayOut .title {
-    height: 30px;
+.ListGameLayOut .topPanel {
+    height: 40px;
     width: 100%;
     position: absolute;
     left: 0px;
-    top: 0;
-    text-align: center;
-    font-size: 24px;
+    top: 5px;
     font-family: Arial;
-}
+    padding: 0 10px;
+    box-sizing: border-box;
 
-.ListGameLayOut .gameListPanel {
-    height: 50px;
+}
+.ListGameLayOut .title{
+    font-size: 35px;
+
+}
+.btnLoadMap{
+    height: 100%;
+    width: 70px;
     padding: 0;
     margin: 0;
+    border: none;
+    float: right;
+}
+.ListGameLayOut .gameListPanel {
+    height: 40px;
+    margin: 0;
     border: 0;
-    bottom: 0;
+    bottom: 5px;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .StatisticsLayOut {

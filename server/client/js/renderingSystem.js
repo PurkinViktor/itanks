@@ -94,7 +94,7 @@ var renderingSystem = {
             case renderingSystemEnum.UPDATE:
                 this.blockInfoTank.find(".XP").text(item.hp);
                 this.blockInfoTank.find(".RateOfFire").text(item.countBullet);
-                this.blockInfoTank.find(".Speed").text(1000 / item.delayBetweenMove);
+                this.blockInfoTank.find(".Speed").text(1000 / item.timeIntervalMove);
                 break;
         }
 

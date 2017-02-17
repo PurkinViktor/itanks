@@ -258,12 +258,12 @@ var iTanksClient = {
 
     },
     onKickOurFromGame: function (data) {
-        gameMenu.showListGames();
+        gameMenu.showListGamesScreen();
     },
     destroyGame: function () {
         renderingSystem.destroy();
         joystickControlTouch.hide();
-        gameMenu.showListGames();
+        gameMenu.showListGamesScreen();
     },
     onGameOver: function (data) {
 
@@ -277,7 +277,7 @@ var iTanksClient = {
         // document.title = msg;
 
         //renderingSystem.destroy();
-        //gameMenu.showListGames();
+        //gameMenu.showListGamesScreen();
 
 
         android.stopTouch();
@@ -286,7 +286,7 @@ var iTanksClient = {
         // setTimeout(function () {
         //     renderingSystem.destroy();
         //     joystickControlTouch.hide();
-        //     gameMenu.showListGames();
+        //     gameMenu.showListGamesScreen();
         //
         // }, 7000);
         // if (window.Android) {//InterfaceAndroid

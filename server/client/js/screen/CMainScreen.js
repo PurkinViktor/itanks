@@ -17,7 +17,7 @@ var CMainScreen = function (gameMenu, iTankClient) {
         var btnLoadMap = this.layOut.find(".btnLoadMap");
         var self = this;
         btnCreateJoin.on("click", function () {
-            gameMenu.showListGames();
+            gameMenu.showListGamesScreen();
             //self.iTankClient.newGame(nameGame);
 
         });

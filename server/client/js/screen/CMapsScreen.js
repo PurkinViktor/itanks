@@ -34,7 +34,7 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         var btnCancel = this.layOut.find(".btnCancel");
 
         btnCancel.on("click", function () {
-            gameMenu.showMainScreen();
+            gameMenu.showListGamesScreen();
             //self.iTankClient.newGame(nameGame);
         });
         gameMenu.layOut.append(this.layOut);

@@ -17,7 +17,7 @@ module.exports = function (game) {
         // transportGame.sendData(data);
     };
     this.getListFielsForSend = function () {
-        return ["id", "teamId", "hp", "delayBetweenMove", "countBullet", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"];
+        return ["id", "teamId", "hp", "timeIntervalMove","timeIntervalFire", "countBullet", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"];
     };
     this.sendRequest = function (f, item) {
         if (this.game.isStart) {
