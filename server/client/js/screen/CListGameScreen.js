@@ -1,5 +1,5 @@
 var CListGameScreen = function (gameMenu, iTankClient) {
-
+    var self = this;
     this.layOut = $("<div class='ListGameLayOut'>" +
         "<div class=' topPanel'>" +
         "<input type='button' class='btnLoadMap' value='Load Map'>" +
@@ -25,16 +25,17 @@ var CListGameScreen = function (gameMenu, iTankClient) {
         var inputNameGame = listGameLayOyt.find(".inputNameGame");
         var btnAddGame = listGameLayOyt.find(".btnAddGame");
         var btnLoadMap = listGameLayOyt.find(".btnLoadMap");
-       // var self = this;
+        // var self = this;
         btnLoadMap.on("click", function (e) {
 
-            gameMenu.showMapsScreen();
+            gameMenu.showMapsScreen(self);
             // console.log("nameGame",nameGame);
             return false;
         });
         btnAddGame.on("click", function () {
             var nameGame = inputNameGame.val();
             iTankClient.newGame(nameGame);
+            gameMenu.showTeams(self);
             // console.log("nameGame",nameGame);
         });
         this.layOut.append(listGameLayOyt);

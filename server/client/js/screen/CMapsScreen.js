@@ -1,4 +1,5 @@
 var CMapsScreen = function (gameMenu, iTankClient) {
+    var self = this;
     this.layOut = $("<div class='ListMapsLayOut'>" +
         "<div class='listPapsConteiner'></div>" +
         "<input type='button' class='btnCancel' value='Cancel'>" +
@@ -6,7 +7,12 @@ var CMapsScreen = function (gameMenu, iTankClient) {
 
         "</div>");
 
-    this.show = function () {
+    this.parentScreen = [];
+    this.show = function (screen) {
+        if(screen){
+            this.parentScreen.push(screen);
+        }
+
         this.layOut.show();
         iTankClient.getMaps();
     };
@@ -34,10 +40,10 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         var btnCancel = this.layOut.find(".btnCancel");
 
         btnCancel.on("click", function () {
-            gameMenu.showListGamesScreen();
+            gameMenu.cancel(self.parentScreen.pop());
             //self.iTankClient.newGame(nameGame);
         });
-        gameMenu.layOut.append(this.layOut);
+
 
 
         var set = {items: []};
@@ -49,10 +55,10 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         this.listMapsUI.onItemSelected.bind(function (menu, item) {
             console.log(item);
             iTankClient.loadMapById(item.id);
+            gameMenu.showTeams(self);
         }, this);
         this.listMapsUI.getValueItem = function (item) {
             return item.value + " " + item.size;
-            //return item.value.nameGame;
         };
 
         this.listMapsUI.curentConstructionItem = function (li, item, index, items) {
@@ -63,6 +69,7 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         };
 
     };
+    gameMenu.layOut.append(this.layOut);
     this.init();
 };
 

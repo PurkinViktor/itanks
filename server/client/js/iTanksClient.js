@@ -240,7 +240,7 @@ var iTanksClient = {
     },
     successJoinToGame: function (data) {
         this.nameGame = data.nameGame;
-        gameMenu.showTeams();
+        //gameMenu.showTeams();
         //this.startGame(this.nameGame);
     },
     startGame: function () {

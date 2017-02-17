@@ -1,9 +1,22 @@
 var CListTeamsScreen = function (gameMenu, iTankClient) {
-
-    this.layOut = $("<div class='ListTeamsLayOut'><div");
-
-    this.show = function () {
+    var self = this;
+    this.layOut = $("<div class='ListTeamsLayOut'>" +
+        "<div class='topPanel'>" +
+        "<input type='button' class='btnCancel' value='Cancel'>" +
+        "<div   class='NameGame'></div>" +
+        "</div>" +
+        "</div>");
+    this.parentScreen = [];
+    this.show = function (screen) {
+        if (screen) {
+            this.parentScreen.push(screen);
+        }
         this.layOut.show();
+        this.updateScreen();
+    };
+    this.updateScreen = function () {
+        var NameGame = this.layOut.find(".NameGame");
+        NameGame.text(iTankClient.nameGame);
     };
     this.hide = function () {
         this.layOut.hide();
@@ -13,6 +26,13 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
 
 
         var listTeamsLayOut = this.layOut;
+
+        var btnCancel = this.layOut.find(".btnCancel");
+
+        btnCancel.on("click", function () {
+            gameMenu.cancel(self.parentScreen.pop());
+            //self.iTankClient.newGame(nameGame);
+        });
 
         var t = this.getListTeamLayOut();
 
@@ -79,11 +99,9 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         var self = this;
         var t = $("<div class='getListTeamLayOut'>" +
             "<div class='list'>" +
-            // "<li></li>" +
+            "<input type='button' class='btnAddPlayer' value='+'>" +
             "</div>" +
-            "<div class='gameListPanel'>" +
-            "<input type='button' class='btnAddPlayer' value='Add Player'>" +
-            "</div>" +
+
             "<div");
         var indexTeam = this.teams.length;
         t.find(".btnAddPlayer").on("click", this.getHundlerBtnAddBoot(indexTeam));

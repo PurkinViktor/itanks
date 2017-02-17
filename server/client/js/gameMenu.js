@@ -21,6 +21,10 @@ var gameMenu = {
         this.showListGamesScreen();
 
     },
+    cancel: function (screen) {
+        this.hideAll();
+        screen.show();
+    },
     updateTeams: function (data) {
         this.listTeamsScreen.updateTeams(data);
     },
@@ -87,14 +91,14 @@ var gameMenu = {
         this.hideAll();
         this.mainScreen.show();
     },
-    showMapsScreen: function () {
+    showMapsScreen: function (screen) {
         this.hideAll();
-        this.mapsScreen.show();
+        this.mapsScreen.show(screen);
     },
 
-    showTeams: function () {
+    showTeams: function (screen) {
         this.hideAll();
-        this.listTeamsScreen.show();
+        this.listTeamsScreen.show(screen);
     },
     showStatistics: function (data) {
         this.hideAll();
@@ -106,8 +110,8 @@ var gameMenu = {
         this.statisticsUI.find(".statisticsContent").text(msg);
         this.statisticsUI.show();
     },
-    showListGamesScreen: function () {
+    showListGamesScreen: function (screen) {
         this.hideAll();
-        this.listGameScreen.show();
+        this.listGameScreen.show(screen);
     }
 };
