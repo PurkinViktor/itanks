@@ -18,8 +18,10 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         var NameGame = this.layOut.find(".NameGame");
         NameGame.text(iTankClient.nameGame);
     };
+
     this.hide = function () {
         this.layOut.hide();
+
 
     };
     this.init = function () {

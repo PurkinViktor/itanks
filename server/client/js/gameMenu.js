@@ -28,7 +28,10 @@ var gameMenu = {
     updateTeams: function (data) {
         this.listTeamsScreen.updateTeams(data);
     },
-
+    onSuccessJoinToGame: new CEvent(),
+    OnSuccessJoinToGame:function () {
+        this.onSuccessJoinToGame();
+    },
     createJoystick: function () {
         // this.joystickUI = $('<div class="Joystick"></div>');
         // this.fireUI = $('<div class="FireArea"></div>');

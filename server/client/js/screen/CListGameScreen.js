@@ -14,10 +14,14 @@ var CListGameScreen = function (gameMenu, iTankClient) {
 
     this.show = function () {
         this.layOut.show();
+        gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
     };
     this.hide = function () {
         this.layOut.hide();
-
+        gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
+    };
+    this.showTeamsScreen = function () {
+        gameMenu.showTeams(self);
     };
     this.init = function () {
         var listGameLayOyt = this.layOut;
@@ -35,7 +39,7 @@ var CListGameScreen = function (gameMenu, iTankClient) {
         btnAddGame.on("click", function () {
             var nameGame = inputNameGame.val();
             iTankClient.newGame(nameGame);
-            gameMenu.showTeams(self);
+
             // console.log("nameGame",nameGame);
         });
         this.layOut.append(listGameLayOyt);

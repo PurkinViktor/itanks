@@ -15,10 +15,15 @@ var CMapsScreen = function (gameMenu, iTankClient) {
 
         this.layOut.show();
         iTankClient.getMaps();
+        gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
+
     };
     this.hide = function () {
         this.layOut.hide();
-
+        gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
+    };
+    this.showTeamsScreen = function () {
+        gameMenu.showTeams(self);
     };
     this.handlerUpdateListMaps = function (data) {
         console.log("handlerUpdateListMaps", data);
@@ -55,7 +60,7 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         this.listMapsUI.onItemSelected.bind(function (menu, item) {
             console.log(item);
             iTankClient.loadMapById(item.id);
-            gameMenu.showTeams(self);
+           // gameMenu.showTeams(self);
         }, this);
         this.listMapsUI.getValueItem = function (item) {
             return item.value + " " + item.size;
