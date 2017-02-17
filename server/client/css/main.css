@@ -511,13 +511,14 @@ table th {
 
 .btnAddPlayer {
     border: none;
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     position: absolute;
     bottom: 20px;
     right: 20px;
     border-radius: 100%;
     background-color: #287830;
+    z-index: 1;
 }
 
 .btnStartGame {
