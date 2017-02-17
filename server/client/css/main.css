@@ -285,7 +285,6 @@ table th {
 .ListTeamsLayOut {
     height: auto;
     width: auto;
-
 }
 
 .btnKickPlayer {
@@ -296,7 +295,7 @@ table th {
     height: 100%;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     width: 48px;
     opacity: 0.9;
 }
@@ -330,7 +329,10 @@ table th {
 .getListTeamLayOut:nth-child(2) {
     float: right;
 }
-
+.getListTeamLayOut .list li{
+    padding-left: 50px;
+    text-align: left;
+}
 .inputNameGame {
     height: 100%;
     padding: 0;
@@ -519,8 +521,17 @@ table th {
 }
 
 .btnStartGame {
+    display: block;
+    height: 100%;
+    width: 150px;
+    border: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.bottomTeamScreen{
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     left: 0;
     height: 50px;
     width: 100%;

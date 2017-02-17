@@ -154,7 +154,9 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         iTankClient.switchToTeam(item.teamId);
     };
     this.getBtnStartGame = function () {
-        var btn = $("<input type='button' class='btnStartGame' value='Start Game'>");
+        var btn = $("<div class='bottomTeamScreen'>" +
+            "<input type='button' class='btnStartGame' value='Start Game'>" +
+            "</div>");
         // var self = this;
         btn.on("click", function (e) {
             iTankClient.startGame();
