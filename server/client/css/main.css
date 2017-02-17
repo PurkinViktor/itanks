@@ -500,13 +500,10 @@ table th {
 }
 
 .gameAreaContent {
-    border: none;
-    height: 40px;
-    width: 40px;
-    border-radius: 100%;
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+
 }
 
 .btnAddPlayer {
