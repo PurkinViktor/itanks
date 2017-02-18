@@ -10,8 +10,6 @@ var iTanksClient = {
         $(window).on("keyup", this.getHandler(this.keyupHundle));
 
 
-        gameMenu.joystickControl.onScalingEnd.bind(android.startTouch, android);
-
     },
     login: false,
     //teamId: false,
@@ -74,10 +72,14 @@ var iTanksClient = {
             // }
         }
 
+        gameMenu.joystickControl.onScalingEnd.bind(function () {
+            gameMenu.joystickControl.onScalingEnd.clear();
+            android.startTouch();
+        });
         renderingSystem.run(this);
         gameMenu.joystickControl.show();
 
-       // android.startTouch();
+        //
 
         // if (window.Android) {
         //     Android.startTouch();
