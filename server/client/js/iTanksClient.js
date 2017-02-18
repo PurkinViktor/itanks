@@ -267,7 +267,7 @@ var iTanksClient = {
     },
     destroyGame: function () {
         renderingSystem.destroy();
-        joystickControlTouch.hide();
+        gameMenu.joystickControl.hide();
         gameMenu.showListGamesScreen();
     },
     onGameOver: function (data) {
@@ -286,7 +286,7 @@ var iTanksClient = {
 
 
         android.stopTouch();
-        joystickControlTouch.hideControll();
+        gameMenu.joystickControl.hideControll();
         gameMenu.showStatistics(data);
         // setTimeout(function () {
         //     renderingSystem.destroy();
