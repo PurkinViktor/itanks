@@ -29,9 +29,10 @@ var gameMenu = {
         this.listTeamsScreen.updateTeams(data);
     },
     onSuccessJoinToGame: new CEvent(),
-    OnSuccessJoinToGame:function () {
+    OnSuccessJoinToGame: function () {
         this.onSuccessJoinToGame();
     },
+    joystickControl: new CJoystickControlTouchV1(),
     createJoystick: function () {
         // this.joystickUI = $('<div class="Joystick"></div>');
         // this.fireUI = $('<div class="FireArea"></div>');
@@ -41,9 +42,9 @@ var gameMenu = {
         // this.layOut.append(this.fireUI);
 
 
-        joystickControlTouch.init(this);
-        joystickControlTouch.hide();
-        joystickControlTouch.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
+        this.joystickControl.init(this);
+        this.joystickControl.hide();
+        this.joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
 
 
         // joystickControl.init(this.joystickUI);

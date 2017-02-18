@@ -73,7 +73,7 @@ var iTanksClient = {
         }
 
         renderingSystem.run(this);
-        joystickControlTouch.show();
+        gameMenu.joystickControl.show();
         android.startTouch();
 
         // if (window.Android) {
