@@ -32,7 +32,7 @@ var gameMenu = {
     OnSuccessJoinToGame: function () {
         this.onSuccessJoinToGame();
     },
-    joystickControl: new CJoystickControlTouchV2(),
+    joystickControl: new CJoystickControlTouchV4(),
     createJoystick: function () {
         // this.joystickUI = $('<div class="Joystick"></div>');
         // this.fireUI = $('<div class="FireArea"></div>');

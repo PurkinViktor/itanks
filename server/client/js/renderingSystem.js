@@ -7,6 +7,10 @@ var renderingSystemEnum = {
 var renderingSystem = {
     viewPort: null,
     game: null,
+    stop: function () {
+        this.isWork = false;
+    },
+    isWork: false,
     run: function (game) {
         this.game = game;
 //        console.log('Callee: ',arguments.callee.name);
@@ -28,7 +32,7 @@ var renderingSystem = {
 
         var time = new Date().getTime();
         var count = 0;
-
+        this.isWork = true;
         function updateScreen() {
 
             var now = new Date().getTime();
@@ -42,7 +46,10 @@ var renderingSystem = {
                 time = now;
                 count = 0;
             }
-            requestAnimationFrame(updateScreen);
+            if (self.isWork) {
+                requestAnimationFrame(updateScreen);
+            }
+
         }
 
         requestAnimationFrame(updateScreen);
@@ -102,7 +109,7 @@ var renderingSystem = {
     allRender: function () {
         this.renderInfoTank(this.game.tankOfClient);
         this.render(this.game.items);
-
+        gameMenu.joystickControl.render();
 
         //this.render(this.game.battleArea.barriers);
     },

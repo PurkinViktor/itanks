@@ -320,19 +320,23 @@ table th {
     box-sizing: border-box;
     position: relative;
 }
-.getListTeamLayOut .list{
+
+.getListTeamLayOut .list {
     height: 100%;
     padding: 50px 10px 10px 10px;
     box-sizing: border-box;
     position: relative;
 }
+
 .getListTeamLayOut:nth-child(2) {
     float: right;
 }
-.getListTeamLayOut .list li{
+
+.getListTeamLayOut .list li {
     padding-left: 50px;
     text-align: left;
 }
+
 .inputNameGame {
     height: 100%;
     padding: 0;
@@ -394,7 +398,7 @@ table th {
 
 .directionJoystick {
     transform-origin: center;
-    transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(0, 0) rotate(45deg);
     width: 100px;
     height: 100px;
     position: absolute;
@@ -527,7 +531,7 @@ table th {
     padding: 0;
 }
 
-.bottomTeamScreen{
+.bottomTeamScreen {
     position: absolute;
     bottom: 5px;
     left: 0;
@@ -640,7 +644,7 @@ table th {
     text-align: left;
 }
 
-.ListTeamsLayOut .NameGame{
+.ListTeamsLayOut .NameGame {
     text-align: center;
     position: absolute;
     width: 100%;
@@ -652,7 +656,8 @@ table th {
     border-right: 100px solid;
     border-color: rgba(167, 173, 179, 0);
 }
-.ListTeamsLayOut .btnCancel{
+
+.ListTeamsLayOut .btnCancel {
     position: relative;
     z-index: 1;
     height: 100%;
