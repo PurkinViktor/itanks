@@ -73,11 +73,13 @@ var CJoystickControlTouchV1 = function () {
 
 
         },
+        onScalingEnd: new CEvent(),
         scaling: function (ratio) {
 
             var self = this;
             requestAnimationFrame(function (time) {
                 $('#Viewport').attr('content', 'width=device-width, initial-scale=' + ratio);
+                self.onScalingEnd();
             });
 
 
