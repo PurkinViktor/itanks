@@ -286,7 +286,7 @@ var iTanksClient = {
 
 
         android.stopTouch();
-        gameMenu.joystickControl.hideControll();
+        gameMenu.joystickControl.setViewControll(false);
         gameMenu.showStatistics(data);
         // setTimeout(function () {
         //     renderingSystem.destroy();
