@@ -44,23 +44,23 @@ var android = {
     },
     OnTouch: function (pos) {
 
-        joystickControlTouch.OnMouseDown(this.reCalcPosition(pos));
+        gameMenu.joystickControl.OnMouseDown(this.reCalcPosition(pos));
     },
     OnMove: function (pos) {
 
-        joystickControlTouch.OnMouseMove(this.reCalcPosition(pos));
+        gameMenu.joystickControl.OnMouseMove(this.reCalcPosition(pos));
     },
     OnUp: function (pos) {
 
-        joystickControlTouch.OnMouseUp(this.reCalcPosition(pos));
+        gameMenu.joystickControl.OnMouseUp(this.reCalcPosition(pos));
     },
     OnFireDoun: function (pos) {
 
-        joystickControlTouch.OnFireDoun(this.reCalcPosition(pos));
+        gameMenu.joystickControl.OnFireDoun(this.reCalcPosition(pos));
     },
     OnFireUp: function (pos) {
 
-        joystickControlTouch.OnFireUp(this.reCalcPosition(pos));
+        gameMenu.joystickControl.OnFireUp(this.reCalcPosition(pos));
     },
 
 
