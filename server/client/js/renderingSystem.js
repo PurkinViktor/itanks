@@ -52,6 +52,7 @@ var renderingSystem = {
                 fpsBlock.text("FPS: " + count + " in : " + (dt / ms) + "s .");
 
                 pingBlock.text("Ping: " + game.pingMamager.ping + "\r\n" +
+                    "Avg Ping: " + game.pingMamager.averagePing + '\r\n' +
                     "Min Ping: " + game.pingMamager.minPing + '\r\n' +
                     "Max Ping: " + game.pingMamager.maxPing + "" +
                     "");

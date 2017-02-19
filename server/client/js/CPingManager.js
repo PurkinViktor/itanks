@@ -42,7 +42,7 @@ var CPingManager = function () {
             s = s + p.ping;
             count++;
         }
-        this.averagePing = s / count;
+        this.averagePing = (s / count).toFixed(3);
 
     };
     this.onPing = new CEvent();
