@@ -154,6 +154,11 @@ var transportGame = {
                     console.log("addGame", nameGame);
                 }));
 
+                client.on('ping', hundlerEvents(function (data) {
+                    data.serverTimeRecive = new Date().getTime();
+                    client.emit('ping', data);
+                }));
+
                 client.on('joinToGame', hundlerEvents(function (nameGame) {
                     //client.room
                     serverGame.joinToGame(client, nameGame);

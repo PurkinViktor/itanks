@@ -10,6 +10,7 @@ var iTanksClient = {
         $(window).on("keyup", this.getHandler(this.keyupHundle));
 
 
+        this.pingMamager = new CPingManager();
     },
     login: false,
     //teamId: false,

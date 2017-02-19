@@ -626,11 +626,13 @@ table th {
     background: #56b556;
 }
 
-.fpsBlock {
+.developStat {
     position: fixed;
     font-size: 20px;
     top: 0;
-    right: 0;
+    left: 0;
+    white-space: pre;
+    text-align: left;
 }
 
 .blockInfoTank {

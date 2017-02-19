@@ -1,4 +1,4 @@
-var touchWorker = {};
+var pingWorker = {};
 
 addEventListener('message', function (e) {
     var data = e.data;

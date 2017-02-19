@@ -25,8 +25,16 @@ var renderingSystem = {
 
         };
         this.viewPort = this.createViewPort(set);
-        var fpsBlock = $("<div class='fpsBlock'></div>");
-        this.viewPort.append(fpsBlock);
+        var developStat = $("<div class='developStat'>" +
+            "<div class='fpsBlock'></div>" +
+            "<div class='pingBlock'></div>" +
+            "</div>");
+
+        var fpsBlock = developStat.find(".fpsBlock");
+        var pingBlock = developStat.find(".pingBlock");
+
+
+        this.viewPort.append(developStat);
         var self = this;
 
 
@@ -41,7 +49,13 @@ var renderingSystem = {
             self.allRender();
             var ms = 1000;
             if (dt >= ms) {
-                fpsBlock.text("fps: " + count + " in time: " + (dt / ms) + "s .");
+                fpsBlock.text("FPS: " + count + " in : " + (dt / ms) + "s .");
+
+                pingBlock.text("Ping: " + game.pingMamager.ping + "\r\n" +
+                    "Min Ping: " + game.pingMamager.minPing + '\r\n' +
+                    "Max Ping: " + game.pingMamager.maxPing + "" +
+                    "");
+
                 //console.log("fps: ", count, "time: ", dt);
                 time = now;
                 count = 0;

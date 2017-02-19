@@ -1,6 +1,16 @@
 var transportClient = {
     host: '/',
     socket: null,
+    send: function (msg, data) {
+        this.socket.emit(msg, data);
+    },
+    on: function (event, handler) {
+
+        this.socket.on(event, function (data) {
+           // console.log("event: " + event, data);
+            handler(data);
+        });
+    },
     newGame: function (nameGame) {
         this.socket.emit("addGame", nameGame);
     },
