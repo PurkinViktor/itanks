@@ -20,6 +20,7 @@ var CTank = function (settings) {
     this.width = settings.width || callee.width;
     this.height = settings.height || callee.height;
     this.position = settings.position || {x: 30, y: 30};
+    this.positionShift = 5;
     this.direction = EnumDirection.top;
     this.speed = 20;
     this.delayBetweenShots = 300;
@@ -113,11 +114,17 @@ var CTank = function (settings) {
     };
     this.setDirection = function (action) {
         if (this.direction == action) {
+
             return true;
         }
+
+        var oldDirection = this.direction;
         this.direction = action;
+        this.onChangeDirection(this, oldDirection, this.direction);
         return false;
     };
+    this.onChangeDirection = new CEvent();
+    this.onMove = new CEvent();
     this.OnFire = function () {
         //console.log("огонь");
         if (this.bullets.length < this.countBullet) {
@@ -152,7 +159,7 @@ var CTank = function (settings) {
     this.hp = settings.hp || 1;
     this.hit = function (bullet) {// попадание в танк
         this.hp--;
-       // this.timeIntervalMove -= 15;
+        // this.timeIntervalMove -= 15;
 
         this.callEvent(this.onHit, [this, bullet]);
 
@@ -163,11 +170,12 @@ var CTank = function (settings) {
         }
         this.render();
     };
-    //this.onMove = new CEvent();
+    this.onMove = new CEvent();
     this.rulesMovement = function (newPos) {
+        var oldPos = extend({}, this.position);
         if (!rules.rulesMovement(this, newPos)) {
             // колизий в правилах не было
-            //this.onMove(this);
+            this.onMove(this, oldPos, newPos);
         }
     };
     this.OnTop = function () {
@@ -211,7 +219,7 @@ var CTank = function (settings) {
         if (this.activeKey[action]) {
             this.activeKey[action].active = value;
             if (value) {
-                this.activeKey[action].timePress = +new Date();
+                this.activeKey[action].timePress = new Date().getTime();
                 this.checkStateActiveKey(action);
             }
         }
@@ -222,8 +230,10 @@ var CTank = function (settings) {
             this.callActionFire();
             this.reStartIntervalFire();
         } else {
-            this.callActionMove();
-            this.reStartIntervalMove();
+            if (!this.isMuving) {
+                this.callActionMove();
+                this.reStartIntervalMove();
+            }
         }
 
 
@@ -280,7 +290,7 @@ var CTank = function (settings) {
     this.timeLastCallMovement = 0;
     this.timeLastPressMovement = 0;
 
-
+    this.isMuving = false;
     this.callActionMove = function () {
         var actionMove = false;
         for (var action in this.activeKey) {
@@ -299,20 +309,23 @@ var CTank = function (settings) {
         }
 
         if (actionMove) {
-            var data = +new Date();
-            if (this.timeLastPressMovement + this.delayBetweenMove <= data) {
-                this.runActivKey(actionMove);
-                this.timeLastPressMovement = this.activeKey[actionMove].timePress;
-                //this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
-            }
+            // var data = new Date().getTime();
+            this.isMuving = true;
+            this.runActivKey(actionMove);
+            //this.runActivKey(actionMove);
+            //this.timeLastPressMovement = this.activeKey[actionMove].timePress;
+            //this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
+
 
             this.render();
+        } else {
+            this.isMuving = false;
         }
 
     };
     this.runActivKey = function (action) {
         this.activeKey[action].On();
-        this.activeKey[action].timeLastCall = +new Date();
+        this.activeKey[action].timeLastCall = new Date().getTime();
     };
     this.getHandler = function (func, arg) {
         var self = this;

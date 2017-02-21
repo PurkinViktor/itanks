@@ -211,7 +211,7 @@ module.exports = function (set) {
             var player = this.players[i];
             //player.tank.destroy();
             if (player.brain) {
-                player.brain.setActivat(false);
+                player.brain.setActivate(false);
             }
         }
         for (var i in this.tanks) {
@@ -249,32 +249,42 @@ module.exports = function (set) {
             position: {x: 500, y: 0},
             name: "Player " + set.ownerId,
             ownerId: "player_" + set.ownerId,
-            hp: 10,
+            hp: set.xp || 10,
             countBullet: 3,// количество выстрелов одновреммено
             typeObject: ["player", "player_"],
             teamId: set.teamId,
 //			width: 26,
 //			height: 26
         });
-        tank.position = this.getRandPositionAlign(40, 5);
+        //tank.position = this.getRandPositionAlign(this.battleArea.widthCell, 5, {});
         this.setInFreePlace(tank);
 
         return tank;
     };
     this.setInFreePlace = function (tank) {
-        var pos = tank.position;
+        var posCell = {};
+        var shift = tank.positionShift;
+        var widthCell = this.battleArea.widthCell;
+        var pos = this.getRandPositionAlign(widthCell, shift, posCell);
+
         for (; rules.rulesMovement(tank, pos);) {
-            pos = this.getRandPositionAlign(40, 5);
+            pos = this.getRandPositionAlign(widthCell, shift, posCell);
         }
+
+        tank.posCell = posCell;
+        // tank.posCell.x = (pos.x - 5) / widthCell;
+        // tank.posCell.y = (pos.y - 5) / widthCell;
 
     };
     this.getRandPosition = function () {
         return helper.getRandPosition(0, this.battleArea.w, 0, this.battleArea.h);
     };
-    this.getRandPositionAlign = function (multipleOf, shift) {
+    this.getRandPositionAlign = function (multipleOf, shift, posCell) {
         var pos = helper.getRandPosition(0, this.battleArea.w, 0, this.battleArea.h);
-        pos.x = Math.floor(Math.floor(pos.x) / multipleOf) * multipleOf + shift;
-        pos.y = Math.floor(Math.floor(pos.y) / multipleOf) * multipleOf + shift;
+        posCell.x = Math.floor(Math.floor(pos.x) / multipleOf);
+        posCell.y = Math.floor(Math.floor(pos.y) / multipleOf);
+        pos.x = posCell.x * multipleOf + shift;
+        pos.y = posCell.y * multipleOf + shift;
         return pos;
     };
     this.initClients = function (arrIdClients) {
@@ -284,9 +294,10 @@ module.exports = function (set) {
             //this.tanks.push(tank);
         }
         for (var i in this.boots) {
+
             var client = this.createPlayer(this.boots[i]);
-            client.tank = this.createTank({ownerId: client.id, teamId: client.teamId})
-            client.brain = new CBrain(client);
+            client.tank = this.createTank({ownerId: client.id, teamId: client.teamId, xp: 1})
+            client.brain = new CBrain(client, this);
             //this.tanks.push(tank);
         }
     };

@@ -66,7 +66,7 @@ module.exports = function (game) {
 
             this.cleanMap(); /// очищаем карту если она уже была
             if (this.map == null) {// если не нул значит загрузили катру методом  loadMap
-                this.createRandMap(20); // создаем только разметку на карте
+                this.createRandMap(35); // создаем только разметку на карте
             }
             this.createMaps(this.map); // создаем сами обьеты на карте
             this.renderingMap(); // отрисовываем
@@ -139,9 +139,10 @@ module.exports = function (game) {
 
             return igl;
         },
-        sizeCell: 2, //размеры каждой ячейки , каждая ячейка раздроблена еще на 4 штуки
+        sizeCell: 2, //размеры каждой ячейки , каждая ячейка раздроблена еще на 4 штуки 2*2
         // countX: null, countY: null,
         size: {x: 0, y: 0},
+
         createRandMap: function (percenFilling) {
 
             var countX = this.w / CBarrier.width;
@@ -246,6 +247,7 @@ module.exports = function (game) {
             };
         }
     };
+    battleArea.widthCell = CBarrier.width * battleArea.sizeCell;
     // var renderingSystem = { // заглушка
     //     renderItem: function () {
     //
