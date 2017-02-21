@@ -193,6 +193,10 @@ var CJoystickControlTouchV2 = function () {
             }
 
         },
+        render: function (screen) {
+
+
+        },
         moveJoystick: function (posMouse) {
             var self = this;
             requestAnimationFrame(function (time) {
@@ -217,10 +221,14 @@ var CJoystickControlTouchV2 = function () {
             Yb = parseInt(Yb, 10);
             R = parseInt(R, 10);
             var Rab = Math.sqrt(Math.pow((Xb - Xa), 2) + Math.pow(Yb - Ya, 2));
-            var k = R / Rab;
-            var Xc = Xa + (Xb - Xa) * k;
-            var Yc = Ya + (Yb - Ya) * k;
-            return {left: Xc, top: Yc};
+            var newPos = {left: Xb, top: Yb};
+            if (Rab > R) {
+                var k = R / Rab;
+                var Xc = Xa + (Xb - Xa) * k;
+                var Yc = Ya + (Yb - Ya) * k;
+                newPos = {left: Xc, top: Yc};
+            }
+            return newPos;
         },
         getPosition: function (LO, clickPos) {
 

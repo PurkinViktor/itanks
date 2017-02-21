@@ -220,6 +220,11 @@ table th {
     background-size: 100% 100%;
 }
 
+.igl.myTeam {
+    background-image: url(../img/igl_team.png);
+
+}
+
 .gameMenu {
     background-color: #CABCA2;
     text-align: center;
@@ -398,7 +403,8 @@ table th {
 
 .directionJoystick {
     transform-origin: center;
-    transform: translate(0, 0) rotate(45deg);
+
+    transform: translate(-50%, -50%) rotate(45deg);
     width: 100px;
     height: 100px;
     position: absolute;
@@ -407,6 +413,10 @@ table th {
 
     background-color: #ff9b15;
     z-index: 1;
+}
+
+.directionJoystick.v4 {
+    transform: translate(0, 0) rotate(45deg);
 }
 
 .dirButtonJSK {

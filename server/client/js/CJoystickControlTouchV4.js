@@ -86,7 +86,7 @@ var CJoystickControlTouchV4 = function () {
             $(".gameAreaContent").append(this.joystickUILayOut);
             $(".gameAreaContent").append(this.fireUILayOut);
 
-            this.joystickUI = $('<div class="directionJoystick">' +
+            this.joystickUI = $('<div class="directionJoystick v4">' +
                 '<div class="dirButtonJSK top"></div>' +
                 '<div class="dirButtonJSK right"></div>' +
                 '<div class="dirButtonJSK left"></div>' +

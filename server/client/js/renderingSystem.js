@@ -200,7 +200,7 @@ var renderingSystem = {
             top: item.position.y
         });
         item.renderObj.addClass(item.typeObject[0]);
-        if (item.typeObject.indexOf("playerTank") > 0) {// если это танк тогда
+        if (item.typeObject.indexOf("playerTank") > 0 ||item.renderObj.hasClass("igl")) {// если это танк тогда
             if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
                 item.renderObj.addClass("myTeam");
                 if (item.isMyTank) {
@@ -218,6 +218,7 @@ var renderingSystem = {
                 item.renderObj.addClass("opponentTeam");
             }
         }
+
         this.viewPort.append(item.renderObj);
     },
     renderItem: function (item) {
