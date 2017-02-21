@@ -320,7 +320,7 @@ var serverGame = {
             transportGame.setDataOfGame(game.nameGame, dataOfGame);
             game.start();
         } else {
-            transportGame.errorMessage(client, {nameGame: game.nameGame, text: "Game not found, or allready start"});
+            transportGame.errorMessage(client, {nameGame: nameGame, text: "Game not found, or allready start"});
         }
     },
     setActiveKey: function (client, data) {
