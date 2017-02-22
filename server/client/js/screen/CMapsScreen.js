@@ -16,7 +16,11 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         this.layOut.show();
         iTankClient.getMaps();
         gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
+        gameMenu.setCurentScreen(this);
 
+    };
+    this.goBack = function () {
+        gameMenu.cancel(self.parentScreen.pop());
     };
     this.hide = function () {
         this.layOut.hide();
@@ -45,7 +49,8 @@ var CMapsScreen = function (gameMenu, iTankClient) {
         var btnCancel = this.layOut.find(".btnCancel");
 
         btnCancel.on("click", function () {
-            gameMenu.cancel(self.parentScreen.pop());
+            self.goBack();
+            //gameMenu.cancel(self.parentScreen.pop());
             //self.iTankClient.newGame(nameGame);
         });
 

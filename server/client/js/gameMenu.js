@@ -20,6 +20,13 @@ var gameMenu = {
 
         this.showListGamesScreen();
 
+        android.onBack.bind(function () {
+            this.curentScreen.goBack();
+        }, this);
+
+    },
+    setCurentScreen: function (screen) {
+        this.curentScreen = screen;
     },
     cancel: function (screen) {
         this.hideAll();

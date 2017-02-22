@@ -13,6 +13,7 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         }
         this.layOut.show();
         this.updateScreen();
+        gameMenu.setCurentScreen(this);
     };
     this.updateScreen = function () {
         var NameGame = this.layOut.find(".NameGame");
@@ -24,6 +25,9 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
 
 
     };
+    this.goBack = function () {
+        gameMenu.cancel(self.parentScreen.pop());
+    };
     this.init = function () {
 
 
@@ -32,7 +36,8 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         var btnCancel = this.layOut.find(".btnCancel");
 
         btnCancel.on("click", function () {
-            gameMenu.cancel(self.parentScreen.pop());
+            // gameMenu.cancel(self.parentScreen.pop());
+            self.goBack();
             //self.iTankClient.newGame(nameGame);
         });
 

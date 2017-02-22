@@ -15,6 +15,7 @@ var CListGameScreen = function (gameMenu, iTankClient) {
     this.show = function () {
         this.layOut.show();
         gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
+        gameMenu.setCurentScreen(this);
     };
     this.hide = function () {
         this.layOut.hide();
@@ -22,6 +23,9 @@ var CListGameScreen = function (gameMenu, iTankClient) {
     };
     this.showTeamsScreen = function () {
         gameMenu.showTeams(self);
+    };
+    this.goBack = function () {
+
     };
     this.init = function () {
         var listGameLayOyt = this.layOut;

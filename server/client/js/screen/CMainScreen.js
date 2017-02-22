@@ -7,6 +7,7 @@ var CMainScreen = function (gameMenu, iTankClient) {
 
     this.show = function () {
         this.layOut.show();
+        gameMenu.setCurentScreen(this);
     };
     this.hide = function () {
         this.layOut.hide();

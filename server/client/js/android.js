@@ -63,6 +63,10 @@ var android = {
         gameMenu.joystickControl.OnFireUp(this.reCalcPosition(pos));
     },
 
+    onBack: new CEvent(),
+    OnCkickBack: function () {
+        this.onBack();
+    },
 
     stopTouch: function () {
         if (window.InterfaceAndroid) {
