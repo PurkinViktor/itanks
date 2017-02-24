@@ -26,10 +26,9 @@ var transportClient = {
             teamId: teamId
         });
     },
-    getMaps: function () {
-        this.socket.emit("getMaps", {
-            nameGame: iTanksClient.nameGame
-        });
+    getMaps: function (data) {
+        data.nameGame = iTanksClient.nameGame;
+        this.socket.emit("getMaps", data);
     },
     loadMapById: function (idMap) {
         this.socket.emit("loadMapById", {
@@ -86,7 +85,7 @@ var transportClient = {
             socket.emit("getListGames");
 
         });
-        this.socket.on('goToLayerListOfGames', function (data) {
+        this.socket.on('kickOurFromGame', function (data) {
             console.log("ongoToLayerListOfGames", data);
             iTanksClient.onKickOurFromGame(data);
         });

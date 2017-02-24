@@ -37,8 +37,8 @@ var iTanksClient = {
     switchToTeam: function (teamId) {
         transportClient.switchToTeam(teamId);
     },
-    getMaps: function () {
-        transportClient.getMaps();
+    getMaps: function (data) {
+        transportClient.getMaps(data);
     },
     loadMapById: function (idMap) {
         transportClient.loadMapById(idMap);
@@ -73,12 +73,8 @@ var iTanksClient = {
             // }
         }
 
-        gameMenu.joystickControl.onScalingEnd.bind(function () {
-            gameMenu.joystickControl.onScalingEnd.clear();
-            android.startTouch();
-        });
-        renderingSystem.run(this);
-        gameMenu.joystickControl.show();
+        gameMenu.initGame();
+
 
         //
 
@@ -267,43 +263,10 @@ var iTanksClient = {
         gameMenu.showListGamesScreen();
     },
     destroyGame: function () {
-        renderingSystem.destroy();
-        gameMenu.joystickControl.hide();
-        gameMenu.showListGamesScreen();
+        gameMenu.destroyGame();
     },
     onGameOver: function (data) {
-
-
-        console.log("onGameOver", data);
-        // var msg = "You lose (((.";
-        // if (data.winner) {
-        //     msg = "YOU WIN !!! )))";
-        //
-        // }
-        // document.title = msg;
-
-        //renderingSystem.destroy();
-        //gameMenu.showListGamesScreen();
-
-
-        android.stopTouch();
-        gameMenu.joystickControl.setViewControll(false);
-        gameMenu.showStatistics(data);
-        renderingSystem.stop();
-        // setTimeout(function () {
-        //     renderingSystem.destroy();
-        //     joystickControlTouch.hide();
-        //     gameMenu.showListGamesScreen();
-        //
-        // }, 7000);
-        // if (window.Android) {//InterfaceAndroid
-        //     android.stopTouch();
-        //     console.log("Android", Android);
-        //
-        // } else {
-        //     console.log("Андройда нет");
-        // }
-
+        gameMenu.gameOver(data);
     },
     keyHundler: {
         87: {action: "top", stateKey: false},

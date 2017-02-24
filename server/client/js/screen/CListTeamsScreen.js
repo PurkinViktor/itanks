@@ -6,11 +6,11 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         "<div   class='NameGame'></div>" +
         "</div>" +
         "</div>");
-    this.parentScreen = [];
-    this.show = function (screen) {
-        if (screen) {
-            this.parentScreen.push(screen);
-        }
+    // this.parentScreen = [];
+    this.show = function (isCancel) {
+        // if (screen) {
+        //     this.parentScreen.push(screen);
+        // }
         this.layOut.show();
         this.updateScreen();
         gameMenu.setCurentScreen(this);
@@ -26,7 +26,8 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
 
     };
     this.goBack = function () {
-        gameMenu.cancel(self.parentScreen.pop());
+        iTankClient.kickPlayer(iTankClient.clientInfo);
+        gameMenu.cancel();
     };
     this.init = function () {
 
@@ -36,9 +37,7 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         var btnCancel = this.layOut.find(".btnCancel");
 
         btnCancel.on("click", function () {
-            // gameMenu.cancel(self.parentScreen.pop());
             self.goBack();
-            //self.iTankClient.newGame(nameGame);
         });
 
         var t = this.getListTeamLayOut();
@@ -60,8 +59,6 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
 
     this.teams = [];
     this.updateTeams = function (data) {
-
-
         var teams = {};
         for (var i in data.players) {
             var client = data.players[i];
@@ -124,17 +121,19 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
 
             if (iTankClient.clientInfo.login == item.login) {
                 li.addClass("selfClient");
-            }
-            console.log(item);
-            if (item.id !== undefined) {
-                /// если id есть то это игрок или бот
-                // id :"R80H8RXJKVLz_Mm3l6I8"
-                // login                    :                    "vasa"
-                // teamId                    :                    "team1"
-                var btnKick = $('<div class="btnKickPlayer"></div>');
-                li.append(btnKick);
-                btnKick.on("click", self.getHundlerBtnKick(item))
+            }else {
+                console.log(item);
+                if (item.id !== undefined) {
+                    /// если id есть то это игрок или бот
+                    // id :"R80H8RXJKVLz_Mm3l6I8"
+                    // login                    :                    "vasa"
+                    // teamId                    :                    "team1"
+                    var btnKick = $('<div class="btnKickPlayer"></div>');
+                    li.append(btnKick);
+                    item.isHoster = true;
+                    btnKick.on("click", self.getHundlerBtnKick(item))
 
+                }
             }
 
             return li;
@@ -142,12 +141,14 @@ var CListTeamsScreen = function (gameMenu, iTankClient) {
         this.teams.push(listTeamUI);
         return t;
     };
+
     // onAddBootToTeam: new CEvent(),
     this.getHundlerBtnKick = function (item) {
         // var self = this;
         return function (e) {
             e.preventDefault();
             e.stopPropagation();
+
             iTankClient.kickPlayer(item);
         };
 

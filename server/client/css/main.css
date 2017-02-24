@@ -256,22 +256,26 @@ table th {
     padding: 0;
     margin: 0;
     height: 100%;
-    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
 }
 
 .UlListPams li {
     cursor: pointer;
-    position: relative;
+
     height: 40px;
     font-size: 20px;
     text-align: center;
     line-height: 39px;
     width: auto;
-    display: inline-block;
+
     margin: 5px;
     background-color: #feff37;
     padding: 0 15px;
     border-radius: 10px;
+    display: flex;
 }
 
 .ListGameLayOut, .ListTeamsLayOut {
@@ -673,4 +677,50 @@ table th {
     position: relative;
     z-index: 1;
     height: 100%;
+}
+
+.ListMapsLayOut .btnCancel {
+    position: absolute;
+    z-index: 1;
+    height: 40px;
+}
+
+.MapsContent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0;
+    box-sizing: border-box;
+    border-top: 40px solid;
+    border-bottom: 40px solid;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.paginationContent {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.UIpagination {
+    text-align: center;
+    height: 40px;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.UIpagination li {
+    min-width: 20px;
+    height: 20px;
+    background-color: #9d9d9d;
+    display: flex;
+    border-radius: 100%;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.UIpagination li.active {
+    background-color: #009500;
 }

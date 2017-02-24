@@ -202,16 +202,25 @@ var serverGame = {
             // var arrClients = transportGame.getClientsOfGame(nameGame);
             // var arrBoots = this.games[nameGame].getBoots();
             // var allPlayers = arrClients.concat(arrBoots);
-            var allPlayers = this.getClientsAndBoots(nameGame);
-            this.games[nameGame].doCountPlayersInTeams(allPlayers);
-            var data = {};
-            data.teams = this.games[nameGame].getTeams();
-            data.players = helper.cutInObjFromArr(allPlayers, ["id", "login", "teamId"]);
-            transportGame.updateTeams(nameGame, data);
+            var arrClients = [];
+            var allPlayers = this.getClientsAndBoots(nameGame, arrClients);
+            if (arrClients.items.length > 0) {
+                this.games[nameGame].doCountPlayersInTeams(allPlayers);
+                var data = {};
+                data.teams = this.games[nameGame].getTeams();
+                data.players = helper.cutInObjFromArr(allPlayers, ["id", "login", "teamId"]);
+                transportGame.updateTeams(nameGame, data);
+            } else {
+                this.updateListGamesOnClient();
+            }
         }
     },
-    getClientsAndBoots: function (nameGame) {
+    getClientsAndBoots: function (nameGame, aClients) {
+        // var arrClients = transportGame.getClientsOfGame(nameGame);
         var arrClients = transportGame.getClientsOfGame(nameGame);
+        aClients.items = arrClients;
+
+
         var arrBoots = this.games[nameGame].getBoots();
         var allPlayers = arrClients.concat(arrBoots);
         return allPlayers;
@@ -223,11 +232,31 @@ var serverGame = {
         }
     },
     onGetMaps: function (client, data) {
-        Map.getAll(function (err, items) {
+        // Map.getAll(function (err, items) {
+        var limit = data.limit;
+        var page = Math.max(0, data.indexPage);
+        var criteria = {};
+        //criteria.where = {skip: page * limit, limit: limit};
+        Map.find(criteria, null, {skip: page * limit, limit: limit}, function (err, items) {
             if (err) {
                 console.log("ERR", err);
             }
-            transportGame.updateListMaps(client, items);
+
+            Map.count({}, function (err, count) {
+                if (err) {
+                    console.log("ERR", err);
+                }
+
+                var arr = [];
+                for (var i in items) {
+                    items[i].value.battleArea = null;
+                }
+
+
+                transportGame.updateListMaps(client, {items: items, count: count});
+            });
+
+
         });
 
         // this.games[data.nameGame]
@@ -280,7 +309,10 @@ var serverGame = {
             if (clientForKick) {
 
                 clientForKick.leave(data.nameGame);
-                clientForKick.emit("goToLayerListOfGames", {});
+                if (data.isHoster) {
+                    clientForKick.emit("kickOurFromGame", {});
+                }
+
             }
 
 

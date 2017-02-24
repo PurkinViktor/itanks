@@ -20,17 +20,76 @@ var gameMenu = {
 
         this.showListGamesScreen();
 
-        android.onBack.bind(function () {
-            this.curentScreen.goBack();
-        }, this);
+        android.onBack.bind(this.goBackScreen, this);
 
     },
-    setCurentScreen: function (screen) {
-        this.curentScreen = screen;
+    initGame: function () {
+        this.joystickControl.onScalingEnd.bind(function () {
+            this.joystickControl.onScalingEnd.clear();
+            android.startTouch();
+        }, this);
+        renderingSystem.run(this.iTankClient);
+        this.joystickControl.show();
+        this.clearSteckScreen();
+        android.onBack.unBind(this.goBackScreen);
     },
-    cancel: function (screen) {
-        this.hideAll();
-        screen.show();
+    gameOver: function (data) {
+        console.log("onGameOver", data);
+
+        android.stopTouch();
+        this.joystickControl.setViewControll(false);
+        this.showStatistics(data);
+        renderingSystem.stop();
+
+    },
+    destroyGame: function () {
+        renderingSystem.destroy();
+
+        this.joystickControl.hide();
+        this.showListGamesScreen();
+        android.onBack.bind(this.goBackScreen, this);
+    },
+    goBackScreen: function () {
+        var screen = this.getCurentScreen();
+        if (screen) {
+            screen.goBack();
+        }
+    },
+    steckScreens: [],
+    setCurentScreen: function (screen) {
+        if (this.isPushScreen) {
+
+
+            this.steckScreens.push(screen);
+        }
+
+    },
+    getCurentScreen: function () {
+        var sc = this.steckScreens[this.steckScreens.length - 1];
+        if (sc) {
+            return sc;
+        }
+        return false;
+    },
+    clearSteckScreen: function () {
+        this.steckScreens = [];
+    },
+    isPushScreen: true,
+    cancel: function () {
+        //this.hideAll();
+        var screen = this.steckScreens.pop();
+
+        if (screen) {
+            screen.hide();
+        }
+        screen = this.getCurentScreen();
+        if (screen) {
+            this.isPushScreen = false;
+            screen.show(true);
+            this.isPushScreen = true;
+        }
+
+
     },
     updateTeams: function (data) {
         this.listTeamsScreen.updateTeams(data);
@@ -41,30 +100,9 @@ var gameMenu = {
     },
     joystickControl: new CJoystickControlTouchV4(),
     createJoystick: function () {
-        // this.joystickUI = $('<div class="Joystick"></div>');
-        // this.fireUI = $('<div class="FireArea"></div>');
-
-
-        // this.layOut.append(this.joystickUI);
-        // this.layOut.append(this.fireUI);
-
-
         this.joystickControl.init(this);
         this.joystickControl.hide();
         this.joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
-
-
-        // joystickControl.init(this.joystickUI);
-        // joystickControl.onActiveKey.bind(this.iTankClient.setActiveKeyTouch, this.iTankClient);
-        // this.joystickUI.on("mousedown", function (e) {
-        //     joystickControl.OnMouseDown(e);
-        // });
-        // this.joystickUI.on("mousemove", function (e) {
-        //     joystickControl.OnMouseMove(e);
-        // });
-        // this.joystickUI.on("mouseup", function (e) {
-        //     joystickControl.OnMouseUp(e);
-        // });
     },
     createStatisticsScreen: function () {
 

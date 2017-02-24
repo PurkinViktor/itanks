@@ -15,7 +15,31 @@ var http = require('http');
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost:27017/iTanks');
 //mongoose.connect('mongodb://dbuser_heroku:dbuser_heroku_@ds115738.mlab.com:15738/heroku_06rwlgxn');
-mongoose.connect(MONGODB_URI);
+var con = mongoose.connect(MONGODB_URI, {
+    server: {
+        socketOptions: {
+            socketTimeoutMS: 5000,
+            connectionTimeout: 2000
+        }
+    }
+});
+
+var conn = mongoose.connection;
+
+conn.on('error', function (err) {
+    console.error("=======================================================================");
+    console.error('connection error:', err);
+    console.error("=======================================================================");
+
+    // console.error.bind(console, 'connection error:')
+});
+
+conn.once('open', function () {
+    console.log("=======================================================================");
+    console.log("DB OPEN!");
+    console.log("=======================================================================");
+    // Wait for the database connection to establish, then start the app.
+});
 
 //mongodb://<dbuser>:<dbpassword>@ds115738.mlab.com:15738/heroku_06rwlgxn
 
