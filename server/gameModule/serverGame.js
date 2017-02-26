@@ -18,7 +18,7 @@ var serverGame = {
         var list = this.getListGames();
         if (list.indexOf(nameGame) < 0) {
             client.join(nameGame);
-            var game = new CGame({nameGame: nameGame});
+            var game = new CGame({nameGame: nameGame, settingsMap: {percentFill: 80}});
             game.onDestroy.bind(this.handlerDestroyGame, this);
             this.games[nameGame] = game;
 

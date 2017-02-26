@@ -9,10 +9,14 @@ var extend = require('extend');
 module.exports = function (game) {
     var renderingSystem = game.renderingSystem;
     var battleArea = {
-        x: "auto", y: 0, w: 600, h: 600,
+//        x: "auto", y: 0, w: 600, h: 600,
+        x: "auto", y: 0, w: 0, h: 0,
         barriers: [],
         igls: [],
         map: null, // здесь только расчет сами обьекты в  barriers
+        size: {x: 15, y: 15},//размер карты
+        sizeCell: 2, //размеры каждой ячейки , каждая ячейка раздроблена еще на 4 штуки 2*2
+        percentFill: 35,
         onIglKilled: new CEvent(),
         // testNewArea: function () {
         //     var ttt = new CBattleArea();
@@ -60,13 +64,13 @@ module.exports = function (game) {
         //
         //
         // },
-        init: function () {
+        init: function (set) {
 //		this.createTestMap();
-
+            extend(this, set);
 
             this.cleanMap(); /// очищаем карту если она уже была
             if (this.map == null) {// если не нул значит загрузили катру методом  loadMap
-                this.createRandMap(35); // создаем только разметку на карте
+                this.createRandMap(this.percentFill); // создаем только разметку на карте
             }
             this.createMaps(this.map); // создаем сами обьеты на карте
             this.renderingMap(); // отрисовываем
@@ -139,24 +143,14 @@ module.exports = function (game) {
 
             return igl;
         },
-        sizeCell: 2, //размеры каждой ячейки , каждая ячейка раздроблена еще на 4 штуки 2*2
+
         // countX: null, countY: null,
-        size: {x: 0, y: 0},
+
 
         createRandMap: function (percenFilling) {
 
-            var countX = this.w / CBarrier.width;
-            var countY = this.h / CBarrier.height;
 
-            this.size.x = countX;
-            this.size.y = countY;
-
-            var sizeCell = this.sizeCell;
-            var countCellX = countX / sizeCell;
-            var countCellY = countY / sizeCell;
-            //var allCell = countCellX * countCellY;
-
-            this.initMap(countCellX, countCellY);
+            this.initMap(this.size.x, this.size.y);
 
             for (var i in  game.teamsOfGame) {
                 var team = game.teamsOfGame[i];
@@ -173,12 +167,12 @@ module.exports = function (game) {
             //this.createIGL(7, 14);
 
 
-            for (var x = 0; x < countCellX; x++) {
+            for (var x = 0; x < this.size.x; x++) {
 
-                for (var y = 0; y < countCellY; y++) {
+                for (var y = 0; y < this.size.y; y++) {
                     if (this.map[x][y] === undefined && helper.randInt(0, 100) < percenFilling) {
 
-                        this.createCellOfMap(x, y, helper.randInt(0, 4), sizeCell);
+                        this.createCellOfMap(x, y, helper.randInt(0, 4), this.sizeCell);
                         //this.map.push(CBarrier.create(x, y, helper.randInt(0, 2)));
                     }
                 }
@@ -197,6 +191,9 @@ module.exports = function (game) {
 //	},
         createMaps: function (map) {
             //var countBarr = 4;
+            this.w = this.size.x * CBarrier.width * this.sizeCell;
+            this.h = this.size.y * CBarrier.height * this.sizeCell;
+
             for (var i in map) {
                 for (var j in map[i]) {
                     //var infoCell =  map[i][j].infoCell;

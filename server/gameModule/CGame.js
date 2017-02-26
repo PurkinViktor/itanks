@@ -9,9 +9,9 @@ var CEvent = require('./CEvent.js');
 var CBrain = require('./CBrain.js');
 
 
-module.exports = function (set) {
+module.exports = function (setGame) {
     this.isStart = false;
-    this.nameGame = set.nameGame;
+    this.nameGame = setGame.nameGame;
     this.teamsOfGame = [
         {
             title: "Команда IGL", id: "team1", maxCountPlayers: 5,
@@ -112,7 +112,8 @@ module.exports = function (set) {
 
 
     this.init = function (arrClients) {
-        this.battleArea.init();
+        //{percentFill: 35}
+        this.battleArea.init(setGame.settingsMap);
 
 
         this.battleArea.onIglKilled.bind(this.handlerIglKilled, this);
@@ -243,16 +244,16 @@ module.exports = function (set) {
         }
 
     };
-    this.createTank = function (set) {
+    this.createTank = function (setTank) {
         var tank = this.addTank({
             keyHundler: {87: "top", 83: "bottom", 65: "left", 68: "right", 32: "fire"},
             position: {x: 500, y: 0},
-            name: "Player " + set.ownerId,
-            ownerId: "player_" + set.ownerId,
-            hp: set.xp || 10,
+            name: "Player " + setTank.ownerId,
+            ownerId: "player_" + setTank.ownerId,
+            hp: setTank.xp || 10,
             countBullet: 3,// количество выстрелов одновреммено
             typeObject: ["player", "player_"],
-            teamId: set.teamId,
+            teamId: setTank.teamId,
 //			width: 26,
 //			height: 26
         });
