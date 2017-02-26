@@ -220,6 +220,7 @@ var serverGame = {
     getClientsAndBoots: function (nameGame, aClients) {
         // var arrClients = transportGame.getClientsOfGame(nameGame);
         var arrClients = transportGame.getClientsOfGame(nameGame);
+        aClients = aClients || {};
         aClients.items = arrClients;
 
 
