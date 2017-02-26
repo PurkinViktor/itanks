@@ -11,8 +11,8 @@ var transportClient = {
             handler(data);
         });
     },
-    newGame: function (nameGame) {
-        this.socket.emit("addGame", nameGame);
+    newGame: function (set) {
+        this.socket.emit("addGame", set);
     },
     joinGame: function (nameGame) {
         this.socket.emit("joinToGame", nameGame);

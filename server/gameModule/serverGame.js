@@ -13,12 +13,14 @@ var serverGame = {
         //var battleArea = new CBattleArea();
         //battleArea.testNewArea();
     },
-    addGame: function (client, nameGame) {
+    addGame: function (client, set) {
+        var nameGame = set.nameGame;
 
         var list = this.getListGames();
         if (list.indexOf(nameGame) < 0) {
             client.join(nameGame);
-            var game = new CGame({nameGame: nameGame, settingsMap: {percentFill: 80}});
+            //{nameGame: nameGame, settingsMap: {percentFill: 80}}
+            var game = new CGame(set);
             game.onDestroy.bind(this.handlerDestroyGame, this);
             this.games[nameGame] = game;
 
@@ -276,7 +278,7 @@ var serverGame = {
                 //console.log(map, map.value);
                 var newNameGame = map.value.nameGame + client.login;
                 //map.battleArea
-                self.addGame(client, newNameGame);
+                self.addGame(client, {nameGame: newNameGame});
                 var game = self.games[newNameGame];
                 game.loadMap(map);
 

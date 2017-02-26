@@ -149,9 +149,9 @@ var transportGame = {
                 }));
 
 
-                client.on('addGame', hundlerEvents(function (nameGame) {
-                    serverGame.addGame(client, nameGame);
-                    console.log("addGame", nameGame);
+                client.on('addGame', hundlerEvents(function (set) {
+                    serverGame.addGame(client, set);
+                    console.log("addGame", set);
                 }));
 
                 client.on('ping', hundlerEvents(function (data) {

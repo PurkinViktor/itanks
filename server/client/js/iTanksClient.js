@@ -26,8 +26,8 @@ var iTanksClient = {
     onLoginError: function (data) {
 
     },
-    newGame: function (nameGame) {
-        transportClient.newGame(nameGame);
+    newGame: function (set) {
+        transportClient.newGame(set);
     },
     nameGame: null,
     joinGame: function (menu, item) {

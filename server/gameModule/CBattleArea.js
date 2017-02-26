@@ -80,6 +80,8 @@ module.exports = function (game) {
         // },
         loadMap: function (battleArea) {
             this.map = battleArea.map;
+
+            //this.percentFill = battleArea.percentFill || 35;
         },
         cleanMap: function () { // по событию удаляется из масива поэтому так
             for (; this.barriers.length > 0;) {

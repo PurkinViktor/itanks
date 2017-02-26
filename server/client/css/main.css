@@ -317,8 +317,12 @@ table th {
     right: 10px;
     position: absolute;
     width: 70px;
-    height: 100%;
+    height: 40px;
     border: 0;
+}
+
+.NewGameScreenContent .btnAddGame {
+    bottom: 10px;
 }
 
 .getListTeamLayOut {
@@ -347,12 +351,11 @@ table th {
 }
 
 .inputNameGame {
-    height: 100%;
+    height: 40px;
     padding: 0;
     margin: 0;
     width: 100%;
     border: 0;
-    border-right: 80px solid #8c8c8c;
     padding-left: 10px;
     box-sizing: border-box;
     background-color: #ea5f5f;
@@ -685,6 +688,14 @@ table th {
     height: 40px;
 }
 
+.NewGameScreenLayOut .btnCancel {
+    position: absolute;
+    z-index: 1;
+    height: 40px;
+    left: 10px;
+    top: 10px;
+}
+
 .MapsContent {
     position: absolute;
     width: 100%;
@@ -723,4 +734,22 @@ table th {
 
 .UIpagination li.active {
     background-color: #009500;
+}
+
+.NewGameScreenContent {
+    padding: 60px 10px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    background: #8c8c8c;
+}
+
+.inputPercentFill {
+    height: 40px;
+    margin: 10px;
+    box-sizing: inherit;
+    text-align: center;
 }

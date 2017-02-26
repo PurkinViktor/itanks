@@ -7,19 +7,19 @@ var CListGameScreen = function (gameMenu, iTankClient) {
         "</div>" +
         "<div class='list'></div>" +
         "<div class='gameListPanel'>" +
-        "<input type='text' placeholder='Name game' class='inputNameGame'>" +
+        //"<input type='text' placeholder='Name game' class='inputNameGame'>" +
         "<input type='button' class='btnAddGame' value='Add'>" +
         "</div>" +
         "<div");
 
     this.show = function () {
         this.layOut.show();
-        gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
+        //gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
         gameMenu.setCurentScreen(this);
     };
     this.hide = function () {
         this.layOut.hide();
-        gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
+        //gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
     };
     this.showTeamsScreen = function () {
         gameMenu.showTeams(self);
@@ -30,7 +30,7 @@ var CListGameScreen = function (gameMenu, iTankClient) {
     this.init = function () {
         var listGameLayOyt = this.layOut;
 
-        var inputNameGame = listGameLayOyt.find(".inputNameGame");
+       // var inputNameGame = listGameLayOyt.find(".inputNameGame");
         var btnAddGame = listGameLayOyt.find(".btnAddGame");
         var btnLoadMap = listGameLayOyt.find(".btnLoadMap");
         // var self = this;
@@ -41,8 +41,10 @@ var CListGameScreen = function (gameMenu, iTankClient) {
             return false;
         });
         btnAddGame.on("click", function () {
-            var nameGame = inputNameGame.val();
-            iTankClient.newGame(nameGame);
+            gameMenu.showNewGameScreen(self);
+
+            // var nameGame = inputNameGame.val();
+            // iTankClient.newGame(nameGame);
 
             // console.log("nameGame",nameGame);
         });
