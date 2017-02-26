@@ -43,6 +43,9 @@ module.exports = function (game) {
         }
     };
     this.destroyItem = function (item) {
+        item.getListFielsForSend = function () {
+            return ["id"];
+        };
         this.sendRequest(transportGame.destroyItem, item);
         // var data = helper.cutInObj(item, ["id", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"]);
         // transportGame.destroyItem(this.game.nameGame, data);
