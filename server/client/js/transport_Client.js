@@ -7,7 +7,7 @@ var transportClient = {
     on: function (event, handler) {
 
         this.socket.on(event, function (data) {
-           // console.log("event: " + event, data);
+            // console.log("event: " + event, data);
             handler(data);
         });
     },
@@ -48,12 +48,27 @@ var transportClient = {
     },
     setActiveKey: function (action, value) {
         console.log("setActiveKey", value);
-        this.socket.emit("setActiveKey", {
+        var dataAction = {action: action, value: value};
+        var data = {
             nameGame: iTanksClient.nameGame,
-            data: {action: action, value: value}
-        });
+            data: dataAction
+        };
+        // this.socket.emit("setActiveKey", data);
+        this.workerMovement.postMessage("setActiveKey", dataAction);
     },
+    runActiveKey: function (aData) {
+        console.log("runActiveKey", aData);
+
+        var data = {
+            nameGame: iTanksClient.nameGame,
+            data: aData
+        };
+        this.socket.emit("runActiveKey", data);
+
+    },
+    workerMovement: new CWorker('js/worker.js'),
     init: function (query) {
+        var self = this;
 
         this.socket = io.connect(this.host, {query: query});
         //'login=viktor&password=temp1'
@@ -74,14 +89,6 @@ var transportClient = {
 
         this.socket.on('connect', function () {
             console.log('Соединение установленно!');
-
-            //socket.emit("getListGames");
-
-            //socket.emit("addGame", "111111");
-            //socket.emit("addGame", "222222");
-            // socket.emit("joinToGame", "111111");
-
-
             socket.emit("getListGames");
 
         });
@@ -132,6 +139,8 @@ var transportClient = {
 
             console.log("setDataOfGame", data);
             iTanksClient.initGame(data);
+            self.workerMovement.postMessage("init", iTanksClient.tankOfClient);
+
         });
         // this.socket.on('updateDataItem', function (dataTank) {
         //
@@ -150,10 +159,43 @@ var transportClient = {
 
             //console.log("updateDataItem", item.position);
 
-            iTanksClient.onUpdateDataItem(item);
+            // iTanksClient.onUpdateDataItem(item);
+            self.workerMovement.postMessage("onUpdateDataItem", item);
 
 
         });
+
+        this.workerMovement.on("onUpdateDataItem", function (data) {
+
+            // iTanksClient.onUpdateDataItem(item);
+            console.log("on.onUpdateDataItem", data);
+
+
+            iTanksClient.onUpdateDataItem(data);
+
+
+        }, {});
+        this.workerMovement.on("runActivKey", function (data) {
+
+            // iTanksClient.onUpdateDataItem(item);
+            console.log("on.runActivKey", data);
+
+
+            this.runActiveKey(data);
+
+
+        }, this);
+
+        this.workerMovement.on("updatePosition", function (data) {
+
+            // iTanksClient.onUpdateDataItem(item);
+            console.log("on.updatePosition", data);
+
+            $.extend(iTanksClient.tankOfClient, data);
+            iTanksClient.onUpdateDataItem(iTanksClient.tankOfClient);
+
+
+        }, {});
         this.socket.on('destroyItem', function (item) {
             //console.log("updateDataItem", item.position);
             iTanksClient.onDestroyItem(item);

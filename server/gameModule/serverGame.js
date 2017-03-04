@@ -369,6 +369,16 @@ var serverGame = {
         }
         //client.manager.roomClients[client.id]
         //this.games[client.id].setActiveKey(data.action, data.value);
+    },
+    runActiveKey: function (client, data) {
+
+        var nameGame = data.nameGame;
+        var activeKeyEventData = data.data;
+        var game = this.games[nameGame];
+        //console.log("setActiveKey game",game);
+        if (game) {
+            game.runActiveKeyInToTank(client, activeKeyEventData);
+        }
     }
 };
 

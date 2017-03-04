@@ -317,7 +317,7 @@ var CTank = function (settings) {
             //this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
 
 
-            this.render();
+          //  this.render();
         } else {
             this.isMuving = false;
         }
@@ -326,6 +326,7 @@ var CTank = function (settings) {
     this.runActivKey = function (action) {
         this.activeKey[action].On();
         this.activeKey[action].timeLastCall = new Date().getTime();
+        this.render();
     };
     this.getHandler = function (func, arg) {
         var self = this;

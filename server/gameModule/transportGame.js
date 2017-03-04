@@ -147,6 +147,12 @@ var transportGame = {
                     serverGame.setActiveKey(client, data);
 
                 }));
+                client.on('runActiveKey', hundlerEvents(function (data) {
+                    // {action: action, value: value}
+                    console.log("runActiveKey", data);
+                    serverGame.runActiveKey(client, data);
+
+                }));
 
 
                 client.on('addGame', hundlerEvents(function (set) {

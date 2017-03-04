@@ -244,6 +244,12 @@ module.exports = function (setGame) {
         }
 
     };
+    this.runActiveKeyInToTank = function (client, data) {
+        if (this.getIsStart()) {
+            this.players[client.login].tank.runActivKey(data.action);
+        }
+
+    };
     this.createTank = function (setTank) {
         var tank = this.addTank({
             keyHundler: {87: "top", 83: "bottom", 65: "left", 68: "right", 32: "fire"},

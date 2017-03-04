@@ -199,6 +199,10 @@ var renderingSystem = {
             left: item.position.x,
             top: item.position.y
         });
+        if(!item.typeObject){
+            console.log("Почемуто типа нет свойства у обьекта typeObject хотя оно есть ",item);
+            return;
+        }
         item.renderObj.addClass(item.typeObject[0]);
         if (item.typeObject.indexOf("playerTank") > 0 ||item.renderObj.hasClass("igl")) {// если это танк тогда
             if (item.teamId && item.teamId == this.game.clientInfo.teamId) {
@@ -251,8 +255,8 @@ var renderingSystem = {
         item.renderObj.attr("id", item.id);
 
 
-        item.renderObj.stop(true, true);
-        if (item.typeObject[1]) {
+       // item.renderObj.stop(true, true);
+        if (item.typeObject && item.typeObject[1]) {
             if (item.renderObj.hasClass(item.typeObject[1])) {
                 item.renderObj.removeClass(item.typeObject[1]);
             } else {
