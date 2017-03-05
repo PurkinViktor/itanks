@@ -81,13 +81,13 @@ var CTank = function (settings) {
         this.isActive = value;
         if (this.isActive) {
             this.render();
-            this.reStartIntervalMove();
-            this.reStartIntervalFire();
+            // this.reStartIntervalMove();
+            // this.reStartIntervalFire();
 
 
         } else {
-            this.clearInterval(this.IntervalIdActionMove);
-            this.clearInterval(this.IntervalIdActionFire);
+            // this.clearInterval(this.IntervalIdActionMove);
+            // this.clearInterval(this.IntervalIdActionFire);
         }
     };
     this.keyHundler = settings.keyHundler || {};
@@ -216,67 +216,30 @@ var CTank = function (settings) {
         //this.callEvent(this.onRight);
     };
     this.setActiveKey = function (action, value) {
-        if (this.activeKey[action]) {
-            this.activeKey[action].active = value;
-            if (value) {
-                this.activeKey[action].timePress = new Date().getTime();
-                this.checkStateActiveKey(action);
-            }
-        }
+        // if (this.activeKey[action]) {
+        //     this.activeKey[action].active = value;
+        //     if (value) {
+        //         this.activeKey[action].timePress = new Date().getTime();
+        //         this.checkStateActiveKey(action);
+        //     }
+        // }
     };
     this.checkStateActiveKey = function (action) {
 
-        if (action === "fire") {
-            this.callActionFire();
-            this.reStartIntervalFire();
-        } else {
-            if (!this.isMuving) {
-                this.callActionMove();
-                this.reStartIntervalMove();
-            }
-        }
+        // if (action === "fire") {
+        //     this.callActionFire();
+        //     this.reStartIntervalFire();
+        // } else {
+        //     if (!this.isMuving) {
+        //         this.callActionMove();
+        //         this.reStartIntervalMove();
+        //     }
+        // }
 
 
     };
 
-    // this.mayBeCallAction = function (action) {
-    //     if (action === "fire" && this.activeKey[action].active) {
-    //         var data = +new Date();
-    //         if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
-    //             this.runActivKey(action);
-    //         }
-    //     }
-    //         clearInterval(this.IntervalIdActionMove);
-    //     this.IntervalIdActionMove = setInterval(this.getHandler(this.callAction), this.timeInterval);
-    // };
 
-    // this.callAction = function () {
-    //
-    //     var actionMove = false;
-    //     for (var action in this.activeKey) {
-    //         if (this.activeKey[action].active && action === "fire") {
-    //
-    //             var data = +new Date();
-    //             if (this.activeKey[action].timeLastCall + this.delayBetweenShots <= data) {
-    //                 this.runActivKey(action);
-    //             }
-    //
-    //
-    //         } else if (this.activeKey[action].active) {
-    //             //&& this.activeKey[action].timePress > this.activeKey[action].timeLastCall
-    //
-    //             if (!actionMove || this.activeKey[action].timePress > this.activeKey[actionMove].timePress) {
-    //                 actionMove = action;
-    //             }
-    //
-    //         }
-    //     }
-    //
-    //     if (actionMove) {
-    //         this.runActivKey(actionMove);
-    //         this.render();
-    //     }
-    // };
     this.callActionFire = function () {
 
         var action = "fire";
@@ -317,7 +280,7 @@ var CTank = function (settings) {
             //this.timeLastCallMovement = this.activeKey[actionMove].timeLastCall;
 
 
-          //  this.render();
+            //  this.render();
         } else {
             this.isMuving = false;
         }
@@ -326,7 +289,9 @@ var CTank = function (settings) {
     this.runActivKey = function (action) {
         this.activeKey[action].On();
         this.activeKey[action].timeLastCall = new Date().getTime();
-        this.render();
+        if (action != "fire") {
+            this.render();
+        }
     };
     this.getHandler = function (func, arg) {
         var self = this;
