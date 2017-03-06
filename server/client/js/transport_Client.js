@@ -66,7 +66,7 @@ var transportClient = {
         this.socket.emit("runActiveKey", data);
 
     },
-    workerMovement: new CWorker('js/worker.js'),
+    workerMovement: new CWorker('js/worker/worker.js'),
     init: function (query) {
         var self = this;
 

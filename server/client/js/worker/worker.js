@@ -1,92 +1,22 @@
-var CBaseWorker = function () {
-    var self = this;
-    addEventListener('message', function (e) {
-        var data = e.data;
+importScripts('./CBaseWorker.js');
+importScripts('./CCounter.js');
+importScripts('./CAdapter.js');
+importScripts('./helper.js');
+importScripts('./rules.js');
 
-        var event = data.event;
-        var params = data.data;
-
-        if (self[event]) {
-
-            if (L[event]) {
-                L[event](self, self[event], params);
-            } else {
-                self[event](params);
-            }
-        } else {
-            self.log(["Not found method ", data.event, data.data]);
-        }
-
-    }, false);
-
-    this.postMessage = function (event, data) {
-        postMessage({event: event, data: data});
-    };
-    this.log = function (data) {
-        self.postMessage("log", data);
-    };
-};
-
-importScripts('/socket.io/socket.io.js');
+importScripts('../lib/extend.js');
 
 var module = {exports: {}};
-importScripts('lib/extend.js');
-// var extend = function (o1, o2) {
-//     return $.extend(o1, o2);
-// };
+importScripts('../../../GeneralClass/const.js');
 
-importScripts('../../GeneralClass/const.js');
-
-var rules = {
-    rulesMovement: function (obj, newPos) {
-        obj.position = newPos
-        var isColision = false;
-        return isColision;
-    }
-};
-var helper = {
-    cutInObj: function (obj, field) {
-        var res = {};
-        for (var i = 0; i < field.length; i++) {
-            var key = field[i];
-            res[key] = obj[key];
-        }
-        return res;
-    },
-};
-
+importScripts('/socket.io/socket.io.js');
 var socket = io.connect('/');
 
 var EnumDirection = module.exports.EnumDirection;
 
-var Clouncher = function () {
-    this.setActiveKey = function (obj, f, data) {
-        f.call(obj, data.action, data.value);
-    };
-    this.init = function (delayCompensator, f, data) {
-        //delayCompensator.position = data.position;
-        delayCompensator.setActivat(false);
-        data.activeKey = delayCompensator.activeKey;
-        extend(delayCompensator, data);
+// var L = new CAdapter();
 
-        // delayCompensator.init();
-        delayCompensator.setActivat(true);
-    };
-    this.onUpdateDataItem = function (delayCompensator, f, data) {
-        if (data.id == delayCompensator.id) {
-            //extend(delayCompensator, data);
-            delayCompensator.position = data.position;
-            delayCompensator.direction = data.direction;
-
-        }
-        delayCompensator.postMessage("onUpdateDataItem", data);
-
-    };
-
-};
-var L = new Clouncher();
-
-var DelayCompensator = function () {
+var DelayCompensator = function (louncher) {
     CBaseWorker.apply(this, arguments);
     this.position = {x: 30, y: 30};
     this.positionShift = 5;
@@ -300,29 +230,4 @@ var DelayCompensator = function () {
 // Наследование
 DelayCompensator.prototype = Object.create(CBaseWorker.prototype);
 DelayCompensator.prototype.constructor = DelayCompensator;
-
-
-var CCounter = function (stamp) {
-    var _count = 0;
-    var _time = null;
-    this.count = function () {
-        _count++;
-        if (_time) {
-            var now = new Date().getTime();
-            var dif = now - _time;
-            if (stamp < dif) {
-                _time = now;
-                this.onEndTimeStamp(_count, dif);
-                _count = 0;
-            }
-        } else {
-            _time = new Date().getTime();
-        }
-    };
-    this.onEndTimeStamp = function (count, dif) {
-
-    };
-};
-
-
-var delayCompensator = new DelayCompensator();
+var delayCompensator = new DelayCompensator(new CAdapter());
