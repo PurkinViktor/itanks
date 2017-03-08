@@ -17,7 +17,12 @@ var CBaseWorker = function (adapter) {
                 self[event](params);
             }
         } else {
-            self.log(["Not found method ", data.event, data.data]);
+            if (self["forAllNotExist"]) {
+
+                self["forAllNotExist"](event, params);
+            } else {
+                self.log(["Not found method ", data.event, data.data]);
+            }
         }
 
     }, false);

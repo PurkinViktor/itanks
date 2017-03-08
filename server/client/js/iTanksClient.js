@@ -68,100 +68,30 @@ var iTanksClient = {
         for (var i in arrTemp) {
             var item = arrTemp[i];
             this.items[item.id] = item;
-            // if (this.tankOfClient.id == item.id) {
-            //     this.tankOfClient = item;
-            // }
         }
-
         gameMenu.initGame();
-
-
-        //
-
-        // if (window.Android) {
-        //     Android.startTouch();
-        //     console.log("Android", Android);
-        //
-        // } else {
-        //     console.log("Андройда нет");
-        // }
     },
     getItem: function (newData) {
         var item = this.items[newData.id];
         if (item) {
             return $.extend(item, newData);
         }
-        // for (var i in this.items) {
-        //     var t = this.items[i];
-        //     if (t.id == newData.id) {
-        //         return $.extend(t, newData);
-        //     }
-        // }
-        // this.items.push(newData);
+
         this.items[newData.id] = newData;
         return newData;
 
     },
-    //items: {},
-    // getItem: function (item) {
-    //
-    //     var t = this.items[item.id];
-    //
-    //     //var t = this.getTank(item);
-    //     if (!t) {
-    //         this.items[item.id] = item;
-    //         t = this.items[item.id];
-    //     }
-    //     $.extend(t, item);
-    //     return t;
-    // },
-    // onUpdateDataTank: function (tank) {
-    //     var t = this.getTank(tank);
-    //     renderingSystem.renderItem(t);
-    //     //console.log("", tank);
-    //     // renderingSystem.run(this);
-    // },
 
     onDestroyItem: function (dataItem) {
-
-        //console.log("", tank);
-        // var f = this.getHundlerDestroyItem(dataItem);
-        // f();
-        // renderingSystem.run(this);
         var t = this.getItem(dataItem);
         //console.log("delete  ", t.id);
         renderingSystem.setAction(t, renderingSystemEnum.DELETE);
-
-
     },
-    // getHundlerDestroyItem: function (dataItem) {
-    //     var self = this;
-    //     return function () {
-    //         console.time("this.onDestroyItem");
-    //         var arrItems = self.items;
-    //         for (var i in arrItems) {
-    //             var t = arrItems[i];
-    //             if (t.id == dataItem.id) {
-    //                 renderingSystem.destroyItem(t);
-    //                 arrItems.slice(i, 1);
-    //             }
-    //         }
-    //         console.timeEnd("this.onDestroyItem");
-    //     };
-    //     //console.log("", tank);
-    //     // renderingSystem.run(this);
-    // },
+
     onRenderExplosion: function (dataItem) {
-        //console.time("this.onRenderExplosion");
-        // GNAME_TIME = "this.onRenderExplosion";
-        // this.callInWraper(renderingSystem.renderExplosion, dataItem);
-        // console.timeEnd("this.onRenderExplosion");
-        //renderingSystem.renderExplosion(dataItem);
         dataItem.id = "explosion" + new Date().getTime();
         var t = this.getItem(dataItem);
         renderingSystem.setAction(t, renderingSystemEnum.EXPLOSION);
-
-
     },
     onUpdateDataItem: function (newDataItem) {
 
@@ -169,53 +99,25 @@ var iTanksClient = {
         renderingSystem.setAction(t, renderingSystemEnum.UPDATE);
 
 
-        // console.time("this.getItem");
-        // var t = this.getItem(newDataItem);
-        // console.timeEnd("this.getItem");
-        // GNAME_TIME = "this.onUpdateDataItem";
-
-        //this.callInWraper(renderingSystem.renderItem, t);
-        // requestAnimationFrame(function (at) {
-        //     return function () {
-        //         console.time("renderingSystem.renderItem");
-        //         renderingSystem.renderItem(at);
-        //         console.timeEnd("renderingSystem.renderItem");
-        //     }
-        // }(t));
-
-        //console.log("", tank);
-        // renderingSystem.run(this);
     },
-    callInWraper: function (f, t) {
-        requestAnimationFrame(function (a) {
-            return function () {
-
-                console.time(GNAME_TIME);
-                //renderingSystem[f](a);
-                f.call(renderingSystem, a);
-                console.timeEnd(GNAME_TIME);
-            }
-        }(t));
-
-    },
+    // callInWraper: function (f, t) {
+    //     requestAnimationFrame(function (a) {
+    //         return function () {
+    //
+    //             console.time(GNAME_TIME);
+    //             //renderingSystem[f](a);
+    //             f.call(renderingSystem, a);
+    //             console.timeEnd(GNAME_TIME);
+    //         }
+    //     }(t));
+    //
+    // },
     onErrorMessage: function (data) {
         alert("Error: " + data.text);
     },
     updateListGamesMenu: function (list) {
         gameMenu.updateListGame(list);
-        //gameMenu.layOut.
-        // var set = {items: [], location: ".allContent"};
-        // for (var i in list) {
-        //     var nameGame = list[i];
-        //     set.items.push({title: "Игра: " + nameGame, itemCode: i, value: nameGame});
-        // }
-        // if (this.listGamesMenu) {
-        //     this.listGamesMenu.destroy();
-        // }
-        //
-        // this.listGamesMenu = new CListUI(set);
-        // this.listGamesMenu.onItemSelected.bind(this.joinGame, this);
-        // this.listGamesMenu.show();
+
     },
     teamsInGame: [],
     updateTeams: function (data) {
