@@ -147,13 +147,19 @@ var CTankControl = function (adapter) {
         transportWorker.runActiveKey(data);
     };
     this.setDirection = function (action) {
+        if (this.direction == action) {
+
+            return true;
+        }
+
+        var oldDirection = this.direction;
         this.direction = action;
-        return true;
+        this.onChangeDirection(this, oldDirection, this.direction);
+        return false;
 
     };
-    this.onMove = function () {
-
-    };
+    this.onMove = new CEvent();
+    this.onChangeDirection = new CEvent();
 
 
     this.render = function () {
