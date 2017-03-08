@@ -210,42 +210,12 @@ var CTransportWorker = function () {
             _self.sendToUI.onUpdateDataItem(item);
         });
 
-        // this.workerMovement.on("onUpdateDataItem", function (data) {
-        //
-        //     // iTanksClient.onUpdateDataItem(item);
-        //     console.log("on.onUpdateDataItem", data);
-        //
-        //
-        //     iTanksClient.onUpdateDataItem(data);
-        //
-        //
-        // }, {});
-        // this.workerMovement.on("runActivKey", function (data) {
-        //
-        //     // iTanksClient.onUpdateDataItem(item);
-        //     console.log("on.runActivKey", data);
-        //
-        //
-        //     this.runActiveKey(data);
-        //
-        //
-        // }, this);
 
-        // this.workerMovement.on("updatePosition", function (data) {
-        //
-        //     // iTanksClient.onUpdateDataItem(item);
-        //     console.log("on.updatePosition", data);
-        //
-        //     $.extend(iTanksClient.tankOfClient, data);
-        //     iTanksClient.onUpdateDataItem(iTanksClient.tankOfClient);
-        //
-        //
-        // }, {});
         this.socket.on('destroyItem', function (item) {
             //console.log("updateDataItem", item.position);
             _self.postMessage("destroyItem", item);
 
-            //iTanksClient.onDestroyItem(item);
+            iTanksClient.onDestroyItem(item);
         });
         this.socket.on('renderExplosion', function (item) {
             _self.postMessage("renderExplosion", item);
