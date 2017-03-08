@@ -14,12 +14,12 @@ var CListGameScreen = function (gameMenu, iTankClient) {
 
     this.show = function () {
         this.layOut.show();
-        //gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
+        gameMenu.onSuccessJoinToGame.bind(this.showTeamsScreen, this);
         gameMenu.setCurentScreen(this);
     };
     this.hide = function () {
         this.layOut.hide();
-        //gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
+        gameMenu.onSuccessJoinToGame.unBind(this.showTeamsScreen);
     };
     this.showTeamsScreen = function () {
         gameMenu.showTeams(self);
