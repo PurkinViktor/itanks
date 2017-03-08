@@ -1,8 +1,9 @@
 importScripts('./CBaseWorker.js');
 importScripts('./CCounter.js');
-importScripts('./CAdapter.js');
-importScripts('./helper.js');
-importScripts('./rules.js');
+//importScripts('./CAdapter.js');
+importScripts('../../../GeneralClass/helper.js');
+importScripts('../../../GeneralClass/rules.js');
+// importScripts('./rules.js');
 
 importScripts('../lib/extend.js');
 importScripts('../lib/CEvent.js');
@@ -16,6 +17,7 @@ importScripts('/socket.io/socket.io.js');
 //var socket = io.connect('/');
 
 var EnumDirection = module.exports.EnumDirection;
+var EnumBarrier = module.exports.EnumBarrier;
 
 importScripts('./CPingManager.js');
 importScripts('./CTankControl.js');

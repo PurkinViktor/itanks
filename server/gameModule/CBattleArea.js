@@ -2,7 +2,7 @@ var CBarrier = require('./CBarrier.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var CEvent = require('./CEvent.js');
 var CIgl = require('./CIgl.js');
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 var extend = require('extend');
 
 

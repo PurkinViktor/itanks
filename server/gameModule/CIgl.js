@@ -3,7 +3,7 @@ var CEvent = require('./CEvent.js');
 var CBarrier = require('./CBarrier.js');
 // var extend = require('./node_modules/extend');
 var extend = require('extend');
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 
 // 2. Конструктор CIgl
 var CIgl = function (set, renderingSystem) {

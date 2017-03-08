@@ -2,7 +2,7 @@ var extend = require('extend');
 var CEvent = require('./CEvent.js');
 var CTank = require('./CTank.js');
 var EnumDirection = require('./../GeneralClass/const.js').EnumDirection;
-var rules = require('./rules.js');
+var rules = require('./../GeneralClass/rules.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 var generator = require('./idGenerator.js');
 

@@ -1,4 +1,4 @@
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 var transportGame = require('./transportGame.js');
 
 module.exports = function (game) {

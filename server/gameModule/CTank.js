@@ -1,8 +1,8 @@
 var EnumDirection = require('./../GeneralClass/const.js').EnumDirection;
 var CEvent = require('./CEvent.js');
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 var extend = require('extend');
-var rules = require('./rules.js');
+var rules = require('./../GeneralClass/rules.js');
 var CBullet = require('./CBullet.js');
 var generator = require('./idGenerator.js');
 

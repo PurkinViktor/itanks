@@ -1,8 +1,10 @@
-var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
-var extend = require('extend');
-var generator = require('./idGenerator.js');
+if (module && module.require) { // значит подключается сервером
+    var EnumBarrier = require('./const.js').EnumBarrier;
+    var extend = require('extend');
+    var generator = require('./../gameModule/idGenerator.js');
+}
 
-module.exports = {
+var helper = {
     randInt: function (min, max) {
         return Math.floor((Math.random() * max) + min);
     },
@@ -14,7 +16,7 @@ module.exports = {
     findObjByWhere: function (arr, where) {
         for (var key in arr) {
             var obj = arr[key];
-            if (where(obj)) {
+            if (where(obj, key, arr)) {
                 return obj;
             }
         }
@@ -96,3 +98,7 @@ module.exports = {
 
 
 };
+
+if (module && module.exports) {// подключается сервером
+    module.exports = helper;
+}

@@ -1,7 +1,7 @@
 var transportGame = require('./transportGame.js');
 var CGame = require('./CGame.js');
 //var CBattleArea = require('./CBattleArea.js');
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 var Map = require('../models/MapModel.js');
 
 var serverGame = {

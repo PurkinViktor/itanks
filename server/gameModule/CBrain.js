@@ -1,4 +1,4 @@
-var helper = require('./helper.js');
+var helper = require('./../GeneralClass/helper.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
 
 var CBrain = function (settings, game) {

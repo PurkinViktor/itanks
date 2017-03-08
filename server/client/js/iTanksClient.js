@@ -97,7 +97,6 @@ var iTanksClient = {
         var t = this.getItem(newDataItem);
         renderingSystem.setAction(t, renderingSystemEnum.UPDATE);
 
-
     },
     pingMamager: {},
     onUpdateAllDataForRendering: function (data) {

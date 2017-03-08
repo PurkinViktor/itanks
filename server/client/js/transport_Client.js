@@ -171,7 +171,7 @@ var transportClient = {
         this.workerMovement.on("onUpdateAllDataForRendering", function (data) {
 
 
-            console.log("on.onUpdateAllDataForRendering", data);
+            //console.log("on.onUpdateAllDataForRendering", data);
 
 
             iTanksClient.onUpdateAllDataForRendering(data);
