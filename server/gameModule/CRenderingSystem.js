@@ -13,7 +13,7 @@ module.exports = function (game) {
         // console.log("renderItem  ", data.position, d, " ", d.getMilliseconds());
 
         item.getListFielsForSend = function () {
-            return ["id", "position", "direction"];
+            return ["id", "position", "direction", "actionDetail"];
         };
         this.sendRequest(transportGame.sendUpdateDataItem, item);
         item.getListFielsForSend = this.getListFielsForSend;
@@ -22,7 +22,7 @@ module.exports = function (game) {
         // transportGame.sendData(data);
     };
     this.getListFielsForSend = function () {
-        return ["id", "teamId", "hp", "timeIntervalMove", "timeIntervalFire", "countBullet", "name", "ownerId", "width", "height", "position", "direction", "speed", "typeObject"];
+        return ["id", "teamId", "hp", "position", "direction", "actionDetail", "timeIntervalMove", "timeIntervalFire", "countBullet", "name", "ownerId", "width", "height", "speed", "typeObject"];
     };
     this.sendRequest = function (f, item) {
 

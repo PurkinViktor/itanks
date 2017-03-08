@@ -4,7 +4,7 @@ var CTank = require('./CTank.js');
 var EnumDirection = require('./../GeneralClass/const.js').EnumDirection;
 var rules = require('./../GeneralClass/rules.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
-var generator = require('./idGenerator.js');
+var generator = require('./../GeneralClass/idGenerator.js');
 
 var CBullet = function (settings, tank) {
     this.id = generator.getID();

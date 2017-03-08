@@ -1,7 +1,7 @@
 if (module && module.require) { // значит подключается сервером
     var EnumBarrier = require('./const.js').EnumBarrier;
     var extend = require('extend');
-    var generator = require('./../gameModule/idGenerator.js');
+    var generator = require('./idGenerator.js');
 }
 
 var helper = {

@@ -4,7 +4,7 @@ var helper = require('./../GeneralClass/helper.js');
 var extend = require('extend');
 var rules = require('./../GeneralClass/rules.js');
 var CBullet = require('./CBullet.js');
-var generator = require('./idGenerator.js');
+var generator = require('./../GeneralClass/idGenerator.js');
 
 var CTank = function (settings) {
     var callee = arguments.callee;
@@ -100,8 +100,10 @@ var CTank = function (settings) {
     };
     this.activeKey = {top: 'OnTop', bottom: 'OnBottom', left: 'OnLeft', right: 'OnRight', fire: 'OnFire'};
     //this.onRender = settings.onRender || new CEvent();
-    this.render = function () {
+    this.render = function (actionDetail) {
         //this.onRender(this);
+        //var data = helper.cutInObj(item, );
+        this.actionDetail = actionDetail;
         renderingSystem.renderItem(this);
     };
     this.removeBullet = function (bullet) {
@@ -286,11 +288,11 @@ var CTank = function (settings) {
         }
 
     };
-    this.runActivKey = function (action) {
+    this.runActivKey = function (action, actionDetail) {
         this.activeKey[action].On();
         this.activeKey[action].timeLastCall = new Date().getTime();
         if (action != "fire") {
-            this.render();
+            this.render(actionDetail);
         }
     };
     this.getHandler = function (func, arg) {

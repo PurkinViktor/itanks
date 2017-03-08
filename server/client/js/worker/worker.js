@@ -3,6 +3,7 @@ importScripts('./CCounter.js');
 //importScripts('./CAdapter.js');
 importScripts('../../../GeneralClass/helper.js');
 importScripts('../../../GeneralClass/rules.js');
+importScripts('../../../GeneralClass/idGenerator.js');
 // importScripts('./rules.js');
 
 importScripts('../lib/extend.js');

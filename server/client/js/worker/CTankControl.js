@@ -137,13 +137,22 @@ var CTankControl = function (adapter) {
     };
     this.runActivKey = function (action) {
 
-        this.activeKey[action].timeLastCall = new Date().getTime();
+        var now = new Date().getTime();
+        this.activeKey[action].timeLastCall = now;
         this.activeKey[action].On();
         //var data = extend({}, {}, this.activeKey[action]);
         //data.On = null;
         this.counter.count();
         var data = {};
         data.action = action;
+        var actionDetail = {
+            id: idGenerator.getID(),
+            timeCall: now
+        };
+        actionDetail.position = this.position;
+        actionDetail.direction = this.direction;
+        data.actionDetail = actionDetail;
+
         transportWorker.runActiveKey(data);
     };
     this.setDirection = function (action) {

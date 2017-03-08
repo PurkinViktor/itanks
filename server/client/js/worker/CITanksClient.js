@@ -90,39 +90,52 @@ var CITanksClient = function () {
 
     this.onUpdateDataItem = function (newDataItem) {
 
-        if (newDataItem.id == tankControl.id) {
-            //extend(delayCompensator, data);
-            tankControl.position = newDataItem.position;
-            tankControl.direction = newDataItem.direction;
+        var updateSelfTank = function () {
+            tankControl.position = newDataItem.position || tankControl.position;
+            tankControl.direction = newDataItem.direction || tankControl.direction;
             tankControl.timeIntervalMove = newDataItem.timeIntervalMove;
             tankControl.timeIntervalFire = newDataItem.timeIntervalFire;
+            transportWorker.sendToUI.onUpdateDataItem(newDataItem);
+        };
+        if (newDataItem.id == tankControl.id) {
+            //extend(delayCompensator, data);
+            if (newDataItem.actionDetail) {
+                var ad = newDataItem.actionDetail;
+                if (newDataItem.direction != ad.direction ||
+                    ad.position.x != newDataItem.position.x ||
+                    ad.position.y != newDataItem.position.y) {
+                    updateSelfTank();
+                }
+            } else {
+                updateSelfTank();
+            }
         } else {
             // var t = this.getItem(newDataItem);
 
 
             // var item = this.items[newDataItem.id];
+            var updateObj = function (item, i, arr) {
+                if (item.id == newDataItem.id) {
+                    extend(item, newDataItem);
+                    return item;
+                }
+            };
             if (newDataItem.typeObject) {
                 if (newDataItem.typeObject.indexOf("player") >= 0) {
-                    var tank = helper.findObjByWhere(this.tanks, function (item) {
-                        return item.id == newDataItem.id;
-                    });
-                    if (tank) {
-                        extend(tank, newDataItem);
-                    } else {
+                    var tank = helper.findObjByWhere(this.tanks, updateObj);
+                    if (!tank) {
                         this.tanks.push(newDataItem);
                     }
                 } else if (newDataItem.typeObject.indexOf("barrier") >= 0) {
-                    var barier = helper.findObjByWhere(this.battleArea.barriers, function (item) {
-                        return item.id == newDataItem.id;
-                    });
-                    if (barier) {
-                        extend(barier, newDataItem);
-                    } else {
+                    var barier = helper.findObjByWhere(this.battleArea.barriers, updateObj);
+                    if (!barier) {
                         this.battleArea.barriers.push(barier);
                     }
                 }
             }
+            transportWorker.sendToUI.onUpdateDataItem(newDataItem);
         }
+
 
         //renderingSystem.setAction(t, renderingSystemEnum.UPDATE);
 

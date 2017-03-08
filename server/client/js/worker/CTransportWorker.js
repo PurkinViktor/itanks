@@ -207,7 +207,7 @@ var CTransportWorker = function () {
             //console.log("updateDataItem", item.position);
 
             iTanksClient.onUpdateDataItem(item);
-            _self.sendToUI.onUpdateDataItem(item);
+            //_self.sendToUI.onUpdateDataItem(item);
         });
 
 

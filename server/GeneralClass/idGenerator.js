@@ -7,5 +7,8 @@ function IDGenerator(prefix) {
 }
 
 
-var generator = new IDGenerator('id');
-module.exports = generator;
+var idGenerator = new IDGenerator('id');
+
+if (module && module.exports) {// подключается сервером
+    module.exports = idGenerator;
+}

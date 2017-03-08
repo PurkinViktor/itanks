@@ -1,5 +1,5 @@
 var CBattleArea = require('./CBattleArea.js');
-var generator = require('./idGenerator.js');
+var generator = require('./../GeneralClass/idGenerator.js');
 var CTank = require('./CTank.js');
 var rules = require('./../GeneralClass/rules.js');
 var helper = require('./../GeneralClass/helper.js');
@@ -246,7 +246,13 @@ module.exports = function (setGame) {
     };
     this.runActiveKeyInToTank = function (client, data) {
         if (this.getIsStart()) {
-            this.players[client.login].tank.runActivKey(data.action);
+            // var actionDetail = {
+            //     id: idGenerator.getID(),
+            //     timeCall: now
+            // };
+            // actionDetail.position = this.position;
+            // actionDetail.direction = this.direction;
+            this.players[client.login].tank.runActivKey(data.action,data.actionDetail);
         }
 
     };
