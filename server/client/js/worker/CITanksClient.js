@@ -100,8 +100,8 @@ var CITanksClient = function () {
             // var t = this.getItem(newDataItem);
 
 
-            var item = this.items[newDataItem.id];
-            if (item || newDataItem.typeObject) {
+            // var item = this.items[newDataItem.id];
+            if (newDataItem.typeObject) {
                 if (newDataItem.typeObject.indexOf("player") >= 0) {
                     var tank = helper.findObjByWhere(this.tanks, function (item) {
                         return item.id == newDataItem.id;
