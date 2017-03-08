@@ -15,14 +15,20 @@ var http = require('http');
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost:27017/iTanks');
 //mongoose.connect('mongodb://dbuser_heroku:dbuser_heroku_@ds115738.mlab.com:15738/heroku_06rwlgxn');
-var con = mongoose.connect(MONGODB_URI, {
-    server: {
-        socketOptions: {
-            socketTimeoutMS: 5000,
-            connectionTimeout: 2000
-        }
-    }
-});
+var options = {
+    server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },
+    replset: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+// {
+//     server: {
+//         socketOptions: {
+//             socketTimeoutMS: 5000,
+//                 connectionTimeout: 2000
+//         }
+//     }
+// }
+
+var con = mongoose.connect(MONGODB_URI, options);
 
 var conn = mongoose.connection;
 
