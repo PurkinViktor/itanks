@@ -10,7 +10,6 @@ var iTanksClient = {
         $(window).on("keyup", this.getHandler(this.keyupHundle));
 
 
-        this.pingMamager = new CPingManager();
     },
     login: false,
     //teamId: false,
@@ -98,6 +97,13 @@ var iTanksClient = {
         var t = this.getItem(newDataItem);
         renderingSystem.setAction(t, renderingSystemEnum.UPDATE);
 
+
+    },
+    pingMamager: {},
+    onUpdateAllDataForRendering: function (data) {
+        if (data.pingMamager) {
+            this.pingMamager = data.pingMamager;
+        }
 
     },
     // callInWraper: function (f, t) {

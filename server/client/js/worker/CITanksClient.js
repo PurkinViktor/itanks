@@ -1,7 +1,17 @@
 var CITanksClient = function () {
     this.init = function () {
 
+        this.pingMamager = new CPingManager(transportWorker);
     };
+
+    this.sendUpdateDataForRendering = function (aData) {
+        var data = {};
+
+        data.pingMamager = helper.cutInObj(this.pingMamager, ["maxPing","minPing","ping","averagePing"]);
+        transportWorker.sendToUI.sendUpdateAllDataForRendering(data);
+
+    };
+
     this.tankOfClient = null;
     this.items = {};
     this.clientInfo = {
@@ -40,11 +50,12 @@ var CITanksClient = function () {
             //extend(delayCompensator, data);
             tankControl.position = data.position;
             tankControl.direction = data.direction;
-
+            tankControl.timeIntervalMove = data.timeIntervalMove;
+            tankControl.timeIntervalFire = data.timeIntervalFire;
         }
 
         //delayCompensator.onUpdateDataItem(f.eventName, data);
     };
-    this.init();
+    //this.init();
 };
 

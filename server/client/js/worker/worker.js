@@ -5,6 +5,9 @@ importScripts('./helper.js');
 importScripts('./rules.js');
 
 importScripts('../lib/extend.js');
+importScripts('../lib/CEvent.js');
+
+
 
 var module = {exports: {}};
 importScripts('../../../GeneralClass/const.js');
@@ -14,8 +17,10 @@ importScripts('/socket.io/socket.io.js');
 
 var EnumDirection = module.exports.EnumDirection;
 
+importScripts('./CPingManager.js');
 importScripts('./CTankControl.js');
 importScripts('./CTransportWorker.js');
+
 
 importScripts('./CITanksClient.js');
 var iTanksClient = new CITanksClient();

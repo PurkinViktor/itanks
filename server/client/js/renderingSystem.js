@@ -63,11 +63,13 @@ var renderingSystem = {
             }
             if (self.isWork) {
                 requestAnimationFrame(updateScreen);
+                transportClient.getUpdateDataForRendering();
             }
 
         }
 
         requestAnimationFrame(updateScreen);
+
 
     },
     destroy: function () {

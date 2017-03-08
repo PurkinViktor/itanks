@@ -56,6 +56,10 @@ var transportClient = {
         // this.socket.emit("setActiveKey", data);
         this.workerMovement.postMessage("setActiveKey", data);
     },
+    getUpdateDataForRendering: function (data) {
+
+        this.workerMovement.postMessage("getUpdateDataForRendering");
+    },
     // runActiveKey: function (aData) {
     //     console.log("runActiveKey", aData);
     //
@@ -74,11 +78,12 @@ var transportClient = {
         this.workerMovement.postMessage("init",  {query: query});
         //'login=viktor&password=temp1'
 
-        this.workerMovement.on('connect', function () {
-            //console.log('Соединение установленно!');
-            socket.emit("getListGames");
 
-        });
+        // this.workerMovement.on('connect', function () {
+        //     //console.log('Соединение установленно!');
+        //     socket.emit("getListGames");
+        //
+        // });
         this.workerMovement.on('kickOurFromGame', function (data) {
             console.log("ongoToLayerListOfGames", data);
             iTanksClient.onKickOurFromGame(data);
@@ -155,13 +160,25 @@ var transportClient = {
         this.workerMovement.on("onUpdateDataItem", function (data) {
 
             // iTanksClient.onUpdateDataItem(item);
-            console.log("on.onUpdateDataItem", data);
+           // console.log("on.onUpdateDataItem", data);
 
 
             iTanksClient.onUpdateDataItem(data);
 
 
         }, {});
+
+        this.workerMovement.on("onUpdateAllDataForRendering", function (data) {
+
+
+            console.log("on.onUpdateAllDataForRendering", data);
+
+
+            iTanksClient.onUpdateAllDataForRendering(data);
+
+
+        }, {});
+
         // this.workerMovement.on("runActivKey", function (data) {
         //
         //     // iTanksClient.onUpdateDataItem(item);

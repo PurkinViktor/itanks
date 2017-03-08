@@ -19,6 +19,9 @@ var CTransportWorker = function () {
         this.socket.emit(event, data);
     };
 
+    this.getUpdateDataForRendering = function (data) {
+        iTanksClient.sendUpdateDataForRendering(data);
+    };
     // this.newGame = function (set) {
     //     this.socket.emit("addGame", set);
     // };
@@ -80,10 +83,19 @@ var CTransportWorker = function () {
         this.socket.emit("runActiveKey", data);
 
     };
+
+    this.getListGames = function (aData) {
+        this.socket.emit("getListGames");
+    };
+
     this.sendToUI = {
         onUpdateDataItem: function (data) {
             _self.postMessage("onUpdateDataItem", data);
-        }
+        },
+        sendUpdateAllDataForRendering: function (data) {
+            _self.postMessage("onUpdateAllDataForRendering", data);
+        },
+
     };
     //this.workerMovement = new CWorker('js/worker/worker.js');
     this.init = function (query) {
@@ -106,7 +118,8 @@ var CTransportWorker = function () {
 
         this.socket.on('connect', function () {
             console.log('Соединение установленно!');
-            _self.socket.emit("getListGames");
+
+            iTanksClient.init();
 
         });
         this.socket.on('kickOurFromGame', function (data) {
@@ -117,7 +130,7 @@ var CTransportWorker = function () {
 
         this.socket.on('login', function (data) {
             _self.postMessage("login", data);
-
+            _self.getListGames();
             // console.log("onLogin", data);
             iTanksClient.onLogin(data);
         });
