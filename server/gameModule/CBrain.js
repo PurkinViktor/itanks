@@ -1,16 +1,21 @@
 var helper = require('./../GeneralClass/helper.js');
 var EnumBarrier = require('./../GeneralClass/const.js').EnumBarrier;
+var EnumTypePath = require('./../GeneralClass/CEnumTypePath.js');
+
 
 var CBrain = function (settings, game) {
     this.intervalId = null;
     this.timeInterval = 200;
     this.game = game;
+    //this.typePath = this.EnumTypePath.MIN;
+    this.typePath = this.EnumTypePath.get(helper.randInt(this.EnumTypePath.MIN, this.EnumTypePath.MAX));
+    //this.typePath = this.EnumTypePath.get("MAX");
     this.init = function () {
 
-        //this.calcPath();
+        //this.findGoalAndCalcPath();
         setTimeout(this.getHandler(function () {
 
-            this.arrPath = this.calcPath();
+            this.arrPath = this.findGoalAndCalcPath();
             this.setActivate(true);
             this.tank.setActiveKey("fire", true);
 
@@ -26,12 +31,17 @@ var CBrain = function (settings, game) {
             this.callAction();
         }
         else {
+            if (this.tank) {
+                this.tank.onMove.unBind(this.handlerOnMoveTank);
+            }
+
             clearInterval(this.intervalId);
         }
 
     };
     this.destroy = function () {
         clearInterval(this.intervalId);
+
         this.intervalId = null;
         this.tank = null;
     };
@@ -107,12 +117,49 @@ var CBrain = function (settings, game) {
     this.init();
 };
 
-CBrain.prototype.calcPath = function () {
-    var map = this.getMap();
+CBrain.prototype.EnumTypePath = EnumTypePath;
 
+CBrain.prototype.typePath = null;
+CBrain.prototype.findGoalAndCalcPath = function () {
     var startPos = {x: 0, y: 0};
     startPos = this.tank.posCell;
+
+    //var goalPos = {x: 9, y: 14};
+    var goalPos = {x: 7, y: 0};
+    for (var i in this.game.teamsOfGame) {
+        var team = this.game.teamsOfGame[i];
+        if (team.id != this.tank.teamId) {
+            goalPos = team.IGLSettings
+        }
+    }
+
+    // this.typePath = this.EnumTypePath.MAX;
+    this.startPos = startPos;
+    this.goalPos = goalPos;
+
+
+    var arrPath = this.getPathForSelf();
+    return arrPath;
+};
+CBrain.prototype.getPathForSelf = function () {
+    return this.getPathFromTo(this.startPos, this.goalPos, this.typePath);
+};
+
+CBrain.prototype.getPathFromTo = function (startPos, goalPos, typePath) {
     console.log("startPos", startPos);
+    console.log("goalPos", goalPos);
+    console.log("typePath", typePath.toString());
+
+    var map = this.getMapWithFoundAllPaths(startPos);
+    this.printMap(map.aria);
+    var arrPath = this.getPathTo(map.aria, goalPos, typePath);
+    this.printArr(arrPath);
+    return arrPath;
+};
+
+CBrain.prototype.getMapWithFoundAllPaths = function (startPos) {
+    var map = this.getMap();
+
     var arrVisit = [];
     var startCell = this.getCell(map, startPos);
     startCell.visit = true;
@@ -132,32 +179,48 @@ CBrain.prototype.calcPath = function () {
         this.visitCell(arrVisit, cellA, cellB);
 
     }
+    return map;
+};
 
-    //var goalPos = {x: 9, y: 14};
-    var goalPos = {x: 7, y: 0};
-    for (var i in this.game.teamsOfGame) {
-        var team = this.game.teamsOfGame[i];
-        if (team.id != this.tank.teamId) {
-            goalPos = team.IGLSettings
-        }
+CBrain.prototype.getNextCell = function (cell, pr, enumTypePath) {
+    var nextCell = false;
+    switch (enumTypePath) {
+        case this.EnumTypePath.MIN :
+            return cell.fromCellMin;
+            break;
+        case this.EnumTypePath.MAX :
+            nextCell = cell.fromCellMax;
+            break;
+        case this.EnumTypePath.AVR :
+            var i = Math.round(cell.fromCellAll.length / 2);
+            nextCell = cell.fromCellAll[i];
+            break;
+        case this.EnumTypePath.RND :
+            var i = helper.randInt(0, cell.fromCellAll.length - 1);
+            //var i = Math.round(cell.fromCellAll.length / 2);
+            nextCell = cell.fromCellAll[i];
+            break;
+
     }
-
-
-    var arrPath = this.getPathTo(map.aria, goalPos);
-    this.printMap(map.aria);
-    this.printArr(arrPath);
-    return arrPath;
-
+    if (pr == nextCell) {
+        nextCell = cell.fromCellMin;
+    }
+    return nextCell;
 
 };
-CBrain.prototype.getPathTo = function (arr, goalPos) {
+CBrain.prototype.getPathTo = function (arr, goalPos, enumTypePath) {
+    enumTypePath = enumTypePath || this.EnumTypePath.MIN;
     var cell = arr[goalPos.x][goalPos.y];
 
     var arrPath = [];
+    var parentCell = cell;
     for (; cell && cell.value != 0;) {
         arrPath.unshift(cell);
         //arrPath.unshift(cell);
-        cell = cell.fromCell;
+        var t = cell;
+        cell = this.getNextCell(cell, parentCell, enumTypePath);
+        parentCell = t;
+
     }
     return arrPath;
 };
@@ -167,7 +230,7 @@ CBrain.prototype.printArr = function (arr) {
     for (var i in  arr) {
 
         var item = arr[i];
-        console.log(item.value, item.x, item.y);
+        console.log(item.value, ': {', item.x, ",", item.y, "} ", item.fromCellAll.length);
         // var value = "|" + item.value + "   ";
         //
         // var s = value.substr(0, 4);
@@ -193,11 +256,26 @@ CBrain.prototype.printMap = function (arr) {
 };
 
 CBrain.prototype.visitCell = function (arrVisit, fromCell, cell) {
-    if (cell && this.isPassableCell(cell) && !cell.visit) {
-        cell.visit = true;
-        cell.value = fromCell.value + 1;
-        cell.fromCell = fromCell;
-        arrVisit.push(cell);
+    if (cell && this.isPassableCell(cell)) {
+
+
+        cell.fromCellAll = cell.fromCellAll || [];
+
+        if (fromCell.fromCellMin && fromCell.fromCellMin == cell) {
+            // не выставляем альтернативу родительскому элементу
+            return;
+        } else {
+
+        }
+
+        cell.fromCellAll.push(fromCell);
+        cell.fromCellMax = fromCell;
+        if (!cell.visit) {
+            cell.fromCellMin = fromCell;
+            cell.value = fromCell.value + 1;
+            cell.visit = true;
+            arrVisit.push(cell);
+        }
     }
 };
 

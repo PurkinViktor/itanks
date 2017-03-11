@@ -86,8 +86,8 @@ var CTank = function (settings) {
 
 
         } else {
-            // this.clearInterval(this.IntervalIdActionMove);
-            // this.clearInterval(this.IntervalIdActionFire);
+            this.clearInterval(this.IntervalIdActionMove);
+            this.clearInterval(this.IntervalIdActionFire);
         }
     };
     this.keyHundler = settings.keyHundler || {};
@@ -112,6 +112,8 @@ var CTank = function (settings) {
         if (index >= 0) {
             bullet.destroy();
             this.bullets.splice(index, 1);
+        } else {
+            console.log("removeBullet not remove",bullet);
         }
     };
     this.setDirection = function (action) {
@@ -217,26 +219,26 @@ var CTank = function (settings) {
         }
         //this.callEvent(this.onRight);
     };
-    this.setActiveKey = function (action, value) {
-        // if (this.activeKey[action]) {
-        //     this.activeKey[action].active = value;
-        //     if (value) {
-        //         this.activeKey[action].timePress = new Date().getTime();
-        //         this.checkStateActiveKey(action);
-        //     }
-        // }
+    this.setActiveKey = function (action, value) {// для ботов, нельзя удалять
+        if (this.activeKey[action]) {
+            this.activeKey[action].active = value;
+            if (value) {
+                this.activeKey[action].timePress = new Date().getTime();
+                this.checkStateActiveKey(action);
+            }
+        }
     };
-    this.checkStateActiveKey = function (action) {
+    this.checkStateActiveKey = function (action) {// для ботов, нельзя удалять
 
-        // if (action === "fire") {
-        //     this.callActionFire();
-        //     this.reStartIntervalFire();
-        // } else {
-        //     if (!this.isMuving) {
-        //         this.callActionMove();
-        //         this.reStartIntervalMove();
-        //     }
-        // }
+        if (action === "fire") {
+            this.callActionFire();
+            this.reStartIntervalFire();
+        } else {
+            if (!this.isMuving) {
+                this.callActionMove();
+                this.reStartIntervalMove();
+            }
+        }
 
 
     };

@@ -62,6 +62,7 @@ var CInterval = function (contecst) {
     this.onCall = new CEvent();
     this.start = function (f, sleep) {
         this.onCall.bind(f, contecst);
+        this.stop();
         this.id = setInterval(this.onCall, sleep);
     };
     this.stop = function () {

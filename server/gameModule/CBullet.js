@@ -77,7 +77,7 @@ var CBullet = function (settings, tank) {
                     arrBarriers = rules.rulesBarriers(areaBlast, areaBlast.position, exceptionsBarriers);
                     for (var i in arrBarriers) {
 
-                        arrBarriers[i].hit();
+                        arrBarriers[i].hit(this);
                     }
                 }
                 if (this.onHit) {
