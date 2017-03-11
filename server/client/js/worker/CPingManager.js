@@ -48,11 +48,16 @@ var CPingManager = function (transportClient) {//
     this.onPing = new CEvent();
     this.onPing.bind(this.recivePing, this);
     this.init = function () {
-
         transportClient.on('ping', this.onPing);
+        this.idInterval.setSettings(this.sendPing, 1000);
+        this.start();
 
-        this.idInterval.start(this.sendPing, 1000);
-
+    };
+    this.start = function () {
+        this.idInterval.start();
+    };
+    this.stop = function () {
+        this.idInterval.stop();
     };
     this.init();
 };
@@ -60,10 +65,14 @@ var CPingManager = function (transportClient) {//
 var CInterval = function (contecst) {
     this.id = null;
     this.onCall = new CEvent();
-    this.start = function (f, sleep) {
+    this.intervalTime = 0;
+    this.setSettings = function (f, sleep) {
+        this.intervalTime = sleep;
         this.onCall.bind(f, contecst);
+    };
+    this.start = function () {
         this.stop();
-        this.id = setInterval(this.onCall, sleep);
+        this.id = setInterval(this.onCall, this.intervalTime);
     };
     this.stop = function () {
         clearTimeout(this.id);
