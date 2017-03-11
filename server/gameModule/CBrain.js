@@ -9,7 +9,8 @@ var CBrain = function (settings, game) {
     this.game = game;
     //this.typePath = this.EnumTypePath.MIN;
     this.typePath = this.EnumTypePath.get(helper.randInt(this.EnumTypePath.MIN, this.EnumTypePath.MAX));
-    //this.typePath = this.EnumTypePath.get("MAX");
+    // this.typePath = this.EnumTypePath.get("AVR");
+    //this.typePath = this.EnumTypePath.get("RND");
     this.init = function () {
 
         //this.findGoalAndCalcPath();
@@ -192,8 +193,11 @@ CBrain.prototype.getNextCell = function (cell, pr, enumTypePath) {
             nextCell = cell.fromCellMax;
             break;
         case this.EnumTypePath.AVR :
-            var i = Math.round(cell.fromCellAll.length / 2);
+            var i = Math.floor(cell.fromCellAll.length / 2);
             nextCell = cell.fromCellAll[i];
+            // if (!nextCell || nextCell.value == 0) {
+            //     var tt = 0;
+            // }
             break;
         case this.EnumTypePath.RND :
             var i = helper.randInt(0, cell.fromCellAll.length - 1);
