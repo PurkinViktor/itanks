@@ -160,9 +160,9 @@ var transportGame = {
                     console.log("addGame", set);
                 }));
 
-                client.on('ping', hundlerEvents(function (data) {
+                client.on('CPingManager.sendPing', hundlerEvents(function (data) {
                     data.serverTimeRecive = new Date().getTime();
-                    client.emit('ping', data);
+                    client.emit('CPingManager.onPing', data);
                 }));
 
                 client.on('joinToGame', hundlerEvents(function (nameGame) {

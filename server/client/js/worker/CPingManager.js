@@ -18,7 +18,7 @@ var CPingManager = function (transportClient) {//
             this.index = 0;
         }
 
-        transportClient.send("ping", data);
+        transportClient.send("CPingManager.sendPing", data);
     };
     var self = this;
     this.idInterval = new CInterval(this);
@@ -48,7 +48,7 @@ var CPingManager = function (transportClient) {//
     this.onPing = new CEvent();
     this.onPing.bind(this.recivePing, this);
     this.init = function () {
-        transportClient.on('ping', this.onPing);
+        transportClient.on('CPingManager.onPing', this.onPing);
         this.idInterval.setSettings(this.sendPing, 1000);
         this.start();
 
