@@ -16,6 +16,7 @@ var gameMenu = {
         this.listGameScreen = new CListGameScreen(this, this.iTankClient);
         this.listTeamsScreen = new CListTeamsScreen(this, this.iTankClient);
         this.newGameScreen = new CNewGameScreen(this, this.iTankClient);
+        this.createMapScreen = new CCreateMapScreen(this, this.iTankClient);
 
         this.createJoystick();
 
@@ -135,6 +136,8 @@ var gameMenu = {
         this.listGameScreen.hide();
         this.listTeamsScreen.hide();
         this.newGameScreen.hide();
+        this.createMapScreen.hide();
+
         this.layOut.find(".StatisticsLayOut").hide();
     },
     showMainScreen: function () {
@@ -150,6 +153,11 @@ var gameMenu = {
         this.hideAll();
         this.newGameScreen.show(screen);
     },
+    showCreateMapScreen: function (screen) {
+        this.hideAll();
+        this.createMapScreen.show(screen);
+    },
+
     showTeams: function (screen) {
         this.hideAll();
         this.listTeamsScreen.show(screen);

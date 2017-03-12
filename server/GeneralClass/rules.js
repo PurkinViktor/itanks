@@ -92,7 +92,7 @@ var rules = {
             return true;
         }
         function exceptions(bar) {
-            return bar.type === EnumBarrier.forest;
+            return bar.type == EnumBarrier.forest;
         }
 
         var arrConflicts = this.rulesBarriers(aTank, newPos, exceptions);

@@ -217,7 +217,7 @@ module.exports = function (game) {
         },
         createBarrier: function (set) {
             var bar = false;
-            if (set.type === EnumBarrier.igl) {
+            if (set.type == EnumBarrier.igl) {
                 //set.renderingSystem = renderingSystem;
                 bar = new CIgl(set, renderingSystem);
                 bar.onKilled.bind(this.onIglKilled, this);

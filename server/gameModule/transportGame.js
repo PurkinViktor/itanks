@@ -171,6 +171,12 @@ var transportGame = {
                     //console.log("joinToGame", r);
                     //client.emit('joinToGame', r);
                 }));
+                client.on('createMap', hundlerEvents(function (data) {
+
+                    serverGame.createMap(client, data);
+                    //console.log("joinToGame", r);
+                    //client.emit('joinToGame', r);
+                }));
 
                 client.on('switchToTeam', hundlerEvents(function (data) {
                     //client.room

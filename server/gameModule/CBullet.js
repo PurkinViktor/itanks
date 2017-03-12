@@ -64,7 +64,7 @@ var CBullet = function (settings, tank) {
 
 
             function exceptionsBarriers(bar) {
-                return bar.type === EnumBarrier.water || bar.type === EnumBarrier.forest;
+                return bar.type == EnumBarrier.water || bar.type == EnumBarrier.forest;
             }
 
             var arrBarriers = rules.rulesBarriers(this, this.position, exceptionsBarriers);

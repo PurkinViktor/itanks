@@ -9,7 +9,7 @@ var CListUI = function (set) {
         //
         // ],
         items: set.items || [],
-        location: set.location || ".battleArea",
+        location: set.location,//|| ".battleArea",
         menu: null,
         cbkeydownHundle: null,
         init: function () {
@@ -26,10 +26,13 @@ var CListUI = function (set) {
         },
         curentIndex: 0,
         onItemSelected: new CEvent(),
+        OnItemSelected: function () {
+            this.onItemSelected(this, this.getCurentItem());
+        },
         keydownHundle: function (event) {
             switch (event.keyCode) {
                 case 13:
-                    this.onItemSelected(this, this.getCurentItem());
+                    this.OnItemSelected();
                     break;
                 case 38:
                     this.curentIndex--;
@@ -88,9 +91,7 @@ var CListUI = function (set) {
                 li.text(this.getValueItem(item));
                 menu.append(this.curentConstructionItem(li, item, i, this.items));
             }
-            // this.menu = menu;
-
-
+            this.renderItem();
         },
         curentConstructionItem: function (li, item, index, items) {
             return li;
@@ -101,7 +102,9 @@ var CListUI = function (set) {
         itemClickHundler: function (event) {
             event.currentTarget.dataItem;
             this.setCurentItem(event.currentTarget.indexItem);
-            this.onItemSelected(this, this.getCurentItem());
+            this.OnItemSelected();
+
+            this.renderItem();
             //console.log(event.currentTarget.dataItem);
         },
         show: function () {

@@ -291,6 +291,9 @@ var serverGame = {
         });
         // this.games[data.nameGame]
     },
+    createMap: function (client, data) {
+        console.log(data);
+    },
     onAddBootToTeam: function (client, data) {
         var allPlayers = this.getClientsAndBoots(data.nameGame);
 

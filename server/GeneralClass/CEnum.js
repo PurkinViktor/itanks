@@ -4,12 +4,17 @@ var CEnum = function (aEnum) {
 };
 CEnum.prototype.init = function () {
     var keys = Object.keys(this);
+    this.keys = {};
     for (var i in keys) {
         var key = keys[i];
         var value = this[key];
-
-        this[key] = new CItemEnum(key, value);
+        var itemEnum = new CItemEnum(key, value);
+        this[key] = itemEnum;
+        this.keys[key] = itemEnum;
     }
+};
+CEnum.prototype.getEnumItems = function () {
+    return this.keys;
 };
 CEnum.prototype.get = function (aValue) {
     var keys = Object.keys(this);

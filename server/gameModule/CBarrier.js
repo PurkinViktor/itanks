@@ -33,7 +33,7 @@ var CBarrier = function (set) {
         if (this.onHit) {
             this.onHit(this, bullet);
         }
-        if (this.type === EnumBarrier.default || this.type === EnumBarrier.igl) {
+        if (this.type == EnumBarrier.default || this.type == EnumBarrier.igl) {
             this.destroy();
         }
 

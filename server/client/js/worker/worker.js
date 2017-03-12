@@ -4,6 +4,7 @@ importScripts('./CCounter.js');
 importScripts('../../../GeneralClass/helper.js');
 importScripts('../../../GeneralClass/rules.js');
 importScripts('../../../GeneralClass/idGenerator.js');
+importScripts('../../../GeneralClass/CEnum.js');
 // importScripts('./rules.js');
 
 importScripts('../lib/extend.js');

@@ -30,6 +30,10 @@ var transportClient = {
         data.nameGame = iTanksClient.nameGame;
         this.workerMovement.postMessage("getMaps", data);
     },
+    createMap: function (data) {
+        //data.nameGame = iTanksClient.nameGame;
+        this.workerMovement.postMessage("createMap", data);
+    },
     loadMapById: function (idMap) {
         this.workerMovement.postMessage("loadMapById", {
             nameGame: iTanksClient.nameGame,

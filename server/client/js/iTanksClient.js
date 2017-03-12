@@ -39,6 +39,9 @@ var iTanksClient = {
     getMaps: function (data) {
         transportClient.getMaps(data);
     },
+    createMap:function (data) {
+        transportClient.createMap(data);
+    },
     loadMapById: function (idMap) {
         transportClient.loadMapById(idMap);
     },

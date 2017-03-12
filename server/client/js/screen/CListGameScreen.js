@@ -9,6 +9,7 @@ var CListGameScreen = function (gameMenu, iTankClient) {
         "<div class='gameListPanel'>" +
         //"<input type='text' placeholder='Name game' class='inputNameGame'>" +
         "<input type='button' class='btnAddGame' value='Add'>" +
+        "<input type='button' class='btnCreateMap' value='Create Map'>" +
         "</div>" +
         "<div");
 
@@ -33,7 +34,15 @@ var CListGameScreen = function (gameMenu, iTankClient) {
        // var inputNameGame = listGameLayOyt.find(".inputNameGame");
         var btnAddGame = listGameLayOyt.find(".btnAddGame");
         var btnLoadMap = listGameLayOyt.find(".btnLoadMap");
+        var btnCreateMap = listGameLayOyt.find(".btnCreateMap");
+
         // var self = this;
+        btnCreateMap.on("click", function (e) {
+
+            gameMenu.showCreateMapScreen(self);
+            // console.log("nameGame",nameGame);
+            return false;
+        });
         btnLoadMap.on("click", function (e) {
 
             gameMenu.showMapsScreen(self);
