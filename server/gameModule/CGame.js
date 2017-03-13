@@ -135,7 +135,10 @@ module.exports = function (setGame) {
         this.dataForSaveMapInDB.id = map.id;
         this.battleArea.loadMap(map.value.battleArea);
     };
-
+    this.createMap = function (data) {
+         //{nameMap: "444", size: Object, map: Array[15]}
+        this.battleArea.createMapFromUser(data);
+    };
 
     this.players = {};
     this.boots = {};

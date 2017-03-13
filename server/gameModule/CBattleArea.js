@@ -68,7 +68,7 @@ module.exports = function (game) {
 //		this.createTestMap();
             extend(this, set);
 
-            this.cleanMap(); /// очищаем карту если она уже была
+            this.cleanBarriers(); /// очищаем карту если она уже была
             if (this.map == null) {// если не нул значит загрузили катру методом  loadMap
                 this.createRandMap(this.percentFill); // создаем только разметку на карте
             }
@@ -83,8 +83,8 @@ module.exports = function (game) {
 
             //this.percentFill = battleArea.percentFill || 35;
         },
-        cleanMap: function () { // по событию удаляется из масива поэтому так
-            for (; this.barriers.length > 0;) {
+        cleanBarriers: function () {
+            for (; this.barriers.length > 0;) {// по событию удаляется из масива поэтому так
                 var barrier = this.barriers[0];
                 barrier.destroy();
             }
@@ -149,9 +149,23 @@ module.exports = function (game) {
         // countX: null, countY: null,
 
 
-        createRandMap: function (percenFilling) {
+        createMapFromUser: function (data) {
+            //{nameMap: "444", size: Object, map: Array[15]}
 
+            this.size = data.size;
+            this.getModelCell = function (x, y) {
+                var cell = data.map[y][x];
+                if (cell) {
+                    return new CModelCell(cell.typeBarrier);
+                }
+            };
+            this.createModelMap();
+        },
 
+        getModelCell: function (x, y) {
+            // этот метод переопределяется в зависимости от типа создании карты
+        },
+        createModelMap: function () {
             this.initMap(this.size.x, this.size.y);
 
             for (var i in  game.teamsOfGame) {
@@ -170,16 +184,26 @@ module.exports = function (game) {
 
 
             for (var x = 0; x < this.size.x; x++) {
-
                 for (var y = 0; y < this.size.y; y++) {
-                    if (this.map[x][y] === undefined && helper.randInt(0, 100) < percenFilling) {
-
-                        this.createCellOfMap(x, y, helper.randInt(0, 4), this.sizeCell);
-                        //this.map.push(CBarrier.create(x, y, helper.randInt(0, 2)));
+                    if (this.map[x][y] === undefined) {
+                        var modelCell = this.getModelCell(x, y);
+                        if (modelCell) {
+                            this.createCellOfMap(x, y, modelCell.getType(), this.sizeCell);
+                            //this.map.push(CBarrier.create(x, y, helper.randInt(0, 2)));
+                        }
                     }
                 }
             }
-
+        },
+        createRandMap: function (percenFilling) {
+            // this.size = data.size;
+            this.getModelCell = function (x, y) {
+                if (helper.randInt(0, 100) < percenFilling) {
+                    var type = helper.randInt(0, 4);
+                    return new CModelCell(type);
+                }
+            };
+            this.createModelMap();
         },
 //	createTestMap: function() {
 //		this.map = [];
@@ -350,4 +374,12 @@ var CBattleArea = function () {
 
     };
 
+};
+
+var CModelCell = function (type) {
+    this.type = type;
+};
+
+CModelCell.prototype.getType = function () {
+    return this.type;
 };

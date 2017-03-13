@@ -292,6 +292,14 @@ var serverGame = {
         // this.games[data.nameGame]
     },
     createMap: function (client, data) {
+        //{nameMap: "444", size: Object, map: Array[15]}
+
+        var newNameGame = data.nameMap + client.login;
+
+        this.addGame(client, {nameGame: newNameGame});
+        var game = this.games[newNameGame];
+        game.createMap(data);
+
         console.log(data);
     },
     onAddBootToTeam: function (client, data) {

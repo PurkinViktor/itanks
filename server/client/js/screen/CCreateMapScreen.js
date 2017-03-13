@@ -10,6 +10,7 @@ var CCreateMapScreen = function (gameMenu, iTankClient) {
         "</div>" +
         "<div class='bottomPanel'>" +
         "<input type='text' placeholder='Name map' class='inputNameMap'>" +
+        "<input type='button' class='btnClear' value='Clear Map'>" +
         "<input type='button' class='btnDone' value='Done'>" +
         "</div>" +
         "</div>");
@@ -32,8 +33,13 @@ var CCreateMapScreen = function (gameMenu, iTankClient) {
     this.showTeamsScreen = function () {
         gameMenu.showTeams(self);
     };
+    this.onClear = new CEvent();
+    this.clearArea = function () {
+        createrMap.clearArea();
+    };
     this.init = function () {
 
+        this.onClear.bind(this.clearArea, this);
         var btnCancel = this.layOut.find(".btnCancel");
         btnCancel.on("click", function () {
             self.goBack();
@@ -41,9 +47,11 @@ var CCreateMapScreen = function (gameMenu, iTankClient) {
 
         var inputNameMap = this.layOut.find(".inputNameMap");
         var btnDone = this.layOut.find(".btnDone");
+        var btnClear = this.layOut.find(".btnClear");
+
+        btnClear.on("click", this.onClear.getHandler());
 
         btnDone.on("click", function () {
-
             var map = createrMap.getMap();
             var size = createrMap.getSize();
 
@@ -51,6 +59,7 @@ var CCreateMapScreen = function (gameMenu, iTankClient) {
             var data = {nameMap: nameMap, size: size, map: map};
             iTankClient.createMap(data);
 
+            gameMenu.showTeams();
             console.log("map", data);
         });
 
@@ -122,6 +131,13 @@ var CCreaterMap = function () {
     this.getArea = function () {
         return this.tableUI;
     };
+    this.clearArea = function () {
+        this.initMap(this.sizeMap.x, this.sizeMap.y);
+        this.tableUI.empty();
+        this.createTableUI();
+
+    };
+
     this.getSize = function () {
         return this.sizeMap;
     };
